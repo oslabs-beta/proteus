@@ -4,9 +4,10 @@ body {
   margin: 0rem;
   max-width: 38rem;
   padding: 1rem;
+  padding-inline: 2rem;
   background-color: lightblue;
 }
 
 main { 
-  width: calc(100vw - 1.7rem);
+  width: calc(100vw - 4.5rem);
 }

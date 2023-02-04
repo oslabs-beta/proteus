@@ -1,5 +1,37 @@
 .home-container {
-  background-color: black;
+  /* background-color: black; */
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* .home-container > div {background-color: lightyellow;} */
+
+.home-title {
+  display: flex;
+  gap: 1rem;
+  font-size: 1.5rem;
+}
+
+.home-schedule {
+  height: 300px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.home-job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid black;
+  padding-block: .5rem;
+}
+
+.home-job {
+  height: 50px;
+  border: 1px solid black;
+  background-color: lightyellow;
+  border-radius: 15px;
 }
