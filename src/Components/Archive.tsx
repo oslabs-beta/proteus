@@ -1,40 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactHover from 'react-hover';
 import '../Styles/home.css';
-//  import whiteLogo from '../Components/white-circle.png';
+import { ArchiveJob } from './ArchiveJob';
+//  import whiteLogo from '../white-circle.svg';
+
+// const optionsCursorTrueWithMargin = {
+//   followCursor:true,
+//   shiftX:20,
+//   shiftY:0
+// };
 
 export const Archive = () => {
-    const history = [];
-    for (let i = 0; i < 10; i++) {
-        history.push(
-            <div className="home-job">
-                <div><b>Name:</b></div>
-                <div><b>Data1</b></div>
-                <div><b>Data3</b></div>
-                <div><b>Data4</b></div>
-                <div><b>Data5</b></div>
-                <div><b>Data6</b></div>
-            </div>
+  const [history, setHistory] = useState(new Array(20).fill(null));
+  const [isShown, setIsShown] = useState(false);
 
-            // <div
-            // key ={i}
-            // name={this.state.name[i]}
-            // data={this.state.data[i]}
-            // />
-        )
-    }
     return (
-      <div className='home-container'>
-        <div className="home-title">
+      <div className='archive-container'>
+        <div className="archive-title">
           <div><b>cluster:</b> eks-cluster-01</div>
-          <div><b>namespace:</b> default</div>
           <div><b>Job:</b> white circle</div>
           <div><b>Cronjob:</b> light green circle</div>
         </div>
-        <div className="archive-job-list">
-            {history}
-          {/* <div className="home-job"></div>
-          <div className="home-job"></div>
-          <div className="home-job"></div> */}
+        <div className='archive-data'>
+          <div className="data-types">
+            <div><b>Name:</b></div>
+            <div><b>Start Time:</b></div>
+            <div><b>Completion Time:</b></div>
+            <div><b>Success?</b></div>
+            <div><b>Scheduled by: </b></div>
+          </div>
+          <div className="archive-job-list">
+            {/* parent  */}
+            <div className='archive-job-basic'>
+              <ArchiveJob
+                value={'testing'}
+                />
+            </div>
+            {history.map((history: [], index: number): React.ReactElement => {
+              return <div
+              // trigger
+                className='archive-job-basic'
+                onMouseEnter={() => setIsShown(true)}
+                onMouseLeave={() => setIsShown(false)}>
+                <div><b>Name:</b></div>
+                <div><b>Start Time:</b></div>
+                <div><b>Completion Time:</b></div>
+                <div><b>Success?</b></div>
+                <div><b>Scheduled by: </b></div>
+                {isShown && (
+                  // hover comp
+                    <div className='archive-job-all'>
+                    <ArchiveJob
+                    value={'TEST'}
+                    />
+                  </div>
+                )}
+              </div>
+            })}
+          </div>
         </div>
       </div>
     )
@@ -42,23 +65,3 @@ export const Archive = () => {
 
 
   // color coding => job is white, cronjob is light green
-  // 
-// FETCH REQUESTS 
-//   fetch('http://localhost:9090/api/v1/label/job_name/values', {
-//   method: 'GET',
-//   // body: JSON.stringify(),
-//   headers: {
-//       'Content-Type': 'application/json'
-//   }
-// }).then(data => data.json())
-// .then(response => console.log(response));
-
-// //Fetch job metrics
-// fetch(`http://localhost:9090/api/v1/query?query={cronjob='cronjob-test'}`, {
-//   method: 'GET',
-//   // body: JSON.stringify(),
-//   headers: {
-//       'Content-Type': 'application/json'
-//   }
-// }).then(data => data.json())
-// .then(response => console.log(response));

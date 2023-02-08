@@ -28,4 +28,8 @@ export const rules: Required<ModuleOptions>['rules'] = [
       },
     },
   },
+  {
+    test: /\.svg$/,
+    loader: 'svg-inline-loader'
+  },
 ];
