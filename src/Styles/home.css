@@ -4,15 +4,19 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
-
-/* .home-container > div {background-color: lightyellow;} */
 
 .home-title {
   display: flex;
   gap: 1rem;
   font-size: 1.5rem;
+}
+
+.home-schedule-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .home-schedule {
@@ -27,10 +31,7 @@
 }
 
 .home-schedule-active-day {
-  position: fixed;
-  top: 6%;
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .home-schedule-interval {
@@ -47,16 +48,24 @@
   position: relative;
 }
 
-.home-schedule-interval:nth-of-type(2) {
+.home-schedule-interval:nth-of-type(1) {
   border: none;
 }
 
-.home-schedule-interval-display {
-  position: fixed;
-  top: 40%;
-  margin-left: -5px;
+.home-schedule-interval-display-container {
   font-weight: 500;
+  display: flex;
+  position: relative;
+  left: -10px;
 }
+
+.home-schedule-interval-display {
+  width: calc(100%/12);
+}
+/* 
+.home-schedule-job-container {
+  display: relative;
+} */
 
 .home-schedule-job {
   background-color: lightgray;
@@ -77,6 +86,20 @@
   cursor: pointer;
 }
 
+.home-schedule-job-hover-container {
+  height: 100px;
+  width: 200px;
+  background-color: rgb(147, 147, 147);
+  border: 1px solid black;
+  position: absolute;
+  /* top: -120%; */
+  /* left: -90%; */
+  display: flex;
+  flex-direction: column;
+  padding: .5rem;
+  z-index: 5;
+}
+
 .home-job-list {
   display: flex;
   flex-direction: column;
@@ -91,4 +114,7 @@
   border: 1px solid black;
   background-color: lightyellow;
   border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding-left: .5rem;
 }
