@@ -6,7 +6,7 @@ export const ScheduleJob = (props: ScheduleJobProps) => {
   const { nudge, color, name, time, renderHover } = props;
   return (
     <div className='home-schedule-job-container'>
-      <div onMouseEnter={() => renderHover(name, time)} onMouseLeave={() => renderHover()} className='home-schedule-job' style={{left: `${nudge}%`, backgroundColor: color}}>
+      <div onMouseEnter={(e) => renderHover(name, time, e.clientX, e.clientY)} onMouseLeave={() => renderHover()} className='home-schedule-job' style={{left: `${nudge}%`, backgroundColor: color}}>
         <div>{name}</div>
       </div>
     </div>
