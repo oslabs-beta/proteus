@@ -1,10 +1,20 @@
 export type ScheduleIntervalProps = {
-  startTime: number
+  startTime: number,
+  jobs: object[],
+  renderHover(): React.ReactElement
 }
 
 export type ScheduleJobProps = {
   nudge: number,
-  color: string
+  color: string,
+  name: string,
+  time: Date,
+  renderHover(): React.ReactElement
+}
+
+export type ScheduleJobHoverProps = {
+  name: string,
+  time: Date
 }
 
 export type JobMetrics = {

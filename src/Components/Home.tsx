@@ -2,14 +2,25 @@ import React, { useEffect, useState } from 'react';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
+import { HomeListJob } from './HomeListJob';
+import { ScheduleJobHover } from './ScheduleJobHover';
 
 
 //Array containing cronjobs
 // const cronjobs:Array<string> = [];
 //this is array containing regular jobs
 const jobs: Array<JobMetrics[]> = [];
-
-
+// {__name__=~"metricA|metricB|metricC",container_name=~"frontend|backend|db"}
+// fetch('http://localhost:9090/api/v1/query?query={job_name=~"crontest-.*"}[1h]').then(res => res.json()).then(data => {
+//   console.log("fetch result");
+//   const cache = {};
+//   data.data.result.forEach(obj => {
+//     if(!cache[obj.values.length]) cache[obj.values.length] = 0;
+//     cache[obj.values.length]++;
+//   })
+//   console.log('cache', cache);
+//   // console.log(data.data.result.sort((obj1, obj2) => obj2.values.length - obj1.values.length));
+// });
 const fetchPastJobs = async () => {
    // console.log('fetchPastJobs');
   // try {
@@ -66,8 +77,8 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
   .then(response => {
     //check if metrics array is empty
     if(response.data.result.length !== 0){
-      console.log('allJobsArray: ',allJobsArray[i]);
-      console.log('response: ',response);
+      // console.log('allJobsArray: ',allJobsArray[i]);
+      // console.log('response: ',response);
       const metrics: JobMetrics = {};
       metrics.kube_job_name = allJobsArray[i];
       metrics.kube_job_complete = false;
@@ -80,13 +91,14 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
         else metrics[property] = value;
       })
       jobs.push(metrics);
-      console.log('jobs: ', jobs);
+      // console.log('jobs: ', jobs);
     } else {
-      cronjobs.push(allJobsArray[i]);
+      // cronjobs.push(allJobsArray[i]);
       // console.log('this is cronjobs', cronjobs)
     }
   });
   }
+  // console.log('jobs: ', jobs);
   });
 }
 
@@ -103,7 +115,9 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
 export const Home = () => {
   const [hours, setHours] = useState(new Array(12).fill([]));
   const [cronjobs, setCronJobs] = useState({});
-  console.log('hours: ', hours);
+  const [hover, setHover] = useState({});
+  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false});
+  // console.log('hours: ', hours);
   const [jobList, setJobList] = useState([]);
   
   const findStartOfDay = (time : number): Date => {
@@ -124,7 +138,7 @@ export const Home = () => {
   }
   
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
-  console.log('cronjobs state: ', cronjobs);
+  // console.log('cronjobs state: ', cronjobs);
 
 
 
@@ -140,7 +154,7 @@ export const Home = () => {
       //     instances: [ {job_name: crontest-1...}, {job_name: crontest-2...}]
       //   }
       // }
-      const cronjobs = {};
+      const newCronjobs: object = {};
     
       // `http://localhost:9090/api/v1/query?query={cronjob=~"${name}"}`
       try {
@@ -148,14 +162,13 @@ export const Home = () => {
         // console.log('first response: ', response);
         for(let i = 0; i < response.data.length; i++) {
           const name: string = response.data[i];
-          // console.log('name: ', name);
           const cronjobOverview = await (await fetch(`http://localhost:9090/api/v1/query?query={cronjob="${name}"}`)).json();
           // console.log('cronjob overview: ', cronjobOverview);
           
           if(cronjobOverview.data.result.length !== 0) {
-            cronjobs[name] = {};
+            if(!newCronjobs[name]) newCronjobs[name] = {};
             cronjobOverview.data.result.forEach((metricObj: any): void => {
-              cronjobs[name][metricObj.metric.__name__] = metricObj.value[1];
+              newCronjobs[name][metricObj.metric.__name__] = metricObj.value[1];
             });
             const allCronjobInstances = (await (await fetch(`http://localhost:9090/api/v1/query?query={job_name=~"${name}-.*"}`)).json()).data.result;
     
@@ -167,13 +180,11 @@ export const Home = () => {
               groupedMetricsByInstance[job_name][__name__] = value;
             })
     
-            cronjobs[name].instances = groupedMetricsByInstance;
-            // allCronjobInstances.data.result.forEach()
-            setCronJobs(cronjobs);
-            // console.log('allCronjobInstances: ', allCronjobInstances);
+            newCronjobs[name].instances = groupedMetricsByInstance;
+            newCronjobs[name].interval = (newCronjobs[name].kube_cronjob_next_schedule_time - newCronjobs[name].kube_cronjob_status_last_schedule_time)/60;
           }
         }
-        // console.log('cronjobs: ', cronjobs);
+        setCronJobs(newCronjobs);
       } catch (e) {
         console.log(e);
       }
@@ -184,52 +195,75 @@ export const Home = () => {
   useEffect(() => {
     const binUpcomingJobs = (): void => {
       const newHours: [][] = [[],[],[],[],[],[],[],[],[],[],[],[]];
-      console.log('cronjobs: ', cronjobs);
       for(const [cronjob, cronjobValue] of Object.entries(cronjobs)) {
-        console.log(cronjob);
-        console.log('cronjobValue: ', cronjobValue);
         const nextScheduledTime = cronjobValue.kube_cronjob_next_schedule_time * 1000;
         if(nextScheduledTime >= dayStart.getTime()) {
           const getTimeBin = (date: Date): number => {
             const hour = date.getHours();
-            console.log(date, Math.floor(hour/2));
             return Math.floor(hour / 2);
           }
-          
-          console.log('after');
+          const assignColor = () => {
+            for(const color in colors) {
+              if(colors[color] === false) {
+                colors[color] = true;
+                return color;
+              }
+            }
+          }
+          // console.log('after');
           const scheduledJob = {
             name: cronjob,
-            time: new Date(nextScheduledTime)
+            time: new Date(nextScheduledTime),
+            color: assignColor()
           };
-          console.log('job: ', scheduledJob);
           newHours[getTimeBin(scheduledJob.time)].push(scheduledJob);
-          console.log('upcoming: ', newHours);
         }
-        setHours(newHours);
       }
+      setHours(newHours);
     }
     binUpcomingJobs();
   }, [cronjobs]);
+
+  const createIntervalDisplay = () => {
+    const times = ["12am", "2am", "4am", "6am", "8am", "10am", "12pm", "2pm", "4pm", "6pm", "8pm", "10pm"];
+    const intervalDisplay = [];
+    for(let i = 0; i < 12; i++) {
+      intervalDisplay.push(<div className='home-schedule-interval-display'>{times[i]}</div>);
+    }
+    return intervalDisplay;
+  }
+
+  const renderHover = (name, time): void => {
+    if(!name) setHover({...hover, active:false});
+    else setHover({name, time, active: true});
+  }
+
+  console.log('hover: ', hover);
+  // add start time of specific instance
   return (
     <div className='home-container'>
       <div className="home-title">
         <div><b>cluster:</b> eks-cluster-01</div>
         <div><b>namespace:</b> default</div>
       </div>
-      <div className="home-schedule">
+      <div className="home-schedule-container">
         <div className='home-schedule-active-day'>Today ({getDayOfWeek(dayStart)}, {getMonth(dayStart)} {dayStart.getDate()})</div>
-        {hours.map((hour: [], index: number): React.ReactElement => {
-          const today: Date = new Date(dayStart.getTime());
-          today.setHours(index * 2);
-          return <ScheduleInterval startTime={today.getTime()} jobs={hour}/>
-        })}
+        <div className="home-schedule">
+          {hours.map((hour: [], index: number): React.ReactElement => {
+            const today: Date = new Date(dayStart.getTime());
+            today.setHours(index * 2);
+            return <ScheduleInterval startTime={today.getTime()} renderHover={renderHover} jobs={hour}/>
+          })}
+        </div>
+        <div className='home-schedule-interval-display-container'>{createIntervalDisplay()}</div>
       </div>
       <div className="home-job-list">
-        <div className="home-job"></div>
-        <div className="home-job"></div>
-        <div className="home-job"></div>
-        <div className="home-job"></div>
+        {Object.entries(cronjobs).map(([name, value]): React.ReactElement => {
+          // console.log('value: ', value);
+          return <HomeListJob name={name} nextScheduledTime={value.kube_cronjob_next_schedule_time}/>;
+        })}
       </div>
+      {hover.active && <ScheduleJobHover name={hover.name} time={hover.time}/>}
     </div>
   )
 }
