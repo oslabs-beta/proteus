@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
@@ -92,6 +92,7 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
 
 // fetchPastJobs();
 
+
 const fetchCronJobs = async () => {
 
   // const cronjobs = {
@@ -145,10 +146,10 @@ fetchCronJobs();
 
 
 
-
-export const Home = () => {
-  const [hours, setHours] = useState(new Array(12).fill([]));
-  const [jobList, setJobList] = useState([]);
+function Home() {
+  const [ hours, setHours]  = useState(new Array(12).fill([]));
+  const [ jobList, setJobList ] = useState([]);
+ 
   return (
     <div className='home-container'>
       <div className="home-title">
@@ -170,3 +171,5 @@ export const Home = () => {
     </div>
   )
 }
+
+module.exports = { Home };
