@@ -5,7 +5,7 @@ import { Archive } from './Components/Archive';
 const App = () => {
   return (
     <div>
-      <Home/>
+      <Archive/>
     </div>
   )
 }

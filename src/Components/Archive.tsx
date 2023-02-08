@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactHover from 'react-hover';
 import '../Styles/home.css';
 import { ArchiveJob } from './ArchiveJob';
+import { ArchiveJobHover } from './ArchiveJobHover';
 //  import whiteLogo from '../white-circle.svg';
 
 // const optionsCursorTrueWithMargin = {
@@ -11,8 +12,36 @@ import { ArchiveJob } from './ArchiveJob';
 // };
 
 export const Archive = () => {
-  const [history, setHistory] = useState(new Array(20).fill(null));
-  const [isShown, setIsShown] = useState(false);
+  // const [history, setHistory] = useState(new Array(20).fill(null));
+  const [history, setHistory] = useState([
+    {
+      name: 'First',
+      start_time: 12,
+      completion_time: 2,
+      success: 'Yes',
+      schedulbed_by: 'Me'
+    },
+    {
+      name: 'Second',
+      start_time: 10,
+      completion_time: 3,
+      success: 'No',
+      schedulbed_by: 'Someone Else'
+    },
+  ]);
+  const [hover, setHover] = useState({});
+  const archiveArray: React.ReactElement[] = [];
+
+  const renderHover = (name, success): void => {
+    if(!name) setHover({...hover, active:false});
+    else setHover({name, success, active: true});
+  }
+
+  for (let i = 0; i < history.length; i++) {
+    archiveArray.push(
+      <ArchiveJob value={history[i]} renderHover={renderHover}  />
+    )
+  }
 
     return (
       <div className='archive-container'>
@@ -31,34 +60,16 @@ export const Archive = () => {
           </div>
           <div className="archive-job-list">
             {/* parent  */}
-            <div className='archive-job-basic'>
+            {/* <div className='archive-job-basic'>
               <ArchiveJob
                 value={'testing'}
                 />
-            </div>
-            {history.map((history: [], index: number): React.ReactElement => {
-              return <div
-              // trigger
-                className='archive-job-basic'
-                onMouseEnter={() => setIsShown(true)}
-                onMouseLeave={() => setIsShown(false)}>
-                <div><b>Name:</b></div>
-                <div><b>Start Time:</b></div>
-                <div><b>Completion Time:</b></div>
-                <div><b>Success?</b></div>
-                <div><b>Scheduled by: </b></div>
-                {isShown && (
-                  // hover comp
-                    <div className='archive-job-all'>
-                    <ArchiveJob
-                    value={'TEST'}
-                    />
-                  </div>
-                )}
-              </div>
-            })}
+            </div> */}
+           {archiveArray}
+            {/* {hover.active && <ArchiveJobHover name={hover.name} success={hover.success}/>} */}
           </div>
         </div>
+        {hover.active && <ArchiveJobHover name={hover.name} success={hover.success}/>}
       </div>
     )
   }
