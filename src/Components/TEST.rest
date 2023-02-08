@@ -12,7 +12,24 @@ Content-Type: application/json
 #####
 GET http://localhost:9090/api/v1/query?query={job_name="hellocron-job-dw84n"}[48h]
 Content-Type: application/json
+GET http://localhost:9090/api/v1/label/job_name/values
+Content-Type: application/json
+
+#####
+GET http://localhost:9090/api/v1/query?query={job_name=~"whalesay2-cronjob-.*"}[72h]
+Content-Type: application/json
+
+#####
+ GET http://localhost:9090/api/v1/query?query={job_name=~"crontest-.*", __name__="kube_job_created"}[30m]
+Content-Type: application/json
+
+#####
+GET http://localhost:9090/api/v1/query?query={job_name="crontest-27929940"}
+Content-Type: application/json
 
 ####
 GET http://localhost:9090/api/v1/query?query={job_name="crontest-27930236"}[2h]
+Content-Type: application/json
+####
+GET http://localhost:9090/api/v1/query?query={job_name="crontest-27930176"}[2h]
 Content-Type: application/json
