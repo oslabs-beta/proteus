@@ -33,3 +33,11 @@ export type JobMetrics = {
   kube_job_status_start_time?: string,
   kube_job_status_succeeded?: string,
 }
+
+export type PastJobMetrics = {
+  kube_job_namespace?: string, 
+  kube_job_name?: string, 
+  kube_job_runtime?: string, 
+  kube_job_status?: string, 
+  kube_job_details?: any
+}

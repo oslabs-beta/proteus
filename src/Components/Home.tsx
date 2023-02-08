@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
 import { HomeListJob } from './HomeListJob';
 import { ScheduleJobHover } from './ScheduleJobHover';
 
-
-//Array containing cronjobs
-// const cronjobs:Array<string> = [];
 //this is array containing regular jobs
 const jobs: Array<JobMetrics[]> = [];
-// {__name__=~"metricA|metricB|metricC",container_name=~"frontend|backend|db"}
-// fetch('http://localhost:9090/api/v1/query?query={job_name=~"crontest-.*"}[1h]').then(res => res.json()).then(data => {
-//   console.log("fetch result");
-//   const cache = {};
-//   data.data.result.forEach(obj => {
-//     if(!cache[obj.values.length]) cache[obj.values.length] = 0;
-//     cache[obj.values.length]++;
-//   })
-//   console.log('cache', cache);
-//   // console.log(data.data.result.sort((obj1, obj2) => obj2.values.length - obj1.values.length));
-// });
 const fetchPastJobs = async () => {
    // console.log('fetchPastJobs');
   // try {
@@ -103,15 +89,6 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
 }
 
 // fetchPastJobs();
-
-
-
-
-
-
-
-
-
 export const Home = () => {
   const [hours, setHours] = useState(new Array(12).fill([]));
   const [cronjobs, setCronJobs] = useState({});
@@ -145,15 +122,6 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchCronJobs = async () => {
-
-      // const cronjobs = {
-      //   crontest: {
-      //     created: 
-      //     info: 
-      //     next_sched_time: 
-      //     instances: [ {job_name: crontest-1...}, {job_name: crontest-2...}]
-      //   }
-      // }
       const newCronjobs: object = {};
     
       // `http://localhost:9090/api/v1/query?query={cronjob=~"${name}"}`
@@ -267,3 +235,5 @@ export const Home = () => {
     </div>
   )
 }
+
+module.exports = { Home };
