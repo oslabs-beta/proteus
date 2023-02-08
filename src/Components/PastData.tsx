@@ -33,6 +33,7 @@ const allJobNames = async () => {
   // console.log('allJobNamesArray: ', allJobNamesArray)
 };
 
+// NEED TO update with reason for failure
 const fetchingPastJobs = async (jobs, time) => {
   for (let i = 0; i < jobs.length; i++) {
     try {

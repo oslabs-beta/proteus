@@ -144,8 +144,6 @@ const fetchCronJobs = async () => {
 fetchCronJobs();
 
 
-
-
 function Home() {
   const [ hours, setHours]  = useState(new Array(12).fill([]));
   const [ jobList, setJobList ] = useState([]);
