@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useEffect } from 'react';
+import React, { useState, useEffect, useEffect, useDebugValue } from 'react';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
@@ -90,6 +90,8 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
 
 // fetchPastJobs();
 export const Home = () => {
+  const [ PORT, setPORT ] = useState(9090);
+  const [ allJobNamesArray, setAllJobNamesArray ] = useState([]);
   const [hours, setHours] = useState(new Array(12).fill([]));
   const [cronjobs, setCronJobs] = useState({});
   const [hover, setHover] = useState({});
@@ -117,7 +119,17 @@ export const Home = () => {
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
   // console.log('cronjobs state: ', cronjobs);
 
+  useEffect(() => {
+    allJobNames();
+  }, [])
 
+  // creates an array of all existing jobs
+  const allJobNames = async () => {
+    try {
+      const response = await (await fetch(`http://localhost:${PORT}/api/v1/label/job_name/values`)).json();
+      setAllJobNamesArray(response.data);
+    } catch (err) { console.log(err); }
+  };
 
 
   useEffect(() => {

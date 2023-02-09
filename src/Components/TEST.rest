@@ -2,7 +2,7 @@ GET http://localhost:9090/api/v1/label/job_name/values
 Content-Type: application/json
 
 #####
-GET http://localhost:9090/api/v1/query?query={cronjob="hellocron-job"}
+GET http://localhost:9090/api/v1/query?query={job_name="dolphin"}
 Content-Type: application/json
 
 #####
@@ -11,8 +11,6 @@ Content-Type: application/json
 
 #####
 GET http://localhost:9090/api/v1/query?query={job_name="hellocron-job-dw84n"}[48h]
-Content-Type: application/json
-GET http://localhost:9090/api/v1/label/job_name/values
 Content-Type: application/json
 
 #####
@@ -30,6 +28,7 @@ Content-Type: application/json
 ####
 GET http://localhost:9090/api/v1/query?query={job_name="crontest-27930236"}[2h]
 Content-Type: application/json
+
 ####
 GET http://localhost:9090/api/v1/query?query={job_name="crontest-27930176"}[2h]
 Content-Type: application/json
