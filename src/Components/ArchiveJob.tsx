@@ -13,7 +13,7 @@ import '../Styles/home.css';
     const color = completion_time != 'Failed to Complete' ? 'lightyellow' : 'lightcoral';
     return (
       <div className='archive-job-basic' style={{backgroundColor: color}} ref={ref}
-      onMouseEnter={(event) => renderHover(kube_name,runtime, ref.current.offsetLeft, ref.current.offsetTop)} 
+      onMouseEnter={(event) => renderHover(kube_name,kube_job_runtime, ref.current.offsetLeft, ref.current.offsetTop)} 
       onMouseLeave={() => renderHover()}>
         <div>{kube_name}</div>
         <div>{kube_job_namespace}</div>
