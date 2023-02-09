@@ -13,8 +13,8 @@ export const ScheduleJobHover = ({name, time, x, y}: ScheduleJobHoverProps) => {
   
   return (
     <div style={{left: x, top: y}}className='home-schedule-job-hover-container'>
-      <div>{name}</div>
-      <div>Next run time: {getLocalTime(time)}</div>
+      <div>{name} {getLocalTime(time)}</div>
+      {/* <div></div> */}
     </div>
   )
 }

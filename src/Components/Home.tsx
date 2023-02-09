@@ -230,7 +230,7 @@ export const Home = () => {
 
   const renderHover = (name: string, time: number, x: number, y: number): void => {
     if(!name) setHover({active:false});
-    else setHover({name, time, x: x + 63, y: y - 20, active: true});
+    else setHover({name, time, x: x + 49, y: y + 142, active: true});
   }
 
   const renderIntervals = (): React.ReactElement[] => {
@@ -261,6 +261,13 @@ export const Home = () => {
         <div className='home-schedule-interval-display-container'>{createIntervalDisplay()}</div>
       </div>
       <div className="home-job-list">
+        <div className="home-job-list-grid home-job-list-grid-header">
+          <div>Name</div>
+          <div>Next</div>
+          <div>Interval</div>
+          <div>Created</div>
+          <div>Node</div>
+        </div>
         {Object.entries(cronjobs).map(([name, value]): React.ReactElement => {
           return <HomeListJob name={name} nextScheduledDate={new Date(value.kube_cronjob_next_schedule_time * 1000)} isHovered={hover.name === name} createdDate={new Date(value.kube_cronjob_created * 1000)} interval={value.interval} node={value.node} isActive={value.kube_cronjob_status_active} isSuspended={value.kube_cronjob_spec_suspend}/>;
         })}
