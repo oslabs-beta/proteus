@@ -138,8 +138,9 @@ export const Home = () => {
             cronjobOverview.data.result.forEach((metricObj: any): void => {
               newCronjobs[name][metricObj.metric.__name__] = metricObj.value[1];
             });
+
+            console.log(newCronjobs[name]);
             const allCronjobInstances = (await (await fetch(`http://localhost:9090/api/v1/query?query={job_name=~"${name}-.*"}`)).json()).data.result;
-    
             const groupedMetricsByInstance: any = {};
             allCronjobInstances.forEach(instance => {
               const { __name__, job_name } = instance.metric;
@@ -214,9 +215,8 @@ export const Home = () => {
   }
 
   const renderHover = (name: string, time: number, x: number, y: number): void => {
-    console.log('coordinates: ', x, y);
-    if(!name) setHover({...hover, active:false});
-    else setHover({name, time, active: true});
+    if(!name) setHover({active:false});
+    else setHover({name, time, x: x + 63, y: y - 20, active: true});
   }
 
   const renderIntervals = (): React.ReactElement[] => {
@@ -248,11 +248,10 @@ export const Home = () => {
       </div>
       <div className="home-job-list">
         {Object.entries(cronjobs).map(([name, value]): React.ReactElement => {
-          // console.log('value: ', value);
-          return <HomeListJob name={name} nextScheduledTime={value.kube_cronjob_next_schedule_time}/>;
+          return <HomeListJob name={name} nextScheduledTime={value.kube_cronjob_next_schedule_time} isHovered={hover.name === name} createdDate={new Date(value.kube_cronjob_created * 1000)} interval={value.interval}/>;
         })}
       </div>
-      {hover.active && <ScheduleJobHover name={hover.name} time={hover.time}/>}
+      {hover.active && <ScheduleJobHover name={hover.name} time={hover.time} x={hover.x} y={hover.y}/>}
     </div>
   )
 }
