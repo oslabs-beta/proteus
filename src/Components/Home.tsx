@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useEffect, useDebugValue } from 'react';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
@@ -90,7 +90,9 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
 
 // fetchPastJobs();
 export const Home = () => {
-  const [hours, setHours] = useState({startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
+  const [ PORT, setPORT ] = useState(9090);
+  const [ allJobNamesArray, setAllJobNamesArray ] = useState([]);
+  const [hours, setHours] = useState({ startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
   const [cronjobs, setCronJobs] = useState({});
   const [hover, setHover] = useState({});
   const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false});
@@ -117,7 +119,17 @@ export const Home = () => {
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
   // console.log('cronjobs state: ', cronjobs);
 
+  useEffect(() => {
+    allJobNames();
+  }, [])
 
+  // creates an array of all existing jobs
+  const allJobNames = async () => {
+    try {
+      const response = await (await fetch(`http://localhost:${PORT}/api/v1/label/job_name/values`)).json();
+      setAllJobNamesArray(response.data);
+    } catch (err) { console.log(err); }
+  };
 
 
   useEffect(() => {
@@ -133,14 +145,14 @@ export const Home = () => {
           const cronjobOverview = (await (await fetch(`http://localhost:9090/api/v1/query?query={cronjob="${name}"}`)).json()).data.result;
           // console.log('cronjob overview: ', cronjobOverview);
           if(cronjobOverview.length !== 0) {
-            console.log('overview: ', cronjobOverview);
+            // console.log('overview: ', cronjobOverview);
           
             if(!newCronjobs[name]) newCronjobs[name] = {};
             cronjobOverview.forEach((metricObj: any): void => {
               newCronjobs[name][metricObj.metric.__name__] = metricObj.value[1];
             });
 
-            console.log(newCronjobs[name]);
+            // console.log(newCronjobs[name]);
             const allCronjobInstances = (await (await fetch(`http://localhost:9090/api/v1/query?query={job_name=~"${name}-.*"}`)).json()).data.result;
             const groupedMetricsByInstance: any = {};
             allCronjobInstances.forEach(instance => {

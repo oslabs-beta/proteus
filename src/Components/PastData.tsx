@@ -1,6 +1,3 @@
-import React, {useState} from "react";
-import { PastJobMetrics } from '../types';
-
 // export type PastJobMetrics = {
 //   kube_job_namespace?: string, 
 //   kube_job_name?: string, 
@@ -9,58 +6,58 @@ import { PastJobMetrics } from '../types';
 //   kube_job_details?: any
 // }
 
+// const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
+// const metAll = /kube_job_status_active|kube_job_status_succeeded|kube_job_complete|kube_job_failed|kube_job_created|kube_job_status_completion_time|kube_job_status_start_time|kube_job_status_failed/;
+
+import React, {useState} from "react";
+import { allJobNamesArray, PORT } from '/Home.tsx';
+
 // nest inside a Functional Component
-const [ allJobNamesArray, setAllJobNamesArray ] = useState([]);
-const [ pastJobsObject, setPastJobsObject ] = useState({});
-const [ timeRange, setTimeRange ] = useState('2h')
+  const [ pastJobsObject, setPastJobsObject ] = useState({});
+  const [ timeRange, setTimeRange ] = useState('2h');
+  
+  
+  const met1 = /kube_job_status_active|kube_job_status_succeeded/;
+  const met2 = /kube_job_complete|kube_job_failed/;
+  const met3 = /kube_job_created|kube_job_status_completion_time|kube_job_status_start_time/;
 
-const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
+  
+  useEffect(() => {
+    fetchingPastJobs(allJobNamesArray, timeRange)
+  }, [allJobNamesArray, timeRange]);  
 
-useEffect(() => {
-  allJobNames();
-}, [])
 
-useEffect(() => {
-  fetchingPastJobs(allJobNamesArray, timeRange)
-}, [allJobNamesArray, timeRange]);
-
-// creates an array of all existing jobs
-const allJobNames = async () => {
-  try {
-    const response = await (await fetch('http://localhost:9090/api/v1/label/job_name/values')).json();
-    setAllJobNamesArray(response.data);
-  } catch (err) { console.log(err); }
-  // console.log('allJobNamesArray: ', allJobNamesArray)
-};
-
-const fetchingPastJobs = async (jobs, time) => {
-  for (let i = 0; i < jobs.length; i++) {
-    try {
-      const pJO = {}
-      const response = await (await fetch(`http://localhost:9090/api/v1/query?query={job_name="${jobs[i]}"}[${time}]`)).json();
-      if (response.data.result.length > 0) {
-        response.data.result.forEach(metricObj => {
-          if (jobMetrics.includes(metricObj.metric.__name__)) {
+  const fetchingPastJobs = async (jobs, time) => {
+    for (let i = 0; i < jobs.length; i++) {
+      try {
+        const pJO = {}
+        const response = await (await fetch(`http://localhost:${PORT}/api/v1/query?query={job_name="${jobs[i]}"}[${time}]`)).json();
+        if (response.data.result.length > 0) {
+          response.data.result.forEach(metricObj => {
+            const metricName = metricObj.metric.__name__;
+            const value = metricObj.values[metricObj.values.length - 1][1];
             if (!pJO['kube_job_namespace']) pJO['kube_job_namespace'] = metricObj.metric.namespace;
-            if (metricObj.metric.__name__ === 'kube_job_complete' && metricObj.metric.condition === 'true'|| 
-              metricObj.metric.__name__ === 'kube_job_status_failed' || 
-              metricObj.metric.__name__ === 'kube_job_status_active' || 
-              metricObj.metric.__name__ === 'kube_job_status_succeeded') {
-              if (metricObj.values[metricObj.values.length - 1][1] === '1') {
-                pJO[metricObj.metric.__name__] = true;
-              } else pJO[metricObj.metric.__name__] = false;
-            } else if (metricObj.metric.__name__ === 'kube_job_created' || 
-              metricObj.metric.__name__ === 'kube_job_status_completion_time' || 
-              metricObj.metric.__name__ === 'kube_job_status_start_time') {
-                pJO[metricObj.metric.__name__] = new Date((metricObj.values[metricObj.values.length - 1][1]) * 1000);
+            if (met1.test(metricName)) {
+              if (value === '1') {
+                pJO[metricName] = true;
+              } else pJO[metricName] = false;
             } 
-          }
-          pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
-        })
-        setPastJobsObject(pastJobsObject[jobs[i]] = pJO)
-      }
+            if (met2.test(metricName) && value === '1') {
+              pJO[metricName] = metricObj.metric.condition;
+            }
+            if (met3.test(metricName)) {
+                pJO[metricName] = new Date((value) * 1000);
+            } 
+            if (metricName === 'kube_job_status_failed' && value === '1') {
+                pJO[metricName] = metricObj.metric.reason;
+            }
+            pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
+          })
+          
+          setPastJobsObject(pastJobsObject[jobs[i]] = pJO)
+        }
 
-    } catch (err) { console.log(err); }
+      } catch (err) { console.log(err); }
+    }
+    console.log('PJO: ', pastJobsObject);
   }
-  console.log('PJO: ', pastJobsObject);
-}
