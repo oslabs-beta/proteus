@@ -14,15 +14,15 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
     let result: string = ``;
     const hours = Math.floor(minutes / 60);
     minutes %= 60;
-    if(minutes === 0) return `${hours} hr`;
-    if(hours > 0) result += `${hours} hr `;
-    result += `${minutes} min `;
+    if(minutes === 0) return `${hours} hours`;
+    if(hours > 0) result += `${hours} hours `;
+    result += `${minutes} minutes `;
     const seconds = minutes % Math.floor(minutes) * 60;
-    if(seconds > 0) result += `${seconds} sec`;
+    if(seconds > 0) result += `${seconds} seconds`;
     return result; 
   }
   return (
-    <div style={{filter: isHovered ? 'brightness(120%)' : 'brightness(100%)'}} className='home-job-list-grid home-job'>
+    <div style={{filter: isHovered ? 'brightness(100%)' : 'brightness(100%)', color: isHovered ? 'black' : 'white', backgroundColor: isHovered ? 'lightyellow' : 'slategrey', border: isHovered ? '1px solid slategrey' : '1px solid lightyellow'}} className='home-job-list-grid home-job'>
       <div>{name}</div>
       <div>{nextScheduledDate.toLocaleString()}</div>
       <div>{formatTime(interval)}</div>
