@@ -17,8 +17,8 @@ const App = () => {
     // </div>
     // </HashRouter> 
     <div>
-      <Archive/>
-      {/* <Home /> */}
+      {/* <Archive/> */}
+      <Home />
     </div>
   )
 }
