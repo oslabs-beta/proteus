@@ -34,6 +34,7 @@ export const Archive = () => {
   const [ pastJobsObject, setPastJobsObject ] = useState({});
   const [ timeRange, setTimeRange ] = useState('2h')
 
+<<<<<<< HEAD
   //  NEW FETCH BUT CURRENTLY RETURNING EMPTY OBJECT
 
   // const met1 = /kube_job_status_active|kube_job_status_succeeded/;
@@ -81,6 +82,8 @@ export const Archive = () => {
   //   console.log('PJO: ', pastJobsObject);
   // }
 
+=======
+>>>>>>> dev
   const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
 
   useEffect(() => {
@@ -129,11 +132,16 @@ export const Archive = () => {
           // setHistory(oldHistory => [...oldHistory, pJO]);
           setHistory(oldHistory => [pJO, ...oldHistory]);
 
+<<<<<<< HEAD
           // setPastJobsObject(pastJobsObject[jobs[i]] = pJO);
+=======
+          setPastJobsObject(pastJobsObject[jobs[i]] = pJO);
+>>>>>>> dev
         }
 
       } catch (err) { console.log(err); }
     }
+<<<<<<< HEAD
   };
   //   // push each property from the pj object into the history array
   //   // const historyArray = [];
@@ -145,6 +153,18 @@ export const Archive = () => {
   //   // console.log('HISTORY ARRAY: ', historyArray)
   //   // console.log('History Array: ', history)
   // }
+=======
+    // push each property from the pj object into the history array
+    // const historyArray = [];
+    // Object.keys(pastJobsObject).forEach(key => {
+    //   // console.log('Key: ', key)
+      
+    //   historyArray.push({[key]: pastJobsObject[key]})
+    // });
+    // console.log('HISTORY ARRAY: ', historyArray)
+    // console.log('History Array: ', history)
+  }
+>>>>>>> dev
 
   const renderHover = (name, runtime, x, y): void => {
     if(!name) setHover({...hover, active:false});
