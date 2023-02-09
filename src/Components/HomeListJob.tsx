@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const HomeListJob = ({time, name}) => {
+export const HomeListJob = ({time, name, isHovered, createdDate, interval, node, isActive, isSuspended, nextScheduledDate}) => {
   const getLocalTime = (date: Date): string => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -10,8 +10,14 @@ export const HomeListJob = ({time, name}) => {
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   }
   return (
-    <div className='home-job'>
+    <div style={{filter: isHovered ? 'brightness(120%)' : 'brightness(100%)'}}className='home-job'>
       <div>{name}</div>
+      <div>Created at {createdDate.toLocaleString()}</div>
+      <div>Interval: {interval}</div>
+      <div>{node}</div>
+      <div>{isActive}</div>
+      <div>{isSuspended}</div>
+      <div>Next run: {nextScheduledDate.toLocaleString()}</div>
       {/* <div>{getLocalTime(time)}</div> */}
     </div>
   )

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScheduleJobHoverProps } from '../types';
 
-export const ScheduleJobHover = ({name, time}: ScheduleJobHoverProps) => {
+export const ScheduleJobHover = ({name, time, x, y}: ScheduleJobHoverProps) => {
   const getLocalTime = (date: Date): string => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -12,7 +12,7 @@ export const ScheduleJobHover = ({name, time}: ScheduleJobHoverProps) => {
   }
   
   return (
-    <div className='home-schedule-job-hover-container'>
+    <div style={{left: x, top: y}}className='home-schedule-job-hover-container'>
       <div>{name}</div>
       <div>Next run time: {getLocalTime(time)}</div>
     </div>
