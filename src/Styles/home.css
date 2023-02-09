@@ -106,7 +106,7 @@ img {
 .home-schedule-job-hover-container {
   height: 100px;
   width: 200px;
-  background-color: rgb(147, 147, 147);
+  background-color: rgb(255, 255, 255);
   border: 1px solid black;
   position: absolute;
   top: -120%;
@@ -138,4 +138,5 @@ img {
   display: flex;
   align-items: center;
   padding-left: .5rem;
+  gap: 10px;
 }
