@@ -79,29 +79,28 @@ export const Archive = () => {
             pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
           });
           pJO.kube_name = jobs[i];
-          console.log(pJO);
-          setHistory(oldHistory => [...oldHistory, pJO])
+          // setHistory(oldHistory => [...oldHistory, pJO]);
+          setHistory(oldHistory => [pJO, ...oldHistory]);
 
-
-          setPastJobsObject(pastJobsObject[jobs[i]] = pJO)
+          setPastJobsObject(pastJobsObject[jobs[i]] = pJO);
         }
 
       } catch (err) { console.log(err); }
     }
     // push each property from the pj object into the history array
-    const historyArray = [];
-    Object.keys(pastJobsObject).forEach(key => {
-      // console.log('Key: ', key)
+    // const historyArray = [];
+    // Object.keys(pastJobsObject).forEach(key => {
+    //   // console.log('Key: ', key)
       
-      historyArray.push({[key]: pastJobsObject[key]})
-    });
+    //   historyArray.push({[key]: pastJobsObject[key]})
+    // });
     // console.log('HISTORY ARRAY: ', historyArray)
     // console.log('History Array: ', history)
   }
 
-  const renderHover = (name, runtime): void => {
+  const renderHover = (name, runtime, x, y): void => {
     if(!name) setHover({...hover, active:false});
-    else setHover({name, runtime, active: true});
+    else setHover({name, runtime, x: x+250, y: y-70, active: true});
   }
 
   for (let i = 0; i < history.length; i++) {
@@ -129,7 +128,7 @@ export const Archive = () => {
            {archiveArray}
           </div>
         </div>
-        {hover.active && <ArchiveJobHover name={hover.name} runtime={hover.runtime}/>}
+        {hover.active && <ArchiveJobHover name={hover.name} runtime={hover.runtime} x={hover.x} y={hover.y}/>}
       </div>
     )
   }

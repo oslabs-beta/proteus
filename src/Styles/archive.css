@@ -36,12 +36,18 @@
     display: flex;
     padding-left: .5rem;
   }
+
+  .archive-job-basic:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
+  }
   
   .archive-job-hover-container {
     /* height: 100px;
     width: 200px; */
-    background-color: rgb(147, 147, 147);
+    background-color: mediumseagreen;
     border: 1px solid black;
+    border-radius: 15px;
     position: absolute;
     /* top: -120%; */
     /* left: -90%; */
