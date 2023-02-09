@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../Styles/home.css';
+import '../Styles/archive.css';
 import { ArchiveJob } from './ArchiveJob';
 import { ArchiveJobHover } from './ArchiveJobHover';
 //  import whiteLogo from '../white-circle.svg';
