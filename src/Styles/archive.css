@@ -1,0 +1,59 @@
+.archive-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  
+  .archive-title {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+  .data-types {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .archive-job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+  
+  .archive-job-basic {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    border: 1px solid black;
+    /* background-color: lightyellow; */
+    border-radius: 15px;
+    display: flex;
+    padding-left: .5rem;
+  }
+
+  .archive-job-basic:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
+  }
+  
+  .archive-job-hover-container {
+    /* height: 100px;
+    width: 200px; */
+    background-color: mediumseagreen;
+    border: 1px solid black;
+    border-radius: 15px;
+    position: absolute;
+    /* top: -120%; */
+    /* left: -90%; */
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+    z-index: 5;
+  }
+  
