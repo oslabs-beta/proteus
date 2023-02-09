@@ -31,10 +31,9 @@
     align-items: center;
     height: 50px;
     border: 1px solid black;
-    background-color: lightyellow;
+    /* background-color: lightyellow; */
     border-radius: 15px;
     display: flex;
-    align-items: center;
     padding-left: .5rem;
   }
   

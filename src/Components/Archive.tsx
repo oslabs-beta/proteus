@@ -114,16 +114,16 @@ export const Archive = () => {
       <div className='archive-container'>
         <div className="archive-title">
           <div><b>cluster:</b> eks-cluster-01</div>
-          <div><b>Job:</b> white circle</div>
-          <div><b>Cronjob:</b> light green circle</div>
+          {/* <div><b>Job:</b> white circle</div>
+          <div><b>Cronjob:</b> light green circle</div> */}
         </div>
         <div className='archive-data'>
           <div className="data-types">
             <div><b>Name:</b></div>
+            <div><b>Namespace:</b></div>
             <div><b>Start Time:</b></div>
-            <div><b>Completion Time:</b></div>
-            <div><b>Success?</b></div>
-            <div><b>Scheduled by: </b></div>
+            <div><b>End Time:</b></div>
+            <div><b>Success? </b></div>
           </div>
           <div className="archive-job-list">
            {archiveArray}
