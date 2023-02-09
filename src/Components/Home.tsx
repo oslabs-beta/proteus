@@ -130,12 +130,13 @@ export const Home = () => {
         // console.log('first response: ', response);
         for(let i = 0; i < response.data.length; i++) {
           const name: string = response.data[i];
-          const cronjobOverview = await (await fetch(`http://localhost:9090/api/v1/query?query={cronjob="${name}"}`)).json();
+          const cronjobOverview = (await (await fetch(`http://localhost:9090/api/v1/query?query={cronjob="${name}"}`)).json()).data.result;
           // console.log('cronjob overview: ', cronjobOverview);
+          if(cronjobOverview.length !== 0) {
+            console.log('overview: ', cronjobOverview);
           
-          if(cronjobOverview.data.result.length !== 0) {
             if(!newCronjobs[name]) newCronjobs[name] = {};
-            cronjobOverview.data.result.forEach((metricObj: any): void => {
+            cronjobOverview.forEach((metricObj: any): void => {
               newCronjobs[name][metricObj.metric.__name__] = metricObj.value[1];
             });
 
@@ -148,7 +149,8 @@ export const Home = () => {
               if(!groupedMetricsByInstance[job_name]) groupedMetricsByInstance[job_name] = {};
               groupedMetricsByInstance[job_name][__name__] = value;
             })
-    
+
+            newCronjobs[name].node = cronjobOverview[0].metric.node;
             newCronjobs[name].instances = groupedMetricsByInstance;
             newCronjobs[name].interval = (newCronjobs[name].kube_cronjob_next_schedule_time - newCronjobs[name].kube_cronjob_status_last_schedule_time)/60;
           }
@@ -248,7 +250,7 @@ export const Home = () => {
       </div>
       <div className="home-job-list">
         {Object.entries(cronjobs).map(([name, value]): React.ReactElement => {
-          return <HomeListJob name={name} nextScheduledTime={value.kube_cronjob_next_schedule_time} isHovered={hover.name === name} createdDate={new Date(value.kube_cronjob_created * 1000)} interval={value.interval}/>;
+          return <HomeListJob name={name} nextScheduledDate={new Date(value.kube_cronjob_next_schedule_time * 1000)} isHovered={hover.name === name} createdDate={new Date(value.kube_cronjob_created * 1000)} interval={value.interval} node={value.node} isActive={value.kube_cronjob_status_active} isSuspended={value.kube_cronjob_spec_suspend}/>;
         })}
       </div>
       {hover.active && <ScheduleJobHover name={hover.name} time={hover.time} x={hover.x} y={hover.y}/>}
