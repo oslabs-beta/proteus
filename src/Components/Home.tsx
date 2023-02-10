@@ -210,6 +210,7 @@ export const Home = () => {
           } 
         }
       }
+      console.log(newHours);
       setHours(newHours);
     }
     binUpcomingJobs();
@@ -244,6 +245,7 @@ export const Home = () => {
       intervalIndex++;
       count++;
     }
+    console.log('intervals: ', intervals);
     return intervals;
   }
   // add start time of specific instance

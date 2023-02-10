@@ -59,7 +59,7 @@ app.on('activate', () => {
 
 const loadApp = () => {
   let template = [
-    { label: "PROTEUSSSSSSSS", 
+    { label: "PROTEUS", 
       submenu: [
         { label: 'about proteus', click() { require('electron').shell.openExternal(`https://github.com/oslabs-beta/proteus`); }}, 
         { type: 'separator' },
