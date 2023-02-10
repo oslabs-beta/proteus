@@ -177,7 +177,7 @@ img {
   /* padding-left: .5rem; */
   gap: 10px;
   transition: .1s;
-  background: linear-gradient(145deg, lightyellow, lightyellow );
+  /* background: linear-gradient(145deg, lightyellow, lightyellow ); */
   /* background-color: lightyellow; */
   /* border-radius: 15px; */
   display: flex;
