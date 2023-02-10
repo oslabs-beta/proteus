@@ -24,7 +24,7 @@ img {
   1px 0px 0px #DE5D82,
   0px -1px 0px #DE5D82,
   0px 1px 0px #DE5D82; */
-   color: #DE5D82;
+  color: #DE5D82;
 }
 
 .home-schedule-container {
@@ -36,8 +36,10 @@ img {
 
 .home-schedule {
   height: 300px;
-  border: 1px solid rgba(112, 128, 144, 0.196);
-  border-radius: 10px;
+  /* border: 1px solid rgba(112, 128, 144, 0.196);
+  border-radius: 10px; */
+  border: 1px none #172c66;
+  border-radius: 20px;
   /* box-shadow: 1px 2px 5px lightslategray; */
   box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),
   inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
@@ -62,6 +64,7 @@ img {
   justify-content: center;
   /* border: 0.5px solid black; */
   /* border-left: 1px dotted rgb(169, 169, 169); */
+  border-left: 1px dotted darkgray;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -97,7 +100,8 @@ img {
 
 .home-schedule-job {
   background-color: lightgray;
-  border: 1px solid #80808070;;
+  /* border: 1px solid #80808070;; */
+  border: 1px none #172c66;;
   border-radius: 5px;
   height: 30px;
   width: 60%;
@@ -173,4 +177,8 @@ img {
   /* padding-left: .5rem; */
   gap: 10px;
   transition: .1s;
+  /* background: linear-gradient(145deg, lightyellow, lightyellow ); */
+  /* background-color: lightyellow; */
+  /* border-radius: 15px; */
+  padding-left: .5rem;
 }
