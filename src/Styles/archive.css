@@ -10,12 +10,13 @@
     display: flex;
     gap: 1rem;
     font-size: 1.5rem;
+    color: #DE5D82;
   }
   .data-types {
     display: flex;
     justify-content: space-around;
-    gap: 1rem;
-    font-size: 1.5rem;
+    gap: 1.5rem;
+    font-size: 1rem;
   }
   
   .archive-job-list {
@@ -30,8 +31,10 @@
     justify-content: space-around;
     align-items: center;
     height: 50px;
-    border: 1px solid black;
+    border: 1px none black;
     /* background-color: lightyellow; */
+    box-shadow: 1px 1px 4px #bebebe,
+  -1px -1px 4px lightgray;
     border-radius: 15px;
     display: flex;
     padding-left: .5rem;

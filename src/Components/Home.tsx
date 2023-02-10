@@ -95,7 +95,7 @@ export const Home = () => {
   const [hours, setHours] = useState({ startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
   const [cronjobs, setCronJobs] = useState({});
   const [hover, setHover] = useState({});
-  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false});
+  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false, "lightSalmon": false, "lemonChiffon": false, "paleturquoise": false});
   // console.log('hours: ', hours);
   const [jobList, setJobList] = useState([]);
   

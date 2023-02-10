@@ -28,3 +28,15 @@ main {
   text-shadow: 0 0 0.2em #DE5D82, 0 0 0.2em #DE5D82,
     0 0 0.2em #DE5D82;
 }
+
+a {
+  text-decoration: none;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 600;
+  color: darkslategray;
+  margin-left: 800px;
+}
+
+li {
+  list-style-type: none;
+}
