@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../Styles/archive.css';
 import { ArchiveJob } from './ArchiveJob';
 import { ArchiveJobHover } from './ArchiveJobHover';
+import { Dropdown } from './Dropdown';
 //  import whiteLogo from '../white-circle.svg';
 
 // const optionsCursorTrueWithMargin = {
@@ -32,7 +33,8 @@ export const Archive = () => {
   const archiveArray: React.ReactElement[] = [];
   const [ allJobNamesArray, setAllJobNamesArray ] = useState([]);
   const [ pastJobsObject, setPastJobsObject ] = useState({});
-  const [ timeRange, setTimeRange ] = useState('2h')
+  const [ timeRange, setTimeRange ] = useState('2h');
+  const [filter, setFilter] = useState('All')
 
   //  NEW FETCH BUT CURRENTLY RETURNING EMPTY OBJECT
 
@@ -126,6 +128,12 @@ export const Archive = () => {
             pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
           });
           pJO.kube_name = jobs[i];
+          console.log(pJO.kube_job_status_succeeded)
+        //   if (pJO[kube_job_status_succeeded]) {
+        //     console.log(pJO + ' I SUCCEEDED')
+        //   } else {
+        //     console.log(pJO + ' I FAILED')
+        //   }
           // setHistory(oldHistory => [...oldHistory, pJO]);
           setHistory(oldHistory => [pJO, ...oldHistory]);
 
@@ -151,10 +159,28 @@ export const Archive = () => {
     else setHover({name, runtime, x: x+250, y: y-70, active: true});
   }
 
+  const onFilterChange = (input: string): void => {
+    // console.log('ONFILTERCHANGE: ', typeof input)
+    // console.log('FILTER BEFORE: ', filter)
+    setFilter(input);
+    // console.log('FILTER AFTER: ', filter)
+  }
+  
+
   for (let i = 0; i < history.length; i++) {
-    archiveArray.push(
-      <ArchiveJob metrics={history[i]} renderHover={renderHover} key={history[i].kube_name}  />
-    )
+    if (filter === 'All') {
+        archiveArray.push(
+          <ArchiveJob metrics={history[i]} renderHover={renderHover} key={history[i].kube_name}  />
+        )
+    } else if (filter === 'Succeeded' && history[i].kube_job_status_succeeded) {
+        archiveArray.push(
+            <ArchiveJob metrics={history[i]} renderHover={renderHover} key={history[i].kube_name}  />
+          )
+    } else if (filter === 'Failed' && !history[i].kube_job_status_succeeded) {
+        archiveArray.push(
+            <ArchiveJob metrics={history[i]} renderHover={renderHover} key={history[i].kube_name}  />
+          )
+    } 
   }
 
     return (
@@ -171,6 +197,11 @@ export const Archive = () => {
             <div><b>Start Time:</b></div>
             <div><b>End Time:</b></div>
             <div><b>Success? </b></div>
+          </div>
+          <div className='dropdown-list'>
+            <Dropdown onFilterChange={onFilterChange}/>
+            {/* <Dropdown /> */}
+
           </div>
           <div className="archive-job-list">
            {archiveArray}
