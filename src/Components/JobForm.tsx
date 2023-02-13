@@ -37,7 +37,7 @@ export const JobForm = (props) => {
             restartPolicy: ${restartPolicy}
         backoffLimit: ${backoffLimitRef.current.value}
     `
-    // window.electronAPI.submitJob(form);
+    window.electronAPI.submitJob(form);
     alert(`submitted ${kind} form: ${form}`)
     
   };
@@ -70,7 +70,7 @@ export const JobForm = (props) => {
               <label>IMAGE NAME:&nbsp;&nbsp;&nbsp;&nbsp;</label>
               <input ref={imageNameRef} placeholder="image name" type="text"></input><br></br>
               <label>URL:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-              <input ref={imageURLRef} placeholder="DOCKER image URL" type="url"></input><br></br>
+              <input ref={imageURLRef} placeholder="DOCKER image URL" type="text"></input><br></br>
               <div>
                 {/* Might make this a component so we can add to the array of commands */}
                 <label>COMMANDS:&nbsp;&nbsp;&nbsp;&nbsp;</label>
