@@ -95,7 +95,7 @@ export const Home = () => {
   const [hours, setHours] = useState({ startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
   const [cronjobs, setCronJobs] = useState({});
   const [hover, setHover] = useState({});
-  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false, "lightSalmon": false, "lemonChiffon": false, "paleturquoise": false});
+  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false,"lightSalmon": false, "lemonChiffon": false, "paleturquoise": false});
   // console.log('hours: ', hours);
   const [jobList, setJobList] = useState([]);
   
@@ -210,6 +210,7 @@ export const Home = () => {
           } 
         }
       }
+      console.log(newHours);
       setHours(newHours);
     }
     binUpcomingJobs();
@@ -244,6 +245,7 @@ export const Home = () => {
       intervalIndex++;
       count++;
     }
+    console.log('intervals: ', intervals);
     return intervals;
   }
   // add start time of specific instance

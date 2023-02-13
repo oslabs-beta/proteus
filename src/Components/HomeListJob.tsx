@@ -21,6 +21,7 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
     if(seconds > 0) result += `${seconds} seconds`;
     return result; 
   }
+
   return (
     <div style={{filter: isHovered ? 'brightness(100%)' : 'brightness(100%)', color: isHovered ? 'black' : 'white', backgroundColor: isHovered ? 'lightyellow' : 'slategrey', border: isHovered ? '1px solid slategrey' : '1px solid lightyellow'}} className='home-job-list-grid home-job'>
       <div>{name}</div>
