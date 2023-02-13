@@ -1,51 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/archive.css';
 
 
-export const CronJobForm = () => {
-  
-  const handleSubmit = (kind: string) => {
-    console.log(`submitted ${kind} form`)
+export const CronJobForm = (props) => {
+  const { addCommand, deleteCommand, commandList, restartPolicy, setRestartPolicy } = props;
+  const commandRef = useRef();
+  const apiVersionRef = useRef();
+  const cronjobNameRef = useRef();
+  const imageNameRef = useRef();
+  const imageURLRef = useRef();
+  const backoffLimitRef = useRef();
+
+  // handles form submission
+  const handleSubmit = async (e, kind: string) => {
+    e.preventDefault();
+    let form = ''
+    if (kind === 'CronJob') {
+      form = `
+      apiVersion: ${apiVersionRef.current.value}
+      kind: ${kind}
+      metadata: 
+        name: ${cronjobNameRef.current.value}
+      spec: 
+        schedule: "TBDDDDDDDD"
+        jobTemplate:
+          spec:
+            containers:
+            - name: ${imageNameRef.current.value}
+              image: ${imageURLRef.current.value}
+              imagePullPolicy: TBEDDDDDDDDDDDD
+              command: [${commandList}]
+            restartPolicy: ${restartPolicy}
+      `
+    }
+    // window.electronAPI.submitJob(form);
+    alert(`submitted ${kind} form: ${form}`)
+    
   }
 
 
-  
+  console.log('updated commandlist is ', commandList);
 
-
+  // generates array of input commands and adds as a button
+  const commandArray = [];
+  for (let i = 0; i < commandList.length; i++) {
+    commandArray.push(<button type="button" index={i} onClick={() => deleteCommand(i)}>{commandList[i]}&nbsp;&nbsp; x</button>)
+  }
 
   return (
-    <form onSubmit={() => handleSubmit('JOB')} >
-      <header>JOB</header>
-      <label>JOB NAME</label>
-      <input placeholder="Job Name"></input>
-      <label>API VERSION</label>
-      <input placeholder="API VERSION"></input>
-      <label>CONTAINERS</label>
-      <div>
-        <label>NAME</label>
-        <input placeholder="image name" type="text"></input>
-        <label>IMAGE</label>
-        <input placeholder="DOCKER image URL" type="url"></input>
-      </div>
-      <div>
-        {/* Might make this a component so we can add to the array of commands */}
-        <label>COMMANDS</label>
-        <input placeholder="command" type="text"></input>
-      </div>
-      <div>
-        <label for="restart_policy" >RESTART POLICY</label>
-        <select name="restart_policy">
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-        </select>
-      </div>
-      <div>
-        <label>BACKOFF LIMIT</label>
-        <input type="number"></input>
-      </div>
-      <input className='jobSubmitButton' type='submit' value='Submit Job'/>
-    </form>
+    <div className="cronjob_form">
+      <h1>CRONJOB</h1>
+      <form onSubmit={(e) => handleSubmit(e, 'CronJob')} >
+        <fieldset>
+          <label><strong>CRONJOB NAME:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label> 
+          <input ref={cronjobNameRef} placeholder="Job Name"></input>
+        </fieldset>
+        <fieldset>
+          <label><strong>API VERSION:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+          <input ref={apiVersionRef} placeholder="API VERSION" type='text'></input>
+        </fieldset>
+        <fieldset>
+          <label>
+            <strong>CONTAINERS</strong>
+            <div>
+              <label>IMAGE NAME:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input ref={imageNameRef} placeholder="image name" type="text"></input><br></br>
+              <label>URL:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input ref={imageURLRef} placeholder="DOCKER image URL" type="url"></input><br></br>
+              <div>
+                {/* Might make this a component so we can add to the array of commands */}
+                <label>COMMANDS:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input ref={commandRef} placeholder="command" id="command_item" name="command_item" type="text"></input>
+                {commandArray}
+                <button type="button" className="add_command" onClick={() => addCommand(commandRef.current.value)}>Add</button>
+              </div>
+            </div>
+
+          </label>
+        </fieldset>
+        <fieldset>
+          <label className="restart_policy" ><strong>RESTART POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+          <input type="radio" id="Never" value='Never' name='restartJob' onClick={() => setRestartPolicy('Never')}></input>&nbsp;<label htmlFor="Never">Never</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="OnFailure" value='OnFailure' name='restartJob' onClick={() => setRestartPolicy('OnFailure')}></input>&nbsp;<label htmlFor="OnFailure">OnFailure</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="Always" value='Always' name='restartJob' onClick={() => setRestartPolicy('Always')}></input>&nbsp;<label htmlFor="Always">Always</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        </fieldset>
+        <fieldset>
+          <label><strong>BACKOFF LIMIT: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+          <input ref={backoffLimitRef} type="number" min='0' placeholder="number"></input>
+        </fieldset>
+        <input className='jobSubmitButton' type='submit' value='Submit Job'/>
+      </form>
+    </div>
   )
 }
