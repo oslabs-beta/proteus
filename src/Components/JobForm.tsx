@@ -11,16 +11,13 @@ import '../Styles/archive.css';
 
 
 export const JobForm = (props) => {
-  const [ commandList, setCommandList ] = useState(['dog', 'cat', 'pig']);
-  const [ restartPolicy, setRestartPolicy ] = useState('')
+  const { addCommand, deleteCommand, commandList, restartPolicy, setRestartPolicy } = props;
   const commandRef = useRef();
   const apiVersionRef = useRef();
   const jobNameRef = useRef();
   const imageNameRef = useRef();
   const imageURLRef = useRef();
   const backoffLimitRef = useRef();
-
-  // const { handleSubmit } = props;
 
   // handles form submission
   const handleSubmit = async (e, kind: string) => {
@@ -43,47 +40,15 @@ export const JobForm = (props) => {
     // window.electronAPI.submitJob(form);
     alert(`submitted ${kind} form: ${form}`)
     
-    // fetch('API', form)
-    //   .then(response => response.json())
-    //   .then(response => alert(`submitted ${kind} form`))
-    //   .catch(err => alert(err))
-    
-  }
-
-
-
-  // handles restart policy selection
-  // const handleRestartPolicy = (e, kind: string) => {
-
-  // }
-  console.log('restartPolicy is ', restartPolicy);
-  
-  // Handles array of commands
-  const addCommand = (input): any => {
-    console.log('input is ', input);
-    if (!commandList.includes(input)) {
-      const newCommandList: Array<string> = [...commandList];
-      newCommandList.push(input);
-      setCommandList(newCommandList);
-      console.log(`submitted ${input} to command list`);
-      console.log('new command list is ', newCommandList);
-    } else alert(`command "${input}" already exists`)
   };
-
-  const deleteCommand = (index: number): void => {
-    console.log(`deleting ${commandList[index]} from commandList`);
-    const newCommandList = [...commandList];
-    newCommandList.splice(index,1);
-    setCommandList(newCommandList)
-  }
-
+  
   console.log('updated commandlist is ', commandList);
 
+  // generates array of input commands and adds as a button
   const commandArray = [];
   for (let i = 0; i < commandList.length; i++) {
     commandArray.push(<button type="button" index={i} onClick={() => deleteCommand(i)}>{commandList[i]}&nbsp;&nbsp; x</button>)
   }
-  // end of command array handling
 
   return (
     <div className="job_form">
