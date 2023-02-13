@@ -53,7 +53,9 @@ import { allJobNamesArray, PORT } from '/Home.tsx';
             }
             pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
           })
-          
+          // return pJO;
+          console.log(pastJobsObject);
+          console.log(pJO);
           setPastJobsObject(pastJobsObject[jobs[i]] = pJO)
         }
 
