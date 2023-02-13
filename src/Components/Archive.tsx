@@ -34,7 +34,7 @@ export const Archive = () => {
   const [ allJobNamesArray, setAllJobNamesArray ] = useState([]);
   const [ pastJobsObject, setPastJobsObject ] = useState({});
   const [ timeRange, setTimeRange ] = useState('2h');
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState('All');
 
   //  NEW FETCH BUT CURRENTLY RETURNING EMPTY OBJECT
 
@@ -84,10 +84,12 @@ export const Archive = () => {
   // }
 
   const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
-
+  useEffect(() => {
+    console.log('MARKER')
+  });
   useEffect(() => {
     allJobNames();
-  }, [])
+  }, []);
 
   useEffect(() => {
     fetchingPastJobs(allJobNamesArray, timeRange)
@@ -96,13 +98,16 @@ export const Archive = () => {
   // creates an array of all existing jobs
   const allJobNames = async () => {
     try {
+        console.log('RUNNING ALL JOB NAMES: ');
       const response = await (await fetch('http://localhost:9090/api/v1/label/job_name/values')).json();
       setAllJobNamesArray(response.data);
     } catch (err) { console.log(err); }
-    // console.log('allJobNamesArray: ', allJobNamesArray)
+    console.log('allJobNamesArray: ', allJobNamesArray)
   };
-
   const fetchingPastJobs = async (jobs, time) => {
+    console.log('allJobNamesArray: ', allJobNamesArray)
+
+    console.log('RUNNING FETCHING PAST JOBS: ')
     for (let i = 0; i < jobs.length; i++) {
       try {
         const pJO = {}
@@ -128,7 +133,7 @@ export const Archive = () => {
             pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
           });
           pJO.kube_name = jobs[i];
-          console.log(pJO.kube_job_status_succeeded)
+        //   console.log(pJO.kube_job_status_succeeded)
         //   if (pJO[kube_job_status_succeeded]) {
         //     console.log(pJO + ' I SUCCEEDED')
         //   } else {
