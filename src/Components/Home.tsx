@@ -198,8 +198,9 @@ export const Home = () => {
   }
 
   const renderHover = (name: string, time: number, x: number, y: number): void => {
+    console.log(name, x);
     if(!name) setHover({active:false});
-    else setHover({name, time, x: x + 49, y: y + 142, active: true});
+    else setHover({name, time, x: x + 49, y: y + 257, active: true});
   }
 
   const renderIntervals = (): React.ReactElement[] => {
@@ -209,7 +210,7 @@ export const Home = () => {
       if(intervalIndex === hours.jobs.length) intervalIndex = 0;
       const today: Date = new Date(dayStart.getTime());
       today.setHours(intervalIndex * 2);
-      intervals.push(<ScheduleInterval startTime={today.getTime()} renderHover={renderHover} jobs={hours.jobs[intervalIndex]}/>);
+      intervals.push(<ScheduleInterval startTime={today.getTime()} renderHover={renderHover} jobs={hours.jobs[intervalIndex]} boxNumber={count}/>);
       intervalIndex++;
       count++;
     }
