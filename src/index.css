@@ -30,6 +30,7 @@ main {
   font-size: 50px;
   color: white;
   /* text-shadow: 2px 2px 8px #DE5D82; */
+  margin-left: 1rem;
   text-shadow: 0 0 0.2em #DE5D82, 0 0 0.2em #DE5D82,
     0 0 0.2em #DE5D82;
 }

@@ -10,30 +10,37 @@ export const CronJobForm = (props) => {
   const imageNameRef = useRef();
   const imageURLRef = useRef();
   const backoffLimitRef = useRef();
+  const scheduleMinute = useRef();
+  const scheduleHour = useRef();
+  const scheduleDay = useRef();
+  const scheduleMonth = useRef();
+  const scheduleWeekday = useRef();
 
   // handles form submission
   const handleSubmit = async (e, kind: string) => {
     e.preventDefault();
-    let form = ''
-    if (kind === 'CronJob') {
-      form = `
+
+
+    const form = `
       apiVersion: ${apiVersionRef.current.value}
       kind: ${kind}
       metadata: 
         name: ${cronjobNameRef.current.value}
       spec: 
-        schedule: "TBDDDDDDDD"
+        schedule: "${scheduleMinute} ${scheduleHour} ${scheduleDay} ${scheduleMonth} ${scheduleWeekday}" --> minute(0-59) hour(0-23) day(1-31) month(1-12) weekday(0-6; Sunday to Saturday)
         jobTemplate:
           spec:
-            containers:
-            - name: ${imageNameRef.current.value}
-              image: ${imageURLRef.current.value}
-              imagePullPolicy: TBEDDDDDDDDDDDD
-              command: [${commandList}]
-            restartPolicy: ${restartPolicy}
-      `
-    }
-    // window.electronAPI.submitJob(form);
+            template:
+              spec:
+                containers:
+                - name: ${imageNameRef.current.value}
+                  image: ${imageURLRef.current.value}
+                  imagePullPolicy: TBEDDDDDDDDDDDD
+                  command: [${commandList}]
+                restartPolicy: ${restartPolicy}
+    `
+  
+    window.electronAPI.submitJob(form);
     alert(`submitted ${kind} form: ${form}`)
     
   }
@@ -53,11 +60,19 @@ export const CronJobForm = (props) => {
       <form onSubmit={(e) => handleSubmit(e, 'CronJob')} >
         <fieldset>
           <label><strong>CRONJOB NAME:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label> 
-          <input ref={cronjobNameRef} placeholder="Job Name"></input>
+          <input ref={cronjobNameRef} placeholder="CronJob Name"></input>
         </fieldset>
         <fieldset>
           <label><strong>API VERSION:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
           <input ref={apiVersionRef} placeholder="API VERSION" type='text'></input>
+        </fieldset>
+        <fieldset>
+          <label><strong>SCHEDULE:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+          <input ref={scheduleMinute} defaultValue="*" type='text' style={{width: "15px"}}></input>
+          <input ref={scheduleHour} defaultValue="*" type='text'></input>
+          <input ref={scheduleDay} defaultValue="*" type='text'></input>
+          <input ref={scheduleMonth} defaultValue="*" type='text'></input>
+          <input ref={scheduleWeekday} defaultValue="*" type='text'></input>
         </fieldset>
         <fieldset>
           <label>
@@ -66,7 +81,7 @@ export const CronJobForm = (props) => {
               <label>IMAGE NAME:&nbsp;&nbsp;&nbsp;&nbsp;</label>
               <input ref={imageNameRef} placeholder="image name" type="text"></input><br></br>
               <label>URL:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-              <input ref={imageURLRef} placeholder="DOCKER image URL" type="url"></input><br></br>
+              <input ref={imageURLRef} placeholder="ex. docker/whalesay" type="text"></input><br></br>
               <div>
                 {/* Might make this a component so we can add to the array of commands */}
                 <label>COMMANDS:&nbsp;&nbsp;&nbsp;&nbsp;</label>

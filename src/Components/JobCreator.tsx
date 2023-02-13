@@ -6,14 +6,14 @@ import { CronJobForm } from './CronJobForm';
 
 
 export const JobCreator = () => {
-  const [ commandList, setCommandList ] = useState(['dog', 'cat', 'pig']);
+  const [ commandList, setCommandList ] = useState([]);
   const [ restartPolicy, setRestartPolicy ] = useState('')
 
   const addCommand = (input): any => {
     console.log('input is ', input);
     if (!commandList.includes(input)) {
       const newCommandList: Array<string> = [...commandList];
-      newCommandList.push(input);
+      newCommandList.push(`"${input}"`);
       setCommandList(newCommandList);
       console.log(`submitted ${input} to command list`);
       console.log('new command list is ', newCommandList);
