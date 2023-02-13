@@ -4,8 +4,9 @@ import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
 import { HomeListJob } from './HomeListJob';
 import { ScheduleJobHover } from './ScheduleJobHover';
+import { ipcRenderer } from 'electron';
 
-//this is array containing regular jobs
+//this is array containing regular jobs 
 const jobs: Array<JobMetrics[]> = [];
 const fetchPastJobs = async () => {
    // console.log('fetchPastJobs');
@@ -87,7 +88,6 @@ fetch('http://localhost:9090/api/v1/label/job_name/values', {
   // console.log('jobs: ', jobs);
   });
 }
-
 // fetchPastJobs();
 export const Home = () => {
   const [ PORT, setPORT ] = useState(9090);
@@ -95,7 +95,7 @@ export const Home = () => {
   const [hours, setHours] = useState({ startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
   const [cronjobs, setCronJobs] = useState({});
   const [hover, setHover] = useState({});
-  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false, "lightSalmon": false, "lemonChiffon": false, "paleturquoise": false});
+  const [colors, setColors] = useState({"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false,"lightSalmon": false, "lemonChiffon": false, "paleturquoise": false});
   // console.log('hours: ', hours);
   const [jobList, setJobList] = useState([]);
   
@@ -134,43 +134,11 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchCronJobs = async () => {
-      const newCronjobs: object = {};
-    
-      // `http://localhost:9090/api/v1/query?query={cronjob=~"${name}"}`
       try {
-        const response = await (await fetch("http://localhost:9090/api/v1/label/cronjob/values")).json();
-        // console.log('first response: ', response);
-        for(let i = 0; i < response.data.length; i++) {
-          const name: string = response.data[i];
-          const cronjobOverview = (await (await fetch(`http://localhost:9090/api/v1/query?query={cronjob="${name}"}`)).json()).data.result;
-          // console.log('cronjob overview: ', cronjobOverview);
-          if(cronjobOverview.length !== 0) {
-            // console.log('overview: ', cronjobOverview);
-          
-            if(!newCronjobs[name]) newCronjobs[name] = {};
-            cronjobOverview.forEach((metricObj: any): void => {
-              newCronjobs[name][metricObj.metric.__name__] = metricObj.value[1];
-            });
-
-            // console.log(newCronjobs[name]);
-            const allCronjobInstances = (await (await fetch(`http://localhost:9090/api/v1/query?query={job_name=~"${name}-.*"}`)).json()).data.result;
-            const groupedMetricsByInstance: any = {};
-            allCronjobInstances.forEach(instance => {
-              const { __name__, job_name } = instance.metric;
-              const value = instance.value[1];
-              if(!groupedMetricsByInstance[job_name]) groupedMetricsByInstance[job_name] = {};
-              groupedMetricsByInstance[job_name][__name__] = value;
-            })
-
-            newCronjobs[name].node = cronjobOverview[0].metric.node;
-            newCronjobs[name].instances = groupedMetricsByInstance;
-            newCronjobs[name].interval = (newCronjobs[name].kube_cronjob_next_schedule_time - newCronjobs[name].kube_cronjob_status_last_schedule_time)/60;
-          }
-        }
-        setCronJobs(newCronjobs);
-      } catch (e) {
-        console.log(e);
-      }
+        const result = await window.electronAPI.fetchCronJobs();
+        console.log('result: ', result);
+        setCronJobs(result);
+      } catch (e) { console.log(e)}
     }
     fetchCronJobs();
   },[]);
@@ -210,6 +178,7 @@ export const Home = () => {
           } 
         }
       }
+      // console.log(newHours);
       setHours(newHours);
     }
     binUpcomingJobs();
@@ -244,6 +213,7 @@ export const Home = () => {
       intervalIndex++;
       count++;
     }
+    // console.log('intervals: ', intervals);
     return intervals;
   }
   // add start time of specific instance
