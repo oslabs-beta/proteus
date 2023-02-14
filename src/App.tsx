@@ -5,6 +5,7 @@ import { Home } from './Components/Home';
 import { Archive } from './Components/Archive';
 import { Layout } from './Components/Layout'; 
 import { NoPage } from './Components/NoPage';
+import { JobCreator } from './Components/JobCreator';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="archive" element={<Archive />} />
           <Route path="*" element={<NoPage />} />
+          <Route path="jobcreator" element={<JobCreator />} />
         </Route>
       </Routes>
     </HashRouter>
