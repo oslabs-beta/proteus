@@ -4,22 +4,26 @@ import '../Styles/archive.css';
 
 export const CronJobForm = (props) => {
   const { addCommand, deleteCommand, commandList, restartPolicy, setRestartPolicy } = props;
+  const [ concurrencyPolicy, setConcurrencyPolicy ] = useState('Allow');
+  const [ supsension, setSuspension ] = useState(false);
+  const [ imagePullPolicy, setImagePullPolicy ] = useState('Always');
+
+  // reference hooks
   const commandRef = useRef();
   const apiVersionRef = useRef();
   const cronjobNameRef = useRef();
   const imageNameRef = useRef();
   const imageURLRef = useRef();
-  const backoffLimitRef = useRef();
   const scheduleMinute = useRef();
   const scheduleHour = useRef();
   const scheduleDay = useRef();
   const scheduleMonth = useRef();
   const scheduleWeekday = useRef();
 
+
   // handles form submission
   const handleSubmit = async (e, kind: string) => {
     e.preventDefault();
-
 
     const form = `
       apiVersion: ${apiVersionRef.current.value}
@@ -27,7 +31,9 @@ export const CronJobForm = (props) => {
       metadata: 
         name: ${cronjobNameRef.current.value}
       spec: 
-        schedule: "${scheduleMinute} ${scheduleHour} ${scheduleDay} ${scheduleMonth} ${scheduleWeekday}" --> minute(0-59) hour(0-23) day(1-31) month(1-12) weekday(0-6; Sunday to Saturday)
+        schedule: "${scheduleMinute.current.value} ${scheduleHour.current.value} ${scheduleDay.current.value} ${scheduleMonth.current.value} ${scheduleWeekday.current.value}"
+        concurrencyPolicy: ${concurrencyPolicy}
+        suspend: ${supsension}
         jobTemplate:
           spec:
             template:
@@ -35,7 +41,7 @@ export const CronJobForm = (props) => {
                 containers:
                 - name: ${imageNameRef.current.value}
                   image: ${imageURLRef.current.value}
-                  imagePullPolicy: TBEDDDDDDDDDDDD
+                  imagePullPolicy: ${imagePullPolicy}
                   command: [${commandList}]
                 restartPolicy: ${restartPolicy}
     `
@@ -54,6 +60,7 @@ export const CronJobForm = (props) => {
     commandArray.push(<button type="button" index={i} onClick={() => deleteCommand(i)}>{commandList[i]}&nbsp;&nbsp; x</button>)
   }
 
+  
   return (
     <div className="cronjob_form">
       <h1>CRONJOB</h1>
@@ -67,12 +74,23 @@ export const CronJobForm = (props) => {
           <input ref={apiVersionRef} placeholder="API VERSION" type='text'></input>
         </fieldset>
         <fieldset>
-          <label><strong>SCHEDULE:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
-          <input ref={scheduleMinute} defaultValue="*" type='text' style={{width: "15px"}}></input>
-          <input ref={scheduleHour} defaultValue="*" type='text'></input>
-          <input ref={scheduleDay} defaultValue="*" type='text'></input>
-          <input ref={scheduleMonth} defaultValue="*" type='text'></input>
-          <input ref={scheduleWeekday} defaultValue="*" type='text'></input>
+          <label><strong>SCHEDULE:</strong></label><br></br>
+              minute (0-59):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleMinute} defaultValue="*" type='text' style={{width: "20px"}} ></input><br></br>
+              hour (0-23):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleHour} defaultValue="*" type='text' style={{width: "20px"}}></input><br></br>
+              day (1-31):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleDay} defaultValue="*" type='text' style={{width: "20px"}}></input><br></br>
+              month (1-12):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleMonth} defaultValue="*" type='text' style={{width: "20px"}}></input><br></br>
+              weekday (0-6; from Sunday):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleWeekday} defaultValue="*" type='text' style={{width: "20px"}}></input>       
+        </fieldset>
+        <fieldset>
+          <label className="concurrency_policy" ><strong>CONCURRENCY POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+          <input type="radio" id="Allow" value='Allow' name='concurrency' onClick={() => setConcurrencyPolicy('Allow')}></input>&nbsp;<label htmlFor="Allow">Allow</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="Forbid" value='Forbid' name='concurrency' onClick={() => setConcurrencyPolicy('Forbid')}></input>&nbsp;<label htmlFor="Forbid">Forbid</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="Replace" value='Replace' name='concurrency' onClick={() => setConcurrencyPolicy('Replace')}></input>&nbsp;<label htmlFor="Replace">Replace</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        </fieldset>
+        <fieldset>
+          <label className="supension" ><strong>SUSPEND: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+          <input type="radio" id="true" value='true' name='suspend' onClick={() => setSuspension(true)}></input>&nbsp;<label htmlFor="true">true</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="false" value='false' name='suspend' onClick={() => setSuspension(false)}></input>&nbsp;<label htmlFor="false">false</label>&nbsp;&nbsp;&nbsp;&nbsp;
         </fieldset>
         <fieldset>
           <label>
@@ -83,7 +101,12 @@ export const CronJobForm = (props) => {
               <label>URL:&nbsp;&nbsp;&nbsp;&nbsp;</label>
               <input ref={imageURLRef} placeholder="ex. docker/whalesay" type="text"></input><br></br>
               <div>
-                {/* Might make this a component so we can add to the array of commands */}
+              <label className="image_pull_policy">IMAGE PULL POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input type="radio" id="Never" value='Never' name='imagePull' onClick={() => setImagePullPolicy('Never')}></input>&nbsp;<label htmlFor="Never">Never</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="radio" id="IfNotPresent" value='IfNotPresent' name='imagePull' onClick={() => setImagePullPolicy('IfNotPresent')}></input>&nbsp;<label htmlFor="IfNotPresent">IfNotPresent</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="radio" id="Always" value='Always' name='imagePull' onClick={() => setImagePullPolicy('Always')}></input>&nbsp;<label htmlFor="Always">Always</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+              <div>
                 <label>COMMANDS:&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <input ref={commandRef} placeholder="command" id="command_item" name="command_item" type="text"></input>
                 {commandArray}
@@ -98,10 +121,6 @@ export const CronJobForm = (props) => {
           <input type="radio" id="Never" value='Never' name='restartJob' onClick={() => setRestartPolicy('Never')}></input>&nbsp;<label htmlFor="Never">Never</label>&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" id="OnFailure" value='OnFailure' name='restartJob' onClick={() => setRestartPolicy('OnFailure')}></input>&nbsp;<label htmlFor="OnFailure">OnFailure</label>&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" id="Always" value='Always' name='restartJob' onClick={() => setRestartPolicy('Always')}></input>&nbsp;<label htmlFor="Always">Always</label>&nbsp;&nbsp;&nbsp;&nbsp;
-        </fieldset>
-        <fieldset>
-          <label><strong>BACKOFF LIMIT: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
-          <input ref={backoffLimitRef} type="number" min='0' placeholder="number"></input>
         </fieldset>
         <input className='jobSubmitButton' type='submit' value='Submit Job'/>
       </form>
