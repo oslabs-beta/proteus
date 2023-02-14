@@ -139,7 +139,7 @@ export const CronJobForm = (props) => {
           <input type="radio" id="OnFailure" value='OnFailure' name='restartJob' onClick={() => setRestartPolicy('OnFailure')}></input>&nbsp;<label htmlFor="OnFailure">OnFailure</label>&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" id="Always" value='Always' name='restartJob' onClick={() => setRestartPolicy('Always')}></input>&nbsp;<label htmlFor="Always">Always</label>&nbsp;&nbsp;&nbsp;&nbsp;
         </fieldset>
-        <input className='jobSubmitButton' type='submit' value='Submit Job'/>
+        <input className='jobSubmitButton' type='submit' value='Submit CronJob'/>
       </form>
     </div>
   )
