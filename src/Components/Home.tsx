@@ -200,7 +200,7 @@ export const Home = () => {
   const renderHover = (name: string, time: number, x: number, y: number): void => {
     console.log(name, x);
     if(!name) setHover({active:false});
-    else setHover({name, time, x: x + 49, y: y + 257, active: true});
+    else setHover({name, time, x: x + 49, y: y + 275, active: true});
   }
 
   const renderIntervals = (): React.ReactElement[] => {
