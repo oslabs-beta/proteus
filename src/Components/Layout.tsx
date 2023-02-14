@@ -11,6 +11,9 @@ export const Layout = () => {
           <li>
             <Link to="/archive">Archive</Link>
           </li>
+          <li>
+            <Link to="/jobcreator">Job Creator</Link>
+          </li>
         </ul>
       </nav>
 
