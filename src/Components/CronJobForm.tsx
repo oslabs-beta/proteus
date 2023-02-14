@@ -97,7 +97,7 @@ export const CronJobForm = (props) => {
           <label>FAILED JOBS HISTORY LIMIT: &nbsp;&nbsp;&nbsp;&nbsp;</label>
           <input ref={failedJobHistoryLimit} type="number" min='1' placeholder="number"></input>
           <div>
-            <label className="concurrency_policy" ><strong>CONCURRENCY POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+            <label className="concurrency_policy" >CONCURRENCY POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</label>
             <input type="radio" id="Allow" value='Allow' name='concurrency' onClick={() => setConcurrencyPolicy('Allow')}></input>&nbsp;<label htmlFor="Allow">Allow</label>&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" id="Forbid" value='Forbid' name='concurrency' onClick={() => setConcurrencyPolicy('Forbid')}></input>&nbsp;<label htmlFor="Forbid">Forbid</label>&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" id="Replace" value='Replace' name='concurrency' onClick={() => setConcurrencyPolicy('Replace')}></input>&nbsp;<label htmlFor="Replace">Replace</label>&nbsp;&nbsp;&nbsp;&nbsp;
