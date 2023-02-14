@@ -83,10 +83,14 @@ export const Archive = () => {
   //   console.log('PJO: ', pastJobsObject);
   // }
 
+<<<<<<< HEAD
   const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
   useEffect(() => {
     console.log('MARKER')
   });
+=======
+
+>>>>>>> dev
   useEffect(() => {
     allJobNames();
   }, []);
@@ -105,9 +109,13 @@ export const Archive = () => {
     console.log('allJobNamesArray: ', allJobNamesArray)
   };
   const fetchingPastJobs = async (jobs, time) => {
+<<<<<<< HEAD
     console.log('allJobNamesArray: ', allJobNamesArray)
 
     console.log('RUNNING FETCHING PAST JOBS: ')
+=======
+    const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
+>>>>>>> dev
     for (let i = 0; i < jobs.length; i++) {
       try {
         const pJO = {}
@@ -148,6 +156,8 @@ export const Archive = () => {
       } catch (err) { console.log(err); }
     }
   };
+
+
   //   // push each property from the pj object into the history array
   //   // const historyArray = [];
   //   // Object.keys(pastJobsObject).forEach(key => {

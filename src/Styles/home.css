@@ -9,7 +9,9 @@ img {
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
+  margin-inline: 1rem;
 }
 
 .home-title {
@@ -17,21 +19,25 @@ img {
   margin-left: 5px;
   gap: 1rem;
   font-size: 1.5rem;
+  align-self: flex-start;
   /* text-shadow: -1px 0px 0px #DE5D82,
   1px 0px 0px #DE5D82,
   0px -1px 0px #DE5D82,
   0px 1px 0px #DE5D82; */
-   color: #DE5D82;
+  color: #DE5D82;
 }
 
 .home-schedule-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .home-schedule {
   height: 300px;
+  /* border: 1px solid rgba(112, 128, 144, 0.196);
+  border-radius: 10px; */
   border: 1px none #172c66;
   border-radius: 20px;
   /* box-shadow: 1px 2px 5px lightslategray; */
@@ -47,6 +53,7 @@ img {
 .home-schedule-active-day {
   font-weight: 500;
   margin-left: 5px;
+  font-size: 1.2rem;
 }
 
 .home-schedule-interval {
@@ -56,15 +63,23 @@ img {
   display: flex;
   justify-content: center;
   /* border: 0.5px solid black; */
+  /* border-left: 1px dotted rgb(169, 169, 169); */
   border-left: 1px dotted darkgray;
   display: flex;
   flex-direction: column;
   gap: 5px;
   position: relative;
+  background-image: linear-gradient(rgb(137, 137, 137) 33%, rgba(255,255,255,0) 0%);
+  background-position: right;
+  background-size: 2px 10px;
+  background-repeat: repeat-y;
 }
 
 .home-schedule-interval:nth-of-type(1) {
   border: none;
+}
+.home-schedule-interval:nth-of-type(12) {
+  background-image: none;
 }
 
 .home-schedule-interval-display-container {
@@ -85,6 +100,7 @@ img {
 
 .home-schedule-job {
   background-color: lightgray;
+  /* border: 1px solid #80808070;; */
   border: 1px none #172c66;;
   border-radius: 5px;
   height: 30px;
@@ -104,10 +120,11 @@ img {
 }
 
 .home-schedule-job-hover-container {
-  height: 100px;
-  width: 200px;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid black;
+  /* height: 100px; */
+  /* width: 200px; */
+  background-color: lightslategray;
+  color: white;
+  border: 1px solid white;
   position: absolute;
   top: -120%;
   left: -90%;
@@ -115,28 +132,53 @@ img {
   flex-direction: column;
   padding: .5rem;
   z-index: 5;
+  border-radius: 5px;
 }
 
 .home-job-list {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
   /* border: 1px solid black; */
   border: none;
   padding-block: .5rem;
   margin-top: 2rem;
+  width: 100%;
 }
+
+.home-job-list-grid {
+  display: grid;
+  grid-template-columns: .5fr .7fr .5fr .7fr 1fr;
+  align-items: center;
+  overflow: hidden;
+  /* background-color: red; */
+  padding-inline: 1rem;
+}
+
+
+.home-job-list-grid-header {
+  position: relative;
+  left: 8px;
+  color: rgb(0, 0, 0);
+}
+
 
 .home-job {
   height: 50px;
   border: 1px none #172c66;
   box-shadow: 1px 1px 4px #bebebe,
   -1px -1px 4px lightgray;
-  background: linear-gradient(145deg, lightyellow, lightyellow );
+  /* background: linear-gradient(145deg, lightyellow, lightyellow ); */
   /* background-color: lightyellow; */
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  padding-left: .5rem;
+  border-radius: 5px;
+  /* display: flex; */
+  /* align-items: center; */
+  /* padding-left: .5rem; */
   gap: 10px;
+  transition: .1s;
+  /* background: linear-gradient(145deg, lightyellow, lightyellow ); */
+  /* background-color: lightyellow; */
+  /* border-radius: 15px; */
+  padding-left: .5rem;
 }

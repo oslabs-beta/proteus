@@ -19,7 +19,7 @@ import '../Styles/home.css';
         <div>{kube_job_namespace}</div>
         <div>{kube_job_status_start_time?.toLocaleString()}:</div>
         <div>{completion_time}</div>
-        <div>{kube_job_status_succeeded.toString()}</div>
+        <div>{kube_job_status_succeeded?.toString()}</div>
         </div>
       // </div>
     )
