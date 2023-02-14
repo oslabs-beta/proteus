@@ -1,0 +1,23 @@
+
+      apiVersion: batch/v1
+      kind: CronJob
+      metadata: 
+        name: test10
+      spec: 
+        schedule: "*/1 * * * *"
+        concurrencyPolicy: Allow
+        startingDeadlineSeconds: 60000
+        successfulJobsHistoryLimit: 3
+        failedJobsHistoryLimit: 1
+        suspend: false
+        jobTemplate:
+          spec:
+            template:
+              spec:
+                containers:
+                - name: whalesay
+                  image: docker/whalesay
+                  imagePullPolicy: Always
+                  command: ["cowsay"]
+                restartPolicy: OnFailure
+    

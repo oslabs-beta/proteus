@@ -12,6 +12,9 @@ export const CronJobForm = (props) => {
   const commandRef = useRef();
   const apiVersionRef = useRef();
   const cronjobNameRef = useRef();
+  const startingDeadlineSeconds = useRef(); 
+  const successfulJobHistoryLimit = useRef();
+  const failedJobHistoryLimit = useRef();
   const imageNameRef = useRef();
   const imageURLRef = useRef();
   const scheduleMinute = useRef();
@@ -20,6 +23,8 @@ export const CronJobForm = (props) => {
   const scheduleMonth = useRef();
   const scheduleWeekday = useRef();
 
+  // premium features 
+  // startingDeadlineSeconds: ${startingDeadlineSeconds.current.value}
 
   // handles form submission
   const handleSubmit = async (e, kind: string) => {
@@ -33,6 +38,8 @@ export const CronJobForm = (props) => {
       spec: 
         schedule: "${scheduleMinute.current.value} ${scheduleHour.current.value} ${scheduleDay.current.value} ${scheduleMonth.current.value} ${scheduleWeekday.current.value}"
         concurrencyPolicy: ${concurrencyPolicy}
+        successfulJobsHistoryLimit: ${successfulJobHistoryLimit.current.value}
+        failedJobsHistoryLimit: ${failedJobHistoryLimit.current.value}
         suspend: ${supsension}
         jobTemplate:
           spec:
@@ -82,16 +89,26 @@ export const CronJobForm = (props) => {
               weekday (0-6; from Sunday):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleWeekday} defaultValue="*" type='text' style={{width: "20px"}}></input>       
         </fieldset>
         <fieldset>
-          <label className="concurrency_policy" ><strong>CONCURRENCY POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
-          <input type="radio" id="Allow" value='Allow' name='concurrency' onClick={() => setConcurrencyPolicy('Allow')}></input>&nbsp;<label htmlFor="Allow">Allow</label>&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" id="Forbid" value='Forbid' name='concurrency' onClick={() => setConcurrencyPolicy('Forbid')}></input>&nbsp;<label htmlFor="Forbid">Forbid</label>&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" id="Replace" value='Replace' name='concurrency' onClick={() => setConcurrencyPolicy('Replace')}></input>&nbsp;<label htmlFor="Replace">Replace</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <strong>SPECS:</strong><br></br>
+          {/* <label>STARTING DEADLINE SECONDS: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input ref={startingDeadlineSeconds} type="number" min='0' placeholder="number"></input><br></br> */}
+          <label>SUCCESSFULL JOBS HISTORY LIMIT: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input ref={successfulJobHistoryLimit} type="number" min='1' placeholder="number"></input><br></br>
+          <label>FAILED JOBS HISTORY LIMIT: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input ref={failedJobHistoryLimit} type="number" min='1' placeholder="number"></input>
+          <div>
+            <label className="concurrency_policy" ><strong>CONCURRENCY POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+            <input type="radio" id="Allow" value='Allow' name='concurrency' onClick={() => setConcurrencyPolicy('Allow')}></input>&nbsp;<label htmlFor="Allow">Allow</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" id="Forbid" value='Forbid' name='concurrency' onClick={() => setConcurrencyPolicy('Forbid')}></input>&nbsp;<label htmlFor="Forbid">Forbid</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" id="Replace" value='Replace' name='concurrency' onClick={() => setConcurrencyPolicy('Replace')}></input>&nbsp;<label htmlFor="Replace">Replace</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div>
+            <label className="supension" >SUSPEND: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input type="radio" id="true" value='true' name='suspend' onClick={() => setSuspension(true)}></input>&nbsp;<label htmlFor="true">true</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" id="false" value='false' name='suspend' onClick={() => setSuspension(false)}></input>&nbsp;<label htmlFor="false">false</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
         </fieldset>
-        <fieldset>
-          <label className="supension" ><strong>SUSPEND: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
-          <input type="radio" id="true" value='true' name='suspend' onClick={() => setSuspension(true)}></input>&nbsp;<label htmlFor="true">true</label>&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" id="false" value='false' name='suspend' onClick={() => setSuspension(false)}></input>&nbsp;<label htmlFor="false">false</label>&nbsp;&nbsp;&nbsp;&nbsp;
-        </fieldset>
+    
         <fieldset>
           <label>
             <strong>CONTAINERS</strong>
