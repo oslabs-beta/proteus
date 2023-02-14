@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { ScheduleJob } from './ScheduleJob';
 import { ScheduleIntervalProps } from '../types';
 
 export const ScheduleInterval = (props: ScheduleIntervalProps) => {
-  const { startTime, jobs, renderHover } = props;
+  const { startTime, jobs, renderHover, boxNumber } = props;
+  const ref = useRef(null);
   const calcNudge = (jobDate: Date): number => {
     function diffInDays(date1, date2) {
       const diff = Math.abs(date1.getTime() - date2.getTime());
@@ -17,10 +18,10 @@ export const ScheduleInterval = (props: ScheduleIntervalProps) => {
     return 100*(jobDate.getTime() - startTime)/7200000;
   }
   return (
-    <div className='home-schedule-interval'>
+    <div ref={ref} className='home-schedule-interval'>
       {jobs.map((job: object): React.ReactElement => {
         return <ScheduleJob renderHover={renderHover} nudge={calcNudge(job.time)} color={'lightyellow'}
-        name={job.name} time={job.time} color={job.color}/>
+        name={job.name} time={job.time} color={job.color} boxNumber={boxNumber} boxWidth={ref.current.clientWidth}/>
       })}
     </div>
   )
