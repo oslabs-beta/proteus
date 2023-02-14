@@ -31,7 +31,7 @@ export const JobCreator = () => {
 
     <div className="job_creator_outer">
       <div className="job_creator_inner">
-        {/* <JobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/> */}
+        <JobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/>
         <CronJobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/>
       </div>
     </div>
