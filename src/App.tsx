@@ -22,7 +22,7 @@ const App = () => {
     </HashRouter>
   )
 }
-render(<App />, document.querySelector('#root'));
+render(<App id="app"/>, document.querySelector('#root'));
 
 
 // const App = () => {
