@@ -38,8 +38,8 @@ export const JobTabs = () => {
     <div className="job-tab">
       {/* TAB NAVIGATION */}
       <ul className="nav-job-tabs">
-        <li className={activeTab === 'tab1' ? "active" : ""} onClick={handleTab1}>NEW/UPDATE JOB</li>
-        <li className={activeTab === 'tab2' ? "active" : ""} onClick={handleTab2}>NEW/UPDATE CRONJOB</li>
+        <li className={activeTab === 'tab1' ? "active" : ""} onClick={handleTab1}>JOB</li>
+        <li className={activeTab === 'tab2' ? "active" : ""} onClick={handleTab2}>CRONJOB</li>
       </ul>
       <div className="outlet">
         {activeTab === 'tab1' ? <JobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/> : <CronJobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/>}
