@@ -59,6 +59,7 @@ ul.nav-job-tabs li {
   border-bottom-left-radius: 0;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
+  font-size: 1rem;
 }
 
 ul.nav-job-tabs li:nth-child(2) {

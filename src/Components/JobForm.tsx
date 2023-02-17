@@ -52,7 +52,6 @@ export const JobForm = (props) => {
 
   return (
     <div className="job_form">
-      <h1>JOB</h1>
       <form onSubmit={(e) => handleSubmit(e, 'Job')} >
         <fieldset>
           <label><strong>JOB NAME:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label> 

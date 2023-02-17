@@ -76,6 +76,7 @@
 }
 
 .sidebar .sidebar_links li:hover {
+  z-index: 10;
   --_t: var(--h);
   --_p: 100%;
   --_s: .3s

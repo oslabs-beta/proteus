@@ -70,7 +70,6 @@ export const CronJobForm = (props) => {
   
   return (
     <div className="cronjob_form">
-      <h1>CRONJOB</h1>
       <form onSubmit={(e) => handleSubmit(e, 'CronJob')} >
         <fieldset>
           <label><strong>CRONJOB NAME:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label> 
