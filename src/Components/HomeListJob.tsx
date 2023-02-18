@@ -38,7 +38,7 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
 
   return (
     <div ref={ref} style={{opacity: isSuspended ? 0.7 : 1, color: isHovered ? 'black' : 'white', backgroundColor: isHovered ? 'lightyellow' : 'slategrey', border: isHovered ? '1px solid slategrey' : '1px solid lightyellow'}} onMouseEnter={() => {handleHover('enter'); setHoveredCronjob(name)}} onMouseLeave={() => {handleHover('exit'); setHoveredCronjob()}} className='home-job-list-grid home-job'>
-      <div>{name}</div>
+      <div style={{height:'50px', display: 'flex', alignItems: 'center'}}>{name}</div>
       <div>{isSuspended ? 'Suspended' : nextScheduledDate.toLocaleString()}</div>
       <div>{formatTime(interval)}</div>
       <div>{createdDate.toLocaleString()}</div>

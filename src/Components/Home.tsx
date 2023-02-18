@@ -19,15 +19,6 @@ export const Home = () => {
   function handleSort(metric: string): void {
     setSort(prevSort => {
       const newSort = {...prevSort};
-      if(metric === 'name') {
-        newSort.isName = 1;
-        newSort.isMetric = 0;
-      }
-      else {
-        newSort.isName = 0;
-        newSort.isMetric = 1;
-      }
-
       if(prevSort.metric === metric) newSort.invert *= -1;
       newSort.metric = metric;
       return newSort;
@@ -173,15 +164,32 @@ export const Home = () => {
       </div>
       <div className="home-job-list">
         <div className="home-job-list-grid home-job-list-grid-header">
-          <div onClick={() => handleSort('cronjob_name')}>Name</div>
-          <div onClick={() => handleSort('kube_cronjob_next_schedule_time')}>Next</div>
-          <div onClick={() => handleSort('cronjob_interval')}>Interval</div>
-          <div onClick={() => handleSort('kube_cronjob_created')}>Created</div>
-          <div onClick={() => handleSort('cronjob_node')}>Node</div>
+          <div className='grid-header-item' onClick={() => handleSort('cronjob_name')}>
+            <div>Name</div>
+            <div className="arrow-up"></div>
+          </div>
+          <div className='grid-header-item' onClick={() => handleSort('kube_cronjob_next_schedule_time')}>
+            <div>Next</div>
+            <div className="arrow-up"></div>
+          </div>
+          <div className='grid-header-item' onClick={() => handleSort('cronjob_interval')}>
+            <div>Interval</div>
+            <div className="arrow-up"></div>
+          </div>
+          <div className='grid-header-item' onClick={() => handleSort('kube_cronjob_created')}>
+            <div>Created</div>
+            <div className="arrow-up"></div>
+          </div>
+          <div className='grid-header-item' onClick={() => handleSort('cronjob_node')}>
+            <div>Node</div>
+            <div className="arrow-up"></div>
+          </div>
         </div>
-        {cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === false).sort((cronjob1, cronjob2) => sort.invert * sort.isMetric * (cronjob1[sort.metric] - cronjob2[sort.metric])).concat(...cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === true)).map((cronjob: object): React.ReactElement => {
-          return <HomeListJob name={cronjob.cronjob_name} nextScheduledDate={new Date(cronjob.kube_cronjob_next_schedule_time * 1000)} setHoveredCronjob={setHoveredCronjob} isHovered={hover.name === cronjob.cronjob_name} createdDate={new Date(cronjob.kube_cronjob_created * 1000)} interval={cronjob.cronjob_interval} node={cronjob.cronjob_node} isActive={cronjob.kube_cronjob_status_active} isSuspended={cronjob.kube_cronjob_spec_suspend}/>;
-        })}
+        <div className="home-job-list-inner-container">
+          {cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === false).sort((cronjob1, cronjob2) => sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric])).concat(...cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === true)).map((cronjob: object): React.ReactElement => {
+            return <HomeListJob name={cronjob.cronjob_name} nextScheduledDate={new Date(cronjob.kube_cronjob_next_schedule_time * 1000)} setHoveredCronjob={setHoveredCronjob} isHovered={hover.name === cronjob.cronjob_name} createdDate={new Date(cronjob.kube_cronjob_created * 1000)} interval={cronjob.cronjob_interval} node={cronjob.cronjob_node} isActive={cronjob.kube_cronjob_status_active} isSuspended={cronjob.kube_cronjob_spec_suspend}/>;
+          })}
+        </div>
       </div>
       {hover.active && <ScheduleJobHover name={hover.name} time={hover.time} x={hover.x} y={hover.y}/>}
     </div>
