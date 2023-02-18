@@ -4,7 +4,6 @@ img {
 }
 
 .home-container {
-  /* background-color: black; */
   width: 100%;
   height: 100%;
   display: flex;
@@ -19,11 +18,7 @@ img {
   margin-left: 5px;
   gap: 1rem;
   font-size: 1.5rem;
-  align-self: flex-start;
-  /* text-shadow: -1px 0px 0px #DE5D82,
-  1px 0px 0px #DE5D82,
-  0px -1px 0px #DE5D82,
-  0px 1px 0px #DE5D82; */
+  align-self: flex-start; 
   color: #DE5D82;
 }
 
