@@ -3,32 +3,11 @@ import '../Styles/archive.css';
 import { ArchiveJob } from './ArchiveJob';
 import { ArchiveJobHover } from './ArchiveJobHover';
 import { Dropdown } from './Dropdown';
-//  import whiteLogo from '../white-circle.svg';
+import { ipcRenderer } from 'electron';
 
-// const optionsCursorTrueWithMargin = {
-//   followCursor:true,
-//   shiftX:20,
-//   shiftY:0
-// };
 
 export const Archive = () => {
-  // const [history, setHistory] = useState(new Array(20).fill(null));
-  const [history, setHistory] = useState([
-    // {
-    //   name: 'First',
-    //   start_time: 12,
-    //   completion_time: 2,
-    //   success: 'Yes',
-    //   schedulded_by: 'Me'
-    // },
-    // {
-    //   name: 'Second',
-    //   start_time: 10,
-    //   completion_time: 3,
-    //   success: 'No',
-    //   schedulded_by: 'Someone Else'
-    // },
-  ]);
+  const [history, setHistory] = useState([]);
   const [hover, setHover] = useState({});
   const archiveArray: React.ReactElement[] = [];
   const [ allJobNamesArray, setAllJobNamesArray ] = useState([]);
@@ -36,139 +15,102 @@ export const Archive = () => {
   const [ timeRange, setTimeRange ] = useState('2h');
   const [filter, setFilter] = useState('All');
 
-  //  NEW FETCH BUT CURRENTLY RETURNING EMPTY OBJECT
+  useEffect(() => {
+    const fetchAllJobs = async () => {
+      try {
+        const jobArray = await window.electronAPI.fetchAllJobs();
+        setHistory(jobArray);
+      } 
+      catch (e) { 
+        console.log(e)
+      }
+    }
+    fetchAllJobs();
+  },[]);
 
-  // const met1 = /kube_job_status_active|kube_job_status_succeeded/;
-  // const met2 = /kube_job_complete|kube_job_failed/;
-  // const met3 = /kube_job_created|kube_job_status_completion_time|kube_job_status_start_time/;
-  // const PORT = 9090;
-  
+  // useEffect(() => {
+  //   allJobNames();
+  // }, []);
+
   // useEffect(() => {
   //   fetchingPastJobs(allJobNamesArray, timeRange)
-  // }, [allJobNamesArray, timeRange]);  
+  // }, [allJobNamesArray, timeRange]);
+// const testArray = [];
+  // creates an array of all existing jobs
+  // const allJobNames = async () => {
+  //   try {
+  //     console.log('RUNNING ALL JOB NAMES: ');
+  //     const response = await (await fetch('http://localhost:9090/api/v1/label/job_name/values')).json();
+  //     testArray.push(response.data)
+  //     setAllJobNamesArray(response.data);
+  //   } catch (err) { console.log(err); }
 
-
+  // };
   // const fetchingPastJobs = async (jobs, time) => {
+  //   const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
   //   for (let i = 0; i < jobs.length; i++) {
   //     try {
   //       const pJO = {}
-  //       const response = await (await fetch(`http://localhost:${PORT}/api/v1/query?query={job_name="${jobs[i]}"}[${time}]`)).json();
+  //       const response = await (await fetch(`http://localhost:9090/api/v1/query?query={job_name="${jobs[i]}"}[${time}]`)).json();
   //       if (response.data.result.length > 0) {
+  //         // console.log('test: ', response.data.result)
   //         response.data.result.forEach(metricObj => {
-  //           const metricName = metricObj.metric.__name__;
-  //           const value = metricObj.values[metricObj.values.length - 1][1];
-  //           if (!pJO['kube_job_namespace']) pJO['kube_job_namespace'] = metricObj.metric.namespace;
-  //           if (met1.test(metricName)) {
-  //             if (value === '1') {
-  //               pJO[metricName] = true;
-  //             } else pJO[metricName] = false;
-  //           } 
-  //           if (met2.test(metricName) && value === '1') {
-  //             pJO[metricName] = metricObj.metric.condition;
-  //           }
-  //           if (met3.test(metricName)) {
-  //               pJO[metricName] = new Date((value) * 1000);
-  //           } 
-  //           if (metricName === 'kube_job_status_failed' && value === '1') {
-  //               pJO[metricName] = metricObj.metric.reason;
-  //           }
-  //           pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
-  //         })
-          
-  //         setPastJobsObject(pastJobsObject[jobs[i]] = pJO)
+  //           // if (jobMetrics.includes(metricObj.metric.__name__)) {
+  //             if (!pJO['kube_job_namespace']) pJO['kube_job_namespace'] = metricObj.metric.namespace;
+  //             if (metricObj.metric.__name__ === 'kube_job_complete' && metricObj.metric.condition === 'true'|| 
+  //               metricObj.metric.__name__ === 'kube_job_status_failed' || 
+  //               metricObj.metric.__name__ === 'kube_job_status_active' || 
+  //               metricObj.metric.__name__ === 'kube_job_status_succeeded') {
+  //               if (metricObj.values[metricObj.values.length - 1][1] === '1') {
+  //                 pJO[metricObj.metric.__name__] = true;
+  //               } else pJO[metricObj.metric.__name__] = false;
+  //             } else if (metricObj.metric.__name__ === 'kube_job_created' || 
+  //               metricObj.metric.__name__ === 'kube_job_status_completion_time' || 
+  //               metricObj.metric.__name__ === 'kube_job_status_start_time') {
+  //                 pJO[metricObj.metric.__name__] = new Date((metricObj.values[metricObj.values.length - 1][1]) * 1000);
+  //             } else if (metricObj.metric.__name__ === 'kube_job_owner') {
+  //               // console.log(metricObj.metric.owner_name);
+  //               pJO['cronjob'] = metricObj.metric.owner_name;
+  //               console.log(typeof pJO['cronjob'])
+  //               pJO['node'] = metricObj.metric.node;
+  //               pJO['instance'] = metricObj.metric.instance;
+  //             }
+  //           // }
+  //           pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time']);
+  //           // console.log(metricObj.metric);
+            
+  //           // pJO['cronjob'] = metricObj.metric._owner_name;
+  //         });
+  //         // console.log(jobs[i])
+  //         pJO.kube_name = jobs[i];
+  //       //   console.log(pJO.kube_job_status_succeeded)
+  //       //   if (pJO[kube_job_status_succeeded]) {
+  //       //     console.log(pJO + ' I SUCCEEDED')
+  //       //   } else {
+  //       //     console.log(pJO + ' I FAILED')
+  //       //   }
+  //         // setHistory(oldHistory => [...oldHistory, pJO]);
+  //         console.log('PJO: ', pJO);
+  //         setHistory(oldHistory => [pJO, ...oldHistory]);
+
+  //         // setPastJobsObject(pastJobsObject[jobs[i]] = pJO);
   //       }
 
   //     } catch (err) { console.log(err); }
   //   }
-  //   console.log('PJO: ', pastJobsObject);
-  // }
-
-  useEffect(() => {
-    allJobNames();
-  }, []);
-
-  useEffect(() => {
-    fetchingPastJobs(allJobNamesArray, timeRange)
-  }, [allJobNamesArray, timeRange]);
-
-  // creates an array of all existing jobs
-  const allJobNames = async () => {
-    try {
-        console.log('RUNNING ALL JOB NAMES: ');
-      const response = await (await fetch('http://localhost:9090/api/v1/label/job_name/values')).json();
-      setAllJobNamesArray(response.data);
-    } catch (err) { console.log(err); }
-    console.log('allJobNamesArray: ', allJobNamesArray)
-  };
-  const fetchingPastJobs = async (jobs, time) => {
-    const jobMetrics = ['kube_job_complete', 'kube_job_created', 'kube_job_status_active', 'kube_job_status_completion_time', 'kube_job_status_failed', 'kube_job_status_start_time', 'kube_job_status_succeeded'];
-    for (let i = 0; i < jobs.length; i++) {
-      try {
-        const pJO = {}
-        const response = await (await fetch(`http://localhost:9090/api/v1/query?query={job_name="${jobs[i]}"}[${time}]`)).json();
-        if (response.data.result.length > 0) {
-          // console.log('test: ', response.data.result)
-          response.data.result.forEach(metricObj => {
-            if (jobMetrics.includes(metricObj.metric.__name__)) {
-              if (!pJO['kube_job_namespace']) pJO['kube_job_namespace'] = metricObj.metric.namespace;
-              if (metricObj.metric.__name__ === 'kube_job_complete' && metricObj.metric.condition === 'true'|| 
-                metricObj.metric.__name__ === 'kube_job_status_failed' || 
-                metricObj.metric.__name__ === 'kube_job_status_active' || 
-                metricObj.metric.__name__ === 'kube_job_status_succeeded') {
-                if (metricObj.values[metricObj.values.length - 1][1] === '1') {
-                  pJO[metricObj.metric.__name__] = true;
-                } else pJO[metricObj.metric.__name__] = false;
-              } else if (metricObj.metric.__name__ === 'kube_job_created' || 
-                metricObj.metric.__name__ === 'kube_job_status_completion_time' || 
-                metricObj.metric.__name__ === 'kube_job_status_start_time') {
-                  pJO[metricObj.metric.__name__] = new Date((metricObj.values[metricObj.values.length - 1][1]) * 1000);
-              } 
-            }
-            pJO['kube_job_runtime'] = (pJO['kube_job_status_completion_time'] - pJO['kube_job_status_start_time'])
-          });
-          pJO.kube_name = jobs[i];
-        //   console.log(pJO.kube_job_status_succeeded)
-        //   if (pJO[kube_job_status_succeeded]) {
-        //     console.log(pJO + ' I SUCCEEDED')
-        //   } else {
-        //     console.log(pJO + ' I FAILED')
-        //   }
-          // setHistory(oldHistory => [...oldHistory, pJO]);
-          setHistory(oldHistory => [pJO, ...oldHistory]);
-
-          // setPastJobsObject(pastJobsObject[jobs[i]] = pJO);
-        }
-
-      } catch (err) { console.log(err); }
-    }
-  };
-
-
-  //   // push each property from the pj object into the history array
-  //   // const historyArray = [];
-  //   // Object.keys(pastJobsObject).forEach(key => {
-  //   //   // console.log('Key: ', key)
-      
-  //   //   historyArray.push({[key]: pastJobsObject[key]})
-  //   // });
-  //   // console.log('HISTORY ARRAY: ', historyArray)
-  //   // console.log('History Array: ', history)
-  // }
-
-  const renderHover = (name, runtime, x, y): void => {
+  // };
+  const renderHover = (name, runtime, node, instance, cronjob_name, x, y): void => {
     if(!name) setHover({...hover, active:false});
-    else setHover({name, runtime, x: x+250, y: y-70, active: true});
+    else setHover({name, runtime, node, instance, cronjob_name, x: x+250, y: y-70, active: true});
   }
 
   const onFilterChange = (input: string): void => {
-    // console.log('ONFILTERCHANGE: ', typeof input)
-    // console.log('FILTER BEFORE: ', filter)
     setFilter(input);
-    // console.log('FILTER AFTER: ', filter)
   }
   
-
   for (let i = 0; i < history.length; i++) {
+    console.log(i)
+    // history[i]['kube_job_runtime'] = (history[i]['kube_job_status_completion_time'] - history[i]['kube_job_status_start_time']);
     if (filter === 'All') {
         archiveArray.push(
           <ArchiveJob metrics={history[i]} renderHover={renderHover} key={history[i].kube_name}  />
@@ -201,17 +143,14 @@ export const Archive = () => {
           </div>
           <div className='dropdown-list'>
             <Dropdown onFilterChange={onFilterChange}/>
-            {/* <Dropdown /> */}
-
           </div>
           <div className="archive-job-list">
            {archiveArray}
           </div>
         </div>
-        {hover.active && <ArchiveJobHover name={hover.name} runtime={hover.runtime} x={hover.x} y={hover.y}/>}
+        {hover.active && <ArchiveJobHover
+         name={hover.name} runtime={hover.runtime} cronjob_name={hover.cronjob_name}
+         node ={hover.node} instance={hover.instance} x={hover.x} y={hover.y}/>}
       </div>
     )
   }
-
-
-  // color coding => job is white, cronjob is light green
