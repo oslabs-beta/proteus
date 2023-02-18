@@ -204,10 +204,10 @@ export const Home = () => {
           const getTimeBin = (date: Date): number => {
             const hour = date.getHours();
             let shift = 0;
-            if(hour % 2 === 1) {
-              shift = 1;
-              scheduledJob.shifted = true;
-            }
+            // if(hour % 2 === 1) {
+            //   shift = 1;
+            //   scheduledJob.shifted = true;
+            // }
             return Math.floor(hour / 2) + shift;
           }
           const assignColor = () => {
@@ -229,13 +229,14 @@ export const Home = () => {
 
           let timeBin = getTimeBin(scheduledJob.time);
           if(timeBin === 12) timeBin = 0;
+          if(cronjob === 'bananatime') console.log(scheduledJob, timeBin);
           const dayDifference = scheduledJob.time.getDate() - today.getDate();
-          // if((timeBin < newHours.startIndex && dayDifference === 1) || (timeBin >= newHours.startIndex && dayDifference === 0)) {
+          if((timeBin < newHours.startIndex && dayDifference === 1) || (timeBin >= newHours.startIndex && dayDifference === 0)) {
             newHours.jobs[timeBin].push(scheduledJob);
-          // } 
+          } 
         }
       }
-      // console.log(newHours);
+      console.log(newHours);
       setHours(newHours);
     }
     binUpcomingJobs();
@@ -296,7 +297,7 @@ export const Home = () => {
           <div onClick={() => handleSort('kube_cronjob_created')}>Created</div>
           <div onClick={() => handleSort('node')}>Node</div>
         </div>
-        {Object.keys(cronjobs).sort((name1, name2) => sort.invert * sort.isMetric * (cronjobs[name1][sort.metric] - cronjobs[name2][sort.metric]) + sort.invert * sort.isName * (name1 - name2)).map((name: string): React.ReactElement => {
+        {Object.keys(cronjobs).sort((name1, name2) => sort.invert * sort.isMetric * (cronjobs[name1][sort.metric] - cronjobs[name2][sort.metric])).map((name: string): React.ReactElement => {
           const value = cronjobs[name];
           return <HomeListJob name={name} nextScheduledDate={new Date(value.kube_cronjob_next_schedule_time * 1000)} setHoveredCronjob={setHoveredCronjob} isHovered={hover.name === name} createdDate={new Date(value.kube_cronjob_created * 1000)} interval={value.interval} node={value.node} isActive={value.kube_cronjob_status_active} isSuspended={value.kube_cronjob_spec_suspend}/>;
         })}
