@@ -1,23 +1,15 @@
 
       apiVersion: batch/v1
-      kind: CronJob
+      kind: Job
       metadata: 
-        name: test10
+        name: testdog
       spec: 
-        schedule: "*/1 * * * *"
-        concurrencyPolicy: Allow
-        startingDeadlineSeconds: 60000
-        successfulJobsHistoryLimit: 3
-        failedJobsHistoryLimit: 1
-        suspend: false
-        jobTemplate:
+        template:
           spec:
-            template:
-              spec:
-                containers:
-                - name: whalesay
-                  image: docker/whalesay
-                  imagePullPolicy: Always
-                  command: ["cowsay"]
-                restartPolicy: OnFailure
+            containers:
+            - name: whalesay
+              image: docker/whalesay
+              command: ["cowsay"]
+            restartPolicy: OnFailure
+        backoffLimit: 3
     
