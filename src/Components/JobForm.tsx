@@ -37,7 +37,7 @@ export const JobForm = (props) => {
             restartPolicy: ${restartPolicy}
         backoffLimit: ${backoffLimitRef.current.value}
     `
-    // window.electronAPI.submitJob(form);
+    window.electronAPI.submitJob(form);
     alert(`submitted ${kind} form: ${form}`)
     
   };
