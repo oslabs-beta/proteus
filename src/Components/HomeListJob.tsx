@@ -1,6 +1,20 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
-export const HomeListJob = ({time, name, isHovered, createdDate, interval, node, isActive, isSuspended, nextScheduledDate}) => {
+export const HomeListJob = ({time, name, isHovered, createdDate, interval, node, isActive, isSuspended, nextScheduledDate, setHoveredCronjob}) => {
+  const ref = useRef();
+
+  const handleHover = (status: string): void => {
+    if(status === 'enter') {
+      ref.current.style.backgroundColor = 'lightyellow';
+      ref.current.style.border = '1px solid slategrey';
+      ref.current.style.color = 'black';
+    }
+    else if(status === 'exit') {
+      ref.current.style.backgroundColor = 'slategrey';
+      ref.current.style.border = '1px solid lightyellow';
+      ref.current.style.color = 'white';
+    }
+  }
   const getLocalTime = (date: Date): string => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -23,7 +37,7 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
   }
 
   return (
-    <div style={{filter: isHovered ? 'brightness(100%)' : 'brightness(100%)', color: isHovered ? 'black' : 'white', backgroundColor: isHovered ? 'lightyellow' : 'slategrey', border: isHovered ? '1px solid slategrey' : '1px solid lightyellow'}} className='home-job-list-grid home-job'>
+    <div ref={ref} style={{filter: isHovered ? 'brightness(100%)' : 'brightness(100%)', color: isHovered ? 'black' : 'white', backgroundColor: isHovered ? 'lightyellow' : 'slategrey', border: isHovered ? '1px solid slategrey' : '1px solid lightyellow'}} onMouseEnter={() => {handleHover('enter'); setHoveredCronjob(name)}} onMouseLeave={() => {handleHover('exit'); setHoveredCronjob()}} className='home-job-list-grid home-job'>
       <div>{name}</div>
       <div>{nextScheduledDate.toLocaleString()}</div>
       <div>{formatTime(interval)}</div>

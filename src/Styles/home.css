@@ -35,7 +35,7 @@ img {
 }
 
 .home-schedule {
-  height: 300px;
+  height: 350px;
   /* border: 1px solid rgba(112, 128, 144, 0.196);
   border-radius: 10px; */
   border: 1px none #172c66;
@@ -101,12 +101,11 @@ img {
 .home-schedule-job {
   background-color: lightgray;
   /* border: 1px solid #80808070;; */
-  border: 1px none #172c66;;
+  border: 1px solid transparent;
   border-radius: 5px;
   height: 30px;
-  width: 60%;
+  width: 30%;
   position: relative;
-  /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.573); */
   box-shadow: 2px 2px 3px lightslategray;
   display: flex;
   align-items: center;
@@ -181,4 +180,8 @@ img {
   /* background-color: lightyellow; */
   /* border-radius: 15px; */
   padding-left: .5rem;
+}
+
+.home-job:hover {
+  cursor: pointer;
 }
