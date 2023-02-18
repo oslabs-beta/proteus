@@ -64,15 +64,15 @@ img {
   justify-content: center;
   /* border: 0.5px solid black; */
   /* border-left: 1px dotted rgb(169, 169, 169); */
-  border-left: 1px dotted darkgray;
+  border-left: 1px solid rgba(169, 169, 169, 0.367);
   display: flex;
   flex-direction: column;
   gap: 5px;
   position: relative;
-  background-image: linear-gradient(rgb(137, 137, 137) 33%, rgba(255,255,255,0) 0%);
+  /* background-image: linear-gradient(rgb(137, 137, 137) 33%, rgba(255,255,255,0) 0%);
   background-position: right;
   background-size: 2px 10px;
-  background-repeat: repeat-y;
+  background-repeat: repeat-y; */
 }
 
 .home-schedule-interval:nth-of-type(1) {
@@ -101,12 +101,12 @@ img {
 .home-schedule-job {
   background-color: lightgray;
   /* border: 1px solid #80808070;; */
-  border: 1px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0.282);
   border-radius: 5px;
   height: 30px;
   width: 30%;
   position: relative;
-  box-shadow: 2px 2px 3px lightslategray;
+  box-shadow: 2px 2px 3px rgba(119, 136, 153, 0.767);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,6 +116,14 @@ img {
 .home-schedule-job:hover {
   filter: brightness(1.2);
   cursor: pointer;
+}
+
+.current-time {
+  position: absolute;
+  border-right: 1px solid rgba(0, 0, 0, 0.242);
+  height: 100%;
+  /* width: 30%; */
+  background-color: rgba(125, 125, 125, 0.316);
 }
 
 .home-schedule-job-hover-container {
@@ -159,7 +167,8 @@ img {
 .home-job-list-grid-header {
   position: relative;
   left: 8px;
-  color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0); 
+  cursor: pointer;
 }
 
 
