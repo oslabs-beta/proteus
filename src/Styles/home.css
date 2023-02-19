@@ -19,7 +19,7 @@ img {
   gap: 1rem;
   font-size: 1.5rem;
   align-self: flex-start; 
-  color: #DE5D82;
+  color: var(--bg-dark-secondary);
 }
 
 .home-schedule-container {
@@ -32,16 +32,14 @@ img {
 .home-schedule {
   height: 350px;
   border: 1px solid rgba(112, 128, 144, 0.996);
-  border-radius: 10px;
-  /* border: 1px none #172c66; */
-  border-radius: 20px;
+  border-radius: 5px;
   /* box-shadow: 1px 2px 5px lightslategray; */
   box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),
   inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
   overflow: hidden;
-  background-color: #e0e0e0;
+  background-color: var(--calendar-color);
   position: relative;
 }
 
@@ -124,7 +122,7 @@ img {
 .home-schedule-job-hover-container {
   /* height: 100px; */
   /* width: 200px; */
-  background-color: lightslategray;
+  background-color: var(--bg-dark-primary);
   color: white;
   border: 1px solid white;
   position: absolute;
@@ -161,7 +159,7 @@ img {
   gap: 10px;
   border: 2px solid rgba(169, 169, 169, 0.967);
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--bg-light-secondary);
   padding: 0.5rem;
   max-height: 36vh;
   overflow-y: scroll;

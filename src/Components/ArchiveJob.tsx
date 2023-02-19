@@ -12,7 +12,7 @@ import '../Styles/home.css';
     const ref = useRef(null);
     const completion_time = kube_job_status_completion_time ? kube_job_status_completion_time.toLocaleString() : 'Failed to Complete';
     const runtime = completion_time !== 'Failed to Complete' ? kube_job_runtime : 'Failed to Complete';
-    const color = completion_time != 'Failed to Complete' ? 'lightyellow' : 'lightcoral';
+    const color = completion_time != 'Failed to Complete' ? 'var(--bg-light-secondary)' : 'lightcoral';
     return (
       <div className='archive-job-basic' style={{backgroundColor: color}} ref={ref}
       onMouseEnter={(event) => renderHover(kube_name, runtime, node, instance, cronjob_name, ref.current.offsetLeft, ref.current.offsetTop)} 

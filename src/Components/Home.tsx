@@ -43,7 +43,6 @@ export const Home = () => {
   }
   
   useEffect(() => {
-    // currently no next scheduled time
     const fetchCronJobs = async () => {
       try {
         const result = await window.electronAPI.fetchCronJobs();

@@ -10,7 +10,7 @@
     display: flex;
     gap: 1rem;
     font-size: 1.5rem;
-    color: #DE5D82;
+    color: var(--bg-dark-secondary);
   }
   .data-types {
     display: flex;
@@ -31,11 +31,11 @@
     justify-content: space-around;
     align-items: center;
     height: 50px;
-    border: 1px none black;
+    border: 1px solid var(--bg-dark-primary);
     /* background-color: lightyellow; */
-    box-shadow: 1px 1px 4px #bebebe,
-  -1px -1px 4px lightgray;
-    border-radius: 15px;
+    box-shadow: 1px 1px 2px #bebebe,
+  -1px -1px 2px lightgray;
+    border-radius: 5px;
     display: flex;
     padding-left: .5rem;
   }
@@ -48,8 +48,10 @@
   .archive-job-hover-container {
     /* height: 100px;
     width: 200px; */
-    background-color: mediumseagreen;
-    border: 1px solid black;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    background-color: var(--bg-dark-primary);
+    border: 1px solid white;
     border-radius: 15px;
     position: absolute;
     /* top: -120%; */

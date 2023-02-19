@@ -17,7 +17,22 @@ body {
   max-width: 38rem;
   padding: 1rem;
   padding-inline: 2rem;
-  background-color: lightblue;
+  background-color: var(--bg-light-primary);
+}
+
+:root {
+  --bg-light-primary: lightblue;
+  --bg-light-secondary: white;
+  --bg-dark-primary: slategray;
+  --bg-dark-secondary: rgb(222, 93, 130);
+  --sidebar-color: rgb(223, 127, 185);
+  --calendar-color: rgb(224, 224, 224);
+
+  --bg-light-primaryrgb: 173, 216, 230;
+  --bg-dark-secondaryrgb: 222, 93, 130;
+  --bg-dark-primaryrgb: 112, 128, 144;
+  --bg-light-secondaryrgb: 255, 255, 224;
+  --sidebar-color-rgb: 223, 127, 185
 }
 
 main { 
@@ -31,8 +46,8 @@ main {
   color: white;
   /* text-shadow: 2px 2px 8px #DE5D82; */
   margin-left: 1rem;
-  text-shadow: 0 0 0.2em #DE5D82, 0 0 0.2em #DE5D82,
-    0 0 0.2em #DE5D82;
+  text-shadow: 0 0 0.2em var(--bg-dark-secondary), 0 0 0.2em var(--bg-dark-secondary),
+    0 0 0.2em var(--bg-dark-secondary);
 }
 
 a {

@@ -5,7 +5,7 @@
   z-index: 5;
   top: 0;
   left: 0;
-  background-color: rgb(223, 127, 185);
+  background-color: var(--sidebar-color);
   padding-top: 90px;
   transition: 0.5s ease-in-out;
   font-size: 25px;
@@ -18,7 +18,7 @@
   z-index: 5;
   top: 0;
   left: 0;
-  background-color: rgb(223, 127, 185);
+  background-color: var(--sidebar-color);
   padding-top: 90px;
   transition: 0.5s ease-in-out;
   font-size: 25px;
