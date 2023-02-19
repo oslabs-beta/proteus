@@ -3,8 +3,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  fetchingPastJobs: (jobs, time) => ipcRenderer.invoke('fetchingPastJobs', jobs, time),
   fetchCronJobs: () => ipcRenderer.invoke('fetchCronJobs'),
-  submitJob: (text) => ipcRenderer.invoke('submitJob', text),
+  submitJob: (text: string) => ipcRenderer.invoke('submitJob', text),
   fetchAllJobs: () => ipcRenderer.invoke('fetchAllJobs')
 })
