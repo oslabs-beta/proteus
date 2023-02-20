@@ -21,12 +21,12 @@ body {
 }
 
 :root {
-  --bg-light-primary: lightblue;
-  --bg-light-secondary: white;
+  --bg-light-primary: rgb(238, 238, 238);
+  --bg-light-secondary: lightblue;
   --bg-dark-primary: slategray;
-  --bg-dark-secondary: rgb(222, 93, 130);
+  --bg-dark-secondary: black;
   --sidebar-color: rgb(223, 127, 185);
-  --calendar-color: rgb(224, 224, 224);
+  --calendar-color: rgb(255, 255, 255);
 
   --bg-light-primaryrgb: 173, 216, 230;
   --bg-dark-secondaryrgb: 222, 93, 130;
@@ -42,10 +42,10 @@ main {
 .proteus-title {
   font-family: 'Days One', sans-serif;
   font-weight: 800;
-  font-size: 50px;
+  font-size: 30px;
   color: white;
   /* text-shadow: 2px 2px 8px #DE5D82; */
-  margin-left: 1rem;
+  margin-inline: 1rem;
   text-shadow: 0 0 0.2em var(--bg-dark-secondary), 0 0 0.2em var(--bg-dark-secondary),
     0 0 0.2em var(--bg-dark-secondary);
 }

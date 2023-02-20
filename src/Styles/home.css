@@ -16,10 +16,20 @@ img {
 .home-title {
   display: flex;
   margin-left: 5px;
-  gap: 1rem;
-  font-size: 1.5rem;
-  align-self: flex-start; 
+  gap: 2rem;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  /* align-self: flex-start; */
+  align-items: center;
+  justify-content: space-between;
   color: var(--bg-dark-secondary);
+  width: 100%;
+}
+
+.home-title-item {
+  background-color: var(--bg-light-secondary);
+  padding: 0.5rem;
+  border-radius: 5px;
 }
 
 .home-schedule-container {
@@ -84,6 +94,8 @@ img {
 
 .home-schedule-interval-display {
   width: calc(100%/12);
+  color: rgb(92, 92, 92); 
+  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.226);
   /* background-color: aliceblue; */
 }
 
@@ -143,7 +155,7 @@ img {
   /* padding-block: .5rem; */
   margin-top: 1rem;
   width: 100%;
-  max-height: 38vh;
+  max-height: 42vh;
 }
 
 .home-job-list-grid {
@@ -161,7 +173,7 @@ img {
   border-radius: 5px;
   background-color: var(--bg-light-secondary);
   padding: 0.5rem;
-  max-height: 36vh;
+  max-height: 42vh;
   overflow-y: scroll;
   width: 100%;
 }
@@ -181,9 +193,11 @@ img {
 .home-job-list-grid-header {
   position: relative;
   left: 8px;
-  color: rgb(0, 0, 0); 
+  top: 8px;
+  color: rgb(92, 92, 92); 
+  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.226);
   /* height: 50px; */
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .grid-header-item {
@@ -219,4 +233,13 @@ img {
   border-right: 5px solid transparent;
   
   border-bottom: 5px solid black;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-top: 5px solid black;
 }
