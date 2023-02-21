@@ -152,7 +152,7 @@ function sortingFunction(cronjob1, cronjob2) {
 
   const renderHover = (name: string, time: number, x: number, y: number): void => {
     if(!name) setHover({active:false});
-    else setHover({name, time, x: x + 52, y: y + 140, active: true});
+    else setHover({name, time, x: x + 52, y: y + 100, active: true});
   }
 
   const renderIntervals = (): React.ReactElement[] => {
