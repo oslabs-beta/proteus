@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDebugValue } from 'react';
+import React, { useState, useEffect, useDebugValue, useRef } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
@@ -16,6 +16,9 @@ export const Home = () => {
   const [hoveredCronjob, setHoveredCronjob] = useState();
   const [sort, setSort] = useState({metric: "kube_cronjob_next_schedule_time", invert: 1, isMetric: 1, isName: 0});
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
+
+  const scheduleRef = useRef();
+  const jobListRef = useRef(); 
 
   const queryClient = useQueryClient();
   const query = useQuery('dbData', async () => {
@@ -43,8 +46,6 @@ export const Home = () => {
     }
     await new Promise(r => setTimeout(r, 2000));
     return await fetchCronJobs();
-
-    // setTimeout(() => fetchCronJobs(), 5000);
   });
   console.log(query.data);
 
@@ -97,6 +98,8 @@ export const Home = () => {
   }, [query.data, hoveredCronjob]);
 
   if(query.isLoading) return <LoadingPage/>
+  // else scheduleRef.current.style.backgroundColor = 'red';
+  // if(scheduleRef.current) scheduleRef.current.style.opacity = 1;
 
 
   function handleSort(metric: string): void {
@@ -217,7 +220,7 @@ export const Home = () => {
           <h1 className="proteus-title">PROTEUS</h1>
         </div>
       </div>
-      <div className="home-schedule-container">
+      <div ref={scheduleRef} className="home-schedule-container">
         <div className='home-schedule-active-day'>{getDayOfWeek(dayStart)}, {getMonth(dayStart)} {dayStart.getDate()}</div>
         <div className="home-schedule">
           {renderIntervals()}
