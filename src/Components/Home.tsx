@@ -44,7 +44,7 @@ export const Home = () => {
         return result;
       } catch (e) { console.log(e)}
     }
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 1000));
     return await fetchCronJobs();
   });
   console.log(query.data);
