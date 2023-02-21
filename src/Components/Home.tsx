@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useEffect, useDebugValue } from 'react';
+import React, { useState, useEffect, useDebugValue } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import '../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
 import { JobMetrics } from '../types';
 import { HomeListJob } from './HomeListJob';
 import { ScheduleJobHover } from './ScheduleJobHover';
 import { ipcRenderer } from 'electron';
+import { LoadingPage } from './LoadingPage';
 
 export const Home = () => {
   const [ PORT, setPORT ] = useState(9090);
@@ -15,35 +17,8 @@ export const Home = () => {
   const [sort, setSort] = useState({metric: "kube_cronjob_next_schedule_time", invert: 1, isMetric: 1, isName: 0});
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
 
-
-  function handleSort(metric: string): void {
-    setSort(prevSort => {
-      const newSort = {...prevSort};
-      if(prevSort.metric === metric) newSort.invert *= -1;
-      else newSort.invert = 1;
-      newSort.metric = metric;
-      return newSort;
-    });
-  }
-
-  function findStartOfDay(time : number): Date {
-    const date = new Date(time);
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  }
-  
-  function getDayOfWeek(date: Date): string {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const dayIndex = date.getDay();
-    return daysOfWeek[dayIndex];
-  }
-
-  function getMonth(date: Date): string {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const monthIndex = date.getMonth();
-    return months[monthIndex];
-  }
-  
-  useEffect(() => {
+  const queryClient = useQueryClient();
+  const query = useQuery('dbData', async () => {
     const fetchCronJobs = async () => {
       try {
         const result = await window.electronAPI.fetchCronJobs();
@@ -63,31 +38,15 @@ export const Home = () => {
         }
         generateMockJobs(50);
         console.log('fetch: ', result);
-        setCronJobs(result);
+        return result;
       } catch (e) { console.log(e)}
     }
-    fetchCronJobs();
-  },[]);
+    await new Promise(r => setTimeout(r, 2000));
+    return await fetchCronJobs();
 
-// Custom comparison function that takes into account numbers
-function sortingFunction(cronjob1, cronjob2) {
-  sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric])
-
-  if(sort.metric === "cronjob_name") {
-    // Convert the strings to numbers if possible
-    const name1 = cronjob1.cronjob_name;
-    const name2 = cronjob2.cronjob_name;
-    const numA = parseInt(name1.match(/\d+/), 10);
-    const numB = parseInt(name2.match(/\d+/), 10);
-    if (!isNaN(numA) && !isNaN(numB)) {
-      return sort.invert * (numA - numB);
-    } 
-    // If one or both strings don't contain numbers, compare them as strings
-    return sort.invert * (name1.localeCompare(name2)); 
-  }
-
-  return sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric]);
-}
+    // setTimeout(() => fetchCronJobs(), 5000);
+  });
+  console.log(query.data);
 
   useEffect(() => {
     const binUpcomingJobs = (): void => {
@@ -96,7 +55,7 @@ function sortingFunction(cronjob1, cronjob2) {
 
       newHours.startIndex = Math.floor(today.getHours()/2);
       const colors = {"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false,"lightSalmon": false, "lemonChiffon": false, "paleturquoise": false,"lightpink": false, "lightgoldenrodyellow": false, "lightskyblue": false, "lightsteelblue": false, "mediumaquamarine": false, "mediumorchid": false, "mediumpurple": false, "olivedrab": false, "palevioletred": false, "peachpuff": false};
-      cronjobs.forEach((cronjob: object): void => {
+      query.data?.forEach((cronjob: object): void => {
         const nextScheduledTime = cronjob.kube_cronjob_next_schedule_time * 1000;        
         if(nextScheduledTime >= dayStart.getTime()) {
           const getTimeBin = (date: Date): number => {
@@ -135,7 +94,84 @@ function sortingFunction(cronjob1, cronjob2) {
       setHours(newHours);
     }
     binUpcomingJobs();
-  }, [cronjobs, hoveredCronjob]);
+  }, [query.data, hoveredCronjob]);
+
+  if(query.isLoading) return <LoadingPage/>
+
+
+  function handleSort(metric: string): void {
+    setSort(prevSort => {
+      const newSort = {...prevSort};
+      if(prevSort.metric === metric) newSort.invert *= -1;
+      else newSort.invert = 1;
+      newSort.metric = metric;
+      return newSort;
+    });
+  }
+
+  function findStartOfDay(time : number): Date {
+    const date = new Date(time);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+  
+  function getDayOfWeek(date: Date): string {
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayIndex = date.getDay();
+    return daysOfWeek[dayIndex];
+  }
+
+  function getMonth(date: Date): string {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthIndex = date.getMonth();
+    return months[monthIndex];
+  }
+
+  function sortingFunction(cronjob1, cronjob2) {
+  // Custom comparison function that takes into account numbers
+  sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric])
+
+  if(sort.metric === "cronjob_name") {
+    // Convert the strings to numbers if possible
+    const name1 = cronjob1.cronjob_name;
+    const name2 = cronjob2.cronjob_name;
+    const numA = parseInt(name1.match(/\d+/), 10);
+    const numB = parseInt(name2.match(/\d+/), 10);
+    if (!isNaN(numA) && !isNaN(numB)) {
+      return sort.invert * (numA - numB);
+    } 
+    // If one or both strings don't contain numbers, compare them as strings
+    return sort.invert * (name1.localeCompare(name2)); 
+  }
+
+  return sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric]);
+}
+  
+  // useEffect(() => {
+  //   // const fetchCronJobs = async () => {
+  //   //   try {
+  //   //     const result = await window.electronAPI.fetchCronJobs();
+  //   //     const generateMockJobs = (n: number): void => {
+  //   //       for(let i = 0; i < n; i++) {
+  //   //         const mockJob = {...result[1]};
+  //   //         const now = new Date();
+  //   //         now.setHours(now.getHours() - (now.getHours() % 2));
+  //   //         now.setMinutes(0);
+  //   //         now.setSeconds(0);
+  //   //         mockJob.cronjob_name = `mockJob${i}`;
+  //   //         mockJob.kube_cronjob_next_schedule_time = now.getTime()/1000;
+  //   //         mockJob.kube_cronjob_next_schedule_time += Math.random() * 100000;
+  //   //         result.push(mockJob);
+  //   //       }
+
+  //   //     }
+  //   //     generateMockJobs(50);
+  //   //     console.log('fetch: ', result);
+  //   //     setCronJobs(result);
+  //   //   } catch (e) { console.log(e)}
+  //   // }
+  //   // fetchCronJobs();
+  // },[]);
+
 
   const createIntervalDisplay = () => {
     const times = ["12PM", "2PM", "4PM", "6PM", "8PM", "10PM", "12pm", "2PM", "4PM", "6PM", "8PM", "10PM"];
@@ -152,11 +188,12 @@ function sortingFunction(cronjob1, cronjob2) {
 
   const renderHover = (name: string, time: number, x: number, y: number): void => {
     if(!name) setHover({active:false});
-    else setHover({name, time, x: x + 52, y: y + 140, active: true});
+    else setHover({name, time, x: x + 52, y: y + 100, active: true});
   }
 
   const renderIntervals = (): React.ReactElement[] => {
     const intervals = [];
+    console.log(hours);
     let count = 0, intervalIndex = hours.startIndex;
     while(count < hours.jobs.length) {
       if(intervalIndex === hours.jobs.length) intervalIndex = 0;
@@ -177,7 +214,7 @@ function sortingFunction(cronjob1, cronjob2) {
           <div className='home-title-item'><b>namespace:</b> default</div>
         </div>
         <div>
-          <h1 class="proteus-title">PROTEUS</h1>
+          <h1 className="proteus-title">PROTEUS</h1>
         </div>
       </div>
       <div className="home-schedule-container">
@@ -216,7 +253,7 @@ function sortingFunction(cronjob1, cronjob2) {
           </div>
         </div>
         <div className="home-job-list-inner-container">
-          {cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === false).sort((cronjob1, cronjob2) => sortingFunction(cronjob1, cronjob2)).concat(...cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === true)).map((cronjob: object): React.ReactElement => {
+          {query.data.filter(cronjob => cronjob.kube_cronjob_spec_suspend === false).sort((cronjob1, cronjob2) => sortingFunction(cronjob1, cronjob2)).concat(...query.data.filter(cronjob => cronjob.kube_cronjob_spec_suspend === true)).map((cronjob: object): React.ReactElement => {
             return <HomeListJob name={cronjob.cronjob_name} nextScheduledDate={new Date(cronjob.kube_cronjob_next_schedule_time * 1000)} setHoveredCronjob={setHoveredCronjob} isHovered={hover.name === cronjob.cronjob_name} createdDate={new Date(cronjob.kube_cronjob_created * 1000)} interval={cronjob.cronjob_interval} node={cronjob.cronjob_node} isActive={cronjob.kube_cronjob_status_active} isSuspended={cronjob.kube_cronjob_spec_suspend}/>;
           })}
         </div>

@@ -11,13 +11,14 @@ img {
   align-items: center;
   gap: 1.5rem;
   margin-inline: 1rem;
+  transition: .5s;
 }
 
 .home-title {
   display: flex;
   margin-left: 5px;
   gap: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-top: 1rem;
   /* align-self: flex-start; */
   align-items: center;
@@ -57,6 +58,8 @@ img {
   font-weight: 500;
   margin-left: 5px;
   font-size: 1.2rem;
+  /* color: black; */
+  /* text-shadow: 0px 0px 1px lightgrey; */
 }
 
 .home-schedule-interval {
@@ -153,9 +156,9 @@ img {
   /* justify-content: center; */
   gap: 10px;
   /* padding-block: .5rem; */
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   width: 100%;
-  max-height: 42vh;
+  max-height: 44vh;
 }
 
 .home-job-list-grid {
@@ -173,7 +176,7 @@ img {
   border-radius: 5px;
   background-color: var(--bg-light-secondary);
   padding: 0.5rem;
-  max-height: 42vh;
+  max-height: 44vh;
   overflow-y: scroll;
   width: 100%;
 }
@@ -231,8 +234,7 @@ img {
   height: 0; 
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid rgb(92, 92, 92);
 }
 
 .arrow-down {
@@ -240,6 +242,5 @@ img {
   height: 0; 
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  
-  border-top: 5px solid black;
+  border-top: 5px solid rgb(92, 92, 92);
 }

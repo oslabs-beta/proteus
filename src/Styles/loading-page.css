@@ -1,0 +1,10 @@
+.loading-page {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: aliceblue; */
+}

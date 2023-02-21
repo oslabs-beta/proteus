@@ -35,6 +35,14 @@ body {
   --sidebar-color-rgb: 223, 127, 185
 }
 
+#root {
+  height: calc(100vh - 4.5rem);
+  width: calc(100vw - 4.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 main { 
   width: calc(100vw - 4.5rem);
 }
