@@ -1,18 +1,19 @@
-import React, {useRef} from 'react'
+import React, {useContext, useRef} from 'react';
+import { ThemeContext } from '../ThemeContext';
+
 
 export const HomeListJob = ({time, name, isHovered, createdDate, interval, node, isActive, isSuspended, nextScheduledDate, setHoveredCronjob}) => {
   const ref = useRef();
+  const theme = useContext(ThemeContext);
 
   const handleHover = (status: string): void => {
     if(status === 'enter') {
-      ref.current.style.backgroundColor = 'var(--bg-light-primary)';
-      ref.current.style.border = '1px solid var(--bg-dark-primary)';
-      ref.current.style.color = 'black';
+      ref.current.style.border = `1px solid ${theme.bgListJobBorderHover}`;
+      ref.current.style.filter = theme.bgListJobBrightnessHover;
     }
     else if(status === 'exit') {
-      ref.current.style.backgroundColor = 'var(--bg-dark-primary)';
-      ref.current.style.border = '1px solid var(--bg-light-primary)';
-      ref.current.style.color = 'white';
+      ref.current.style.border = `1px solid ${theme.borderPrimary}`;
+      ref.current.style.filter = "brightness(100%)";
     }
   }
   const getLocalTime = (date: Date): string => {
@@ -37,7 +38,7 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
   }
 
   return (
-    <div ref={ref} style={{opacity: isSuspended ? 0.7 : 1, color: isHovered ? 'black' : 'white', backgroundColor: isHovered ? 'var(--bg-light-primary)' : 'var(--bg-dark-primary)', border: isHovered ? '1px solid var(--bg-dark-primary)' : '1px solid var(--bg-light-primary)'}} onMouseEnter={() => {handleHover('enter'); setHoveredCronjob(name)}} onMouseLeave={() => {handleHover('exit'); setHoveredCronjob()}} className='home-job-list-grid home-job'>
+    <div ref={ref} style={{filter: isHovered ? theme.bgListJobBrightnessHover : "brightness(100%)", opacity: isSuspended ? 0.7 : 1, color: theme.textPrimary, backgroundColor: `${theme.bgListJob}`, border: isHovered ? `1px solid ${theme.bgListJobBorderHover}` : `1px solid ${theme.borderPrimary}`}} onMouseEnter={() => {handleHover('enter'); setHoveredCronjob(name)}} onMouseLeave={() => {handleHover('exit'); setHoveredCronjob()}} className='home-job-list-grid home-job'>
       <div style={{height:'50px', display: 'flex', alignItems: 'center'}}>{name}</div>
       <div>{isSuspended ? 'Suspended' : nextScheduledDate.toLocaleString()}</div>
       <div>{formatTime(interval)}</div>

@@ -197,3 +197,28 @@
 .sidebar.active .hamburger div {
   transform: scale(100);
 } */
+
+.nav-bar {
+  position: fixed;
+  width: 350px;
+  height: 75px;
+  top: -60px;
+  left: 50%;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: .5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nav-bar:hover {
+  top: -15px;
+}
+
+.nav-bar-icon {
+  height: 50%;
+  width: 20%;
+  /* background-color: saddlebrown; */
+}

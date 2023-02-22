@@ -27,9 +27,9 @@ img {
 }
 
 .home-title-item {
-  background-color: var(--bg-light-secondary);
   padding: 0.5rem;
   border-radius: 5px;
+  font-size: 1rem;
 }
 
 .home-schedule-container {
@@ -44,8 +44,8 @@ img {
   border: 1px solid rgba(112, 128, 144, 0.996);
   border-radius: 5px;
   /* box-shadow: 1px 2px 5px lightslategray; */
-  box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),
-  inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.1),
+  inset -6px -6px 10px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -57,6 +57,8 @@ img {
   font-weight: 500;
   margin-left: 5px;
   font-size: 1.2rem;
+  color: var(--text-secondary);
+  text-shadow: 0.5px 0.5px 1px grey;
 }
 
 .home-schedule-interval {
@@ -67,7 +69,7 @@ img {
   justify-content: center;
   /* border: 0.5px solid black; */
   /* border-left: 1px dotted rgb(169, 169, 169); */
-  border-left: 1px solid rgba(169, 169, 169, 0.367);
+  border-left: 1px solid #a9a9a95e;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -95,6 +97,7 @@ img {
 .home-schedule-interval-display {
   width: calc(100%/12);
   color: rgb(92, 92, 92); 
+  color: var(--text-secondary);
   text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.226);
   /* background-color: aliceblue; */
 }
@@ -111,7 +114,7 @@ img {
   height: 30px;
   width: 30%;
   position: relative;
-  box-shadow: 2px 2px 3px rgba(119, 136, 153, 0.767);
+  box-shadow: 1px 1px 2px rgba(119, 136, 153, 0.467);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,9 +137,6 @@ img {
 .home-schedule-job-hover-container {
   /* height: 100px; */
   /* width: 200px; */
-  background-color: var(--bg-dark-primary);
-  color: white;
-  border: 1px solid white;
   position: absolute;
   top: -120%;
   left: -90%;
@@ -169,10 +169,12 @@ img {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 2px solid rgba(169, 169, 169, 0.967);
+  /* border: 2px solid #a9a9a9; */
   border-radius: 5px;
-  background-color: var(--bg-light-secondary);
-  padding: 0.5rem;
+  /* background-color: var(--bg-light-secondary); */
+  /* background-color: #232c3a; */
+  padding: 1rem;
+  padding-inline: 1rem;
   max-height: 42vh;
   overflow-y: scroll;
   width: 100%;
@@ -194,7 +196,7 @@ img {
   position: relative;
   left: 8px;
   top: 8px;
-  color: rgb(92, 92, 92); 
+  color: var(--text-secondary); 
   text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.226);
   /* height: 50px; */
   font-size: 0.9rem;
@@ -214,9 +216,10 @@ img {
 .home-job {
   height: 50px;
   border: 1px none #172c66;
-  box-shadow: 1px 1px 4px #bebebe,
-  -1px -1px 4px lightgray;
-  border-radius: 5px;
+  /* box-shadow: 1px 1px 4px #bebebe, */
+  /* -1px -1px 4px lightgray; */
+  border-radius: 3px;
+  font-size: .9rem;
   gap: 10px;
   transition: .1s;
   padding-left: .5rem;
@@ -232,7 +235,7 @@ img {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid white;
 }
 
 .arrow-down {
@@ -241,5 +244,5 @@ img {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   
-  border-top: 5px solid black;
+  border-top: 5px solid white;
 }

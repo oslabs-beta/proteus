@@ -21,12 +21,14 @@ body {
 }
 
 :root {
-  --bg-light-primary: rgb(238, 238, 238);
-  --bg-light-secondary: lightblue;
-  --bg-dark-primary: slategray;
-  --bg-dark-secondary: black;
-  --sidebar-color: rgb(223, 127, 185);
-  --calendar-color: rgb(255, 255, 255);
+  --bg-light-primary: rgb(42, 34, 85);
+  --bg-light-secondary: #ffffff;
+  --bg-dark-primary: #98bef1;
+  --bg-dark-secondary: #a5c1e6;
+  --text-primary: #eaeaea;
+  --text-secondary: #eaeaea;
+  --sidebar-color: #df7fb9;
+  --calendar-color: #222934;
 
   --bg-light-primaryrgb: 173, 216, 230;
   --bg-dark-secondaryrgb: 222, 93, 130;
