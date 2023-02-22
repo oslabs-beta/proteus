@@ -8,7 +8,7 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
 
   const handleHover = (status: string): void => {
     if(status === 'enter') {
-      ref.current.style.border = `1px solid ${theme.bgListJobBorderHover}`;
+      ref.current.style.border = `2px solid ${theme.bgListJobBorderHover}`;
       ref.current.style.filter = theme.bgListJobBrightnessHover;
     }
     else if(status === 'exit') {
@@ -38,7 +38,7 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
   }
 
   return (
-    <div ref={ref} style={{filter: isHovered ? theme.bgListJobBrightnessHover : "brightness(100%)", opacity: isSuspended ? 0.7 : 1, color: theme.textPrimary, backgroundColor: `${theme.bgListJob}`, border: isHovered ? `1px solid ${theme.bgListJobBorderHover}` : `1px solid ${theme.borderPrimary}`}} onMouseEnter={() => {handleHover('enter'); setHoveredCronjob(name)}} onMouseLeave={() => {handleHover('exit'); setHoveredCronjob()}} className='home-job-list-grid home-job'>
+    <div ref={ref} style={{filter: isHovered ? theme.bgListJobBrightnessHover : "brightness(100%)", opacity: isSuspended ? 0.7 : 1, color: theme.textPrimary, backgroundColor: `${theme.bgListJob}`, border: isHovered ? `2px solid ${theme.bgListJobBorderHover}` : `1px solid ${theme.borderPrimary}`}} onMouseEnter={() => {handleHover('enter'); setHoveredCronjob(name)}} onMouseLeave={() => {handleHover('exit'); setHoveredCronjob()}} className='home-job-list-grid home-job'>
       <div style={{height:'50px', display: 'flex', alignItems: 'center'}}>{name}</div>
       <div>{isSuspended ? 'Suspended' : nextScheduledDate.toLocaleString()}</div>
       <div>{formatTime(interval)}</div>

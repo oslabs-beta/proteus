@@ -10,7 +10,7 @@ import { Sidebar } from './Components/Sidebar';
 import { Nav } from './Components/Nav';
 
 const App = () => {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     document.body.style.backgroundColor = themes[theme].bgPrimary;

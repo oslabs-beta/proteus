@@ -6,15 +6,15 @@ export const themes = {
     bgPrimary: "rgb(250, 250, 250)",
     bgSecondary: "#a5c1e6",
     bgListJob: "rgb(250, 250, 250)",
-    bgListJobBorderHover: "blue",
-    bgListJobBrightnessHover: "brightness(90%)",
+    bgListJobBorderHover: "gold",
+    bgListJobBrightnessHover: "brightness(100%)",
     textPrimary: "rgb(50, 50, 50)",
     textSecondary: "#eaeaea",
     calendar: "#a5c1e6",
     calendarBorder: "rgb(100, 100, 100)",
     sidebar: "pink",
     logo: "#df7fb9",
-    borderPrimary: "rgb(150, 150, 150)"
+    borderPrimary: "rgb(120, 120, 120)"
   },
   dark: {
     bgPrimary: "#223855",
