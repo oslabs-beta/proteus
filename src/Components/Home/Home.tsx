@@ -12,7 +12,7 @@ export const Home = () => {
   const [cronjobs, setCronJobs] = useState([]);
   const [hover, setHover] = useState({});
   const [hoveredCronjob, setHoveredCronjob] = useState();
-  const [sort, setSort] = useState({metric: "kube_cronjob_next_schedule_time", invert: 1, isMetric: 1, isName: 0});
+  const [sort, setSort] = useState({metric: "kube_cronjob_next_schedule_time", invert: -1, isMetric: 1, isName: 0});
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
 
   function handleSort(metric: string): void {
