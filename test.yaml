@@ -1,17 +1,15 @@
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: db-bridge
-spec:
-  template:
-    spec:
-      containers:
-        - name: proteus-image
-          image: ospproteus/proteus-image
-          env:
-            - name: DB_URI
-              value: "mongodb+srv://proteus:codesmith-proteus@cluster-prometheus-metr.xs8xprx.mongodb.net/?retryWrites=true&w=majority"
-            - name: SERVICE_IP
-              value: "http://10.100.151.71:80"
-          command: ["npm", "start"]
-      restartPolicy: OnFailure
+
+      apiVersion: batch/v1
+      kind: Job
+      metadata: 
+        name: test-deployment
+      spec: 
+        template:
+          spec:
+            containers:
+            - name: whalesay
+              image: docker/whalesay
+              command: ["cowsay","This is a kubernetes job"]
+            restartPolicy: Never
+        backoffLimit: 4
+    
