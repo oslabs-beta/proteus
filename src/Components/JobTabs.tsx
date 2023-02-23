@@ -41,8 +41,8 @@ export const JobTabs = () => {
     <div className="job-tab">
       {/* TAB NAVIGATION */}
       <ul className="nav-job-tabs">
-        <li className={activeTab === 'tab1' ? "active" : ""} style={{color: activeTab === 'tab1' ? theme.textPrimary : theme.textSecondary}} onClick={handleTab1}>JOB</li>
-        <li className={activeTab === 'tab2' ? "active" : ""} style={{color: activeTab === 'tab2' ? theme.textSecondary : theme.textPrimary}} onClick={handleTab2}>CRONJOB</li>
+        <li className={activeTab === 'tab1' ? "active" : ""} style={{fontSize: ".9rem", color: (activeTab === 'tab1' && theme.theme === 'dark') ? theme.textSecondary: theme.textPrimary}} onClick={handleTab1}><b>JOB</b></li>
+        <li className={activeTab === 'tab2' ? "active" : ""} style={{fontSize: ".9rem", color: (activeTab === 'tab2' && theme.theme === 'dark') ? theme.textSecondary : theme.textPrimary}} onClick={handleTab2}><b>CRONJOB</b></li>
       </ul>
       <div className="outlet">
         {activeTab === 'tab1' ? <JobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/> : <CronJobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/>}

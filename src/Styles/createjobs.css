@@ -6,12 +6,13 @@
 
 /* Job Creator Wrapper */
 .job_creator {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw; */
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  margin-top: 4rem;
+  /* justify-content: space-evenly; */
   overflow: hidden;
 }
 
