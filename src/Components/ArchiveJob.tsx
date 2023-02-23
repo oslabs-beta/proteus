@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import '../Styles/home.css';
+import { ArchivedJobMetrics } from '../types';
 
-  export const ArchiveJob = (props) => {
+  export const ArchiveJob = (props: ArchivedJobMetrics): React.ReactElement<ArchivedJobMetrics> => {
     const { metrics, renderHover } = props;
     const {
       kube_name, kube_job_complete, kube_job_created,
@@ -15,14 +16,13 @@ import '../Styles/home.css';
     const color = completion_time != 'Failed to Complete' ? 'lightyellow' : 'lightcoral';
     return (
       <div className='archive-job-basic' style={{backgroundColor: color}} ref={ref}
-      onMouseEnter={(event) => renderHover(kube_name, runtime, node, instance, cronjob_name, ref.current.offsetLeft, ref.current.offsetTop)} 
+      onMouseEnter={() => renderHover(kube_name, runtime, node, instance, cronjob_name, ref.current.offsetLeft, ref.current.offsetTop)} 
       onMouseLeave={() => renderHover()}>
         <div>{kube_name}</div>
         <div>{kube_job_namespace}</div>
-        <div>{kube_job_status_start_time?.toLocaleString()}:</div>
+        <div>{kube_job_status_start_time?.toLocaleString()}</div>
         <div>{completion_time}</div>
         <div>{kube_job_status_succeeded?.toString()}</div>
         </div>
-      // </div>
     )
   };

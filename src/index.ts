@@ -6,13 +6,13 @@ import mongoose from 'mongoose';
 const ArchivedJobs = require('./Models/ArchivedJobsModel')
 
 
-spawn.exec('kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090', (err, stdout, stderr) => {
-  if(err) {
-    console.log('spawn error: ', err);
-    return;
-  }
-  console.log('port forward stdout: ', stdout);
-});
+// spawn.exec('kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090', (err, stdout, stderr) => {
+//   if(err) {
+//     console.log('spawn error: ', err);
+//     return;
+//   }
+//   console.log('port forward stdout: ', stdout);
+// });
 
 mongoose.connect('mongodb+srv://proteus:codesmith-proteus@cluster-prometheus-metr.xs8xprx.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.connection.once('open', () => {
