@@ -1,33 +1,28 @@
 import React, { useRef, useState, useEffect } from 'react';
-import '../Styles/archive.css';
+import '../../Styles/archive.css';
 
-
-export const CronJobForm = (props) => {
+export const CronJobForm = (props: object) => {
   const { addCommand, deleteCommand, commandList, restartPolicy, setRestartPolicy } = props;
   const [ concurrencyPolicy, setConcurrencyPolicy ] = useState('Allow');
   const [ supsension, setSuspension ] = useState(false);
   const [ imagePullPolicy, setImagePullPolicy ] = useState('Always');
 
   // reference hooks
-  const commandRef = useRef();
-  const apiVersionRef = useRef();
-  const cronjobNameRef = useRef();
-  const startingDeadlineSeconds = useRef(); 
-  const successfulJobHistoryLimit = useRef();
-  const failedJobHistoryLimit = useRef();
-  const imageNameRef = useRef();
-  const imageURLRef = useRef();
-  const scheduleMinute = useRef();
-  const scheduleHour = useRef();
-  const scheduleDay = useRef();
-  const scheduleMonth = useRef();
-  const scheduleWeekday = useRef();
-
-  // premium features 
-  // startingDeadlineSeconds: ${startingDeadlineSeconds.current.value}
+  const commandRef = useRef(null);
+  const apiVersionRef = useRef(null);
+  const cronjobNameRef = useRef(null);
+  const successfulJobHistoryLimit = useRef(null);
+  const failedJobHistoryLimit = useRef(null);
+  const imageNameRef = useRef(null);
+  const imageURLRef = useRef(null);
+  const scheduleMinute = useRef(null);
+  const scheduleHour = useRef(null);
+  const scheduleDay = useRef(null);
+  const scheduleMonth = useRef(null);
+  const scheduleWeekday = useRef(null);
 
   // handles form submission
-  const handleSubmit = async (e, kind: string) => {
+  const handleSubmit = async (e: Event, kind: string) => {
     e.preventDefault();
 
     const form = `
@@ -58,9 +53,6 @@ export const CronJobForm = (props) => {
     
   }
 
-
-  console.log('updated commandlist is ', commandList);
-
   // generates array of input commands and adds as a button
   const commandArray = [];
   for (let i = 0; i < commandList.length; i++) {
@@ -70,25 +62,24 @@ export const CronJobForm = (props) => {
   
   return (
     <div className="cronjob_form">
-      <h1>CRONJOB</h1>
-      <form onSubmit={(e) => handleSubmit(e, 'CronJob')} >
-        <fieldset>
+      <form id="cronjob_form" onSubmit={(e) => handleSubmit(e, 'CronJob')} >
+        <div>
           <label><strong>CRONJOB NAME:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label> 
           <input ref={cronjobNameRef} placeholder="CronJob Name"></input>
-        </fieldset>
-        <fieldset>
+        </div>
+        <div>
           <label><strong>API VERSION:&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
           <input ref={apiVersionRef} placeholder="API VERSION" type='text'></input>
-        </fieldset>
-        <fieldset>
+        </div>
+        <div>
           <label><strong>SCHEDULE:</strong></label><br></br>
               minute (0-59):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleMinute} defaultValue="*" type='text' style={{width: "20px"}} ></input><br></br>
               hour (0-23):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleHour} defaultValue="*" type='text' style={{width: "20px"}}></input><br></br>
               day (1-31):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleDay} defaultValue="*" type='text' style={{width: "20px"}}></input><br></br>
               month (1-12):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleMonth} defaultValue="*" type='text' style={{width: "20px"}}></input><br></br>
               weekday (0-6; from Sunday):&nbsp;&nbsp;&nbsp;&nbsp;<input ref={scheduleWeekday} defaultValue="*" type='text' style={{width: "20px"}}></input>       
-        </fieldset>
-        <fieldset>
+        </div>
+        <div>
           <strong>SPECS:</strong><br></br>
           {/* <label>STARTING DEADLINE SECONDS: &nbsp;&nbsp;&nbsp;&nbsp;</label>
           <input ref={startingDeadlineSeconds} type="number" min='0' placeholder="number"></input><br></br> */}
@@ -107,9 +98,9 @@ export const CronJobForm = (props) => {
             <input type="radio" id="true" value='true' name='suspend' onClick={() => setSuspension(true)}></input>&nbsp;<label htmlFor="true">true</label>&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" id="false" value='false' name='suspend' onClick={() => setSuspension(false)}></input>&nbsp;<label htmlFor="false">false</label>&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
-        </fieldset>
+        </div>
     
-        <fieldset>
+        <div>
           <label>
             <strong>CONTAINERS</strong>
             <div>
@@ -132,13 +123,13 @@ export const CronJobForm = (props) => {
             </div>
 
           </label>
-        </fieldset>
-        <fieldset>
+        </div>
+        <div>
           <label className="restart_policy" ><strong>RESTART POLICY: &nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
           <input type="radio" id="Never" value='Never' name='restartJob' onClick={() => setRestartPolicy('Never')}></input>&nbsp;<label htmlFor="Never">Never</label>&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" id="OnFailure" value='OnFailure' name='restartJob' onClick={() => setRestartPolicy('OnFailure')}></input>&nbsp;<label htmlFor="OnFailure">OnFailure</label>&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" id="Always" value='Always' name='restartJob' onClick={() => setRestartPolicy('Always')}></input>&nbsp;<label htmlFor="Always">Always</label>&nbsp;&nbsp;&nbsp;&nbsp;
-        </fieldset>
+        </div>
         <input className='jobSubmitButton' type='submit' value='Submit CronJob'/>
       </form>
     </div>

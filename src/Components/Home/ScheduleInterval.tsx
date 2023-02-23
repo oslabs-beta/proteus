@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { ScheduleJob } from './ScheduleJob';
-import { ScheduleIntervalProps } from '../types';
+import { ScheduleIntervalProps } from '../../types';
+import { ThemeContext } from '../../ThemeContext';
 
 export const ScheduleInterval = (props: ScheduleIntervalProps) => {
   const { startTime, jobs, renderHover, boxNumber } = props;
-  // console.log(boxNumber, jobs);
+  const theme = useContext(ThemeContext);
   const ref = useRef(null);
-  const calcNudge = (jobDate: Date, shifted: boolean): number => {
-    // 
+
+  const calcNudge = (jobDate: Date): number => {
     let startDate = new Date(startTime);
     if(jobDate.getDate() - startDate.getDate() > 0) {
       const hour = jobDate.getHours();
@@ -21,7 +22,7 @@ export const ScheduleInterval = (props: ScheduleIntervalProps) => {
     return nudge;
   }
 
-  function calcTimeNudge() {
+  const calcTimeNudge = () => {
     function findScheduleStart(): Date {
       const now = new Date();
       now.setHours(now.getHours() - (now.getHours() % 2));
@@ -35,7 +36,7 @@ export const ScheduleInterval = (props: ScheduleIntervalProps) => {
   }
 
   return (
-    <div ref={ref} className='home-schedule-interval'>
+    <div ref={ref} style={{borderLeft: `1px solid ${theme.calendarBorder}`}} className='home-schedule-interval'>
       {jobs.map((job: object): React.ReactElement => {
         return <ScheduleJob renderHover={renderHover} nudge={calcNudge(job.time, job.shifted)} color={'lightyellow'}
         name={job.name} time={job.time} color={job.color} shifted={job.shifted} hovered={job.hovered} opacity={job.opacity} boxNumber={boxNumber} boxWidth={ref.current.clientWidth}/>

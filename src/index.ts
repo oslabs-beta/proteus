@@ -2,6 +2,8 @@ import { app, BrowserWindow, protocol, Menu, BrowserView, getCurrentWindow, ipcM
 import fetch from 'electron-fetch';
 import spawn from 'child_process';
 import mongoose from 'mongoose';
+const ArchivedJobs = require('./Models/ArchivedJobsModel');
+const CronjobModel = require('./Models/CronjobModel');
 
 mongoose.connect('mongodb+srv://proteus:codesmith-proteus@cluster-prometheus-metr.xs8xprx.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.connection.once('open', () => {
@@ -70,13 +72,7 @@ app.on('ready', () => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    console.log('windows closed');
-    spawn.execSync('npx kill-port 9090');
     app.quit();
-  }
-  else {
-    console.log('killing port on mac')
-    spawn.execSync('lsof -i tcp:9090');
   }
 });
 
@@ -97,7 +93,8 @@ const loadApp = () => {
   let template = [
     { label: "PROTEUS", 
       submenu: [
-        { label: 'about proteus', click() { require('electron').shell.openExternal(`https://github.com/oslabs-beta/proteus`); }}, 
+        { label: 'About Proteus', click() { require('electron').shell.openExternal(`https://www.proteus-osp.app`); }}, 
+        { label: 'Get Proteus image', click() { require('electron').shell.openExternal(`https://hub.docker.com/r/ospproteus/proteus-image`); }}, 
         { type: 'separator' },
         { role: 'quit' },
       ]

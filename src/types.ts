@@ -1,6 +1,7 @@
 export type ScheduleIntervalProps = {
   startTime: number,
   jobs: object[],
+  boxNumber: number,
   renderHover(): React.ReactElement
 }
 
@@ -14,7 +15,9 @@ export type ScheduleJobProps = {
 
 export type ScheduleJobHoverProps = {
   name: string,
-  time: Date
+  time: Date, 
+  x: number,
+  y: number
 }
 
 export type JobMetrics = {
@@ -43,7 +46,11 @@ export type PastJobMetrics = {
 }
 
 export type ArchivedJobMetrics = {
-  cronjob_name: string,
+  metrics: ArchivedMetricsObj,
+  renderHover: (name: string, runtime: string | number, node: string, instance: string, cronjob_name: string, x: number, y: number) => void
+}
+
+export type ArchivedMetricsObj = {
   instance: string,
   kube_job_complete: boolean,
   kube_job_created: Date,
@@ -56,6 +63,7 @@ export type ArchivedJobMetrics = {
   kube_job_status_succeeded: boolean,
   kube_name: string,
   node: string,
+  cronjob_name: string
 }
 
 export type ArchivedJobs = {
@@ -71,5 +79,11 @@ export type ArchiveJobHoverProps = {
   runtime: number | string,
   node: string,
   instance: string,
-  cronjob_name: string
+  cronjob_name: string,
+  x: number,
+  y: number
+}
+
+export type DropdownProps = {
+  onFilterChange: (value: string) => void
 }
