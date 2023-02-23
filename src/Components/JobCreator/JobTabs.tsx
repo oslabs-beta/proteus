@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { JobForm } from './JobForm';
 import { CronJobForm } from './CronJobForm';
-import { ThemeContext } from '../ThemeContext';
+import { ThemeContext } from '../../ThemeContext';
 
 export const JobTabs = () => {
   const [ activeTab, setActiveTab ] = useState('tab1');
@@ -10,14 +10,12 @@ export const JobTabs = () => {
   const theme = useContext(ThemeContext);
 
 
-  const addCommand = (input): any => {
+  const addCommand = (input: string): any => {
     console.log('input is ', input);
     if (!commandList.includes(input)) {
       const newCommandList: Array<string> = [...commandList];
       newCommandList.push(`"${input}"`);
       setCommandList(newCommandList);
-      console.log(`submitted ${input} to command list`);
-      console.log('new command list is ', newCommandList);
     } else alert(`command "${input}" already exists`)
   };
 
@@ -39,7 +37,6 @@ export const JobTabs = () => {
 
   return (
     <div className="job-tab">
-      {/* TAB NAVIGATION */}
       <ul className="nav-job-tabs">
         <li className={activeTab === 'tab1' ? "active" : ""} style={{fontSize: ".9rem", color: (activeTab === 'tab1' && theme.theme === 'dark') ? theme.textSecondary: theme.textPrimary}} onClick={handleTab1}><b>JOB</b></li>
         <li className={activeTab === 'tab2' ? "active" : ""} style={{fontSize: ".9rem", color: (activeTab === 'tab2' && theme.theme === 'dark') ? theme.textSecondary : theme.textPrimary}} onClick={handleTab2}><b>CRONJOB</b></li>

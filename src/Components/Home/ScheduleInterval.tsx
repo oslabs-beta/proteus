@@ -1,15 +1,14 @@
 import React, { useContext, useRef, useState } from 'react'
 import { ScheduleJob } from './ScheduleJob';
-import { ScheduleIntervalProps } from '../types';
-import { ThemeContext } from '../ThemeContext';
+import { ScheduleIntervalProps } from '../../types';
+import { ThemeContext } from '../../ThemeContext';
 
 export const ScheduleInterval = (props: ScheduleIntervalProps) => {
   const { startTime, jobs, renderHover, boxNumber } = props;
   const theme = useContext(ThemeContext);
-  // console.log(boxNumber, jobs);
   const ref = useRef(null);
-  const calcNudge = (jobDate: Date, shifted: boolean): number => {
-    // 
+
+  const calcNudge = (jobDate: Date): number => {
     let startDate = new Date(startTime);
     if(jobDate.getDate() - startDate.getDate() > 0) {
       const hour = jobDate.getHours();
@@ -23,7 +22,7 @@ export const ScheduleInterval = (props: ScheduleIntervalProps) => {
     return nudge;
   }
 
-  function calcTimeNudge() {
+  const calcTimeNudge = () => {
     function findScheduleStart(): Date {
       const now = new Date();
       now.setHours(now.getHours() - (now.getHours() % 2));

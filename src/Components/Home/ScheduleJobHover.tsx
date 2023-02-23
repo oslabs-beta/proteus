@@ -1,9 +1,10 @@
 import {useContext} from 'react';
-import { ScheduleJobHoverProps } from '../types';
-import { ThemeContext } from '../ThemeContext';
+import { ScheduleJobHoverProps } from '../../types';
+import { ThemeContext } from '../../ThemeContext';
 
 export const ScheduleJobHover = ({name, time, x, y}: ScheduleJobHoverProps) => {
   const theme = useContext(ThemeContext);
+  
   const getLocalTime = (date: Date): string => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -16,7 +17,6 @@ export const ScheduleJobHover = ({name, time, x, y}: ScheduleJobHoverProps) => {
   return (
     <div style={{left: x, top: y, backgroundColor: theme.bgPrimary, color: theme.textPrimary, border: `1px solid ${theme.borderPrimary}`}}className='home-schedule-job-hover-container'>
       <div>{name} {getLocalTime(time)}</div>
-      {/* <div></div> */}
     </div>
   )
 }

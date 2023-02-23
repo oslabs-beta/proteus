@@ -1,7 +1,7 @@
 import  { useContext } from 'react';
-import '../Styles/createjobs.css';
+import '../../Styles/createjobs.css';
 import { JobTabs } from './JobTabs';
-import { ThemeContext } from '../ThemeContext';
+import { ThemeContext } from '../../ThemeContext';
 
 
 

@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useEffect, useContext } from 'react';
-import { ThemeContext } from '../ThemeContext';
-import '../Styles/home.css';
+import React, { useState, useEffect, useContext } from 'react';
+import { ThemeContext } from '../../ThemeContext';
+import '../../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
-import { JobMetrics } from '../types';
+import { JobMetrics } from '../../types';
 import { HomeListJob } from './HomeListJob';
 import { ScheduleJobHover } from './ScheduleJobHover';
 
 export const Home = () => {
   const theme = useContext(ThemeContext);
-  const [ PORT, setPORT ] = useState(9090);
   const [hours, setHours] = useState({ startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
   const [cronjobs, setCronJobs] = useState([]);
   const [hover, setHover] = useState({});
@@ -42,7 +41,57 @@ export const Home = () => {
     const monthIndex = date.getMonth();
     return months[monthIndex];
   }
-  
+
+  // Custom comparison function that takes into account numbers
+  function sortingFunction(cronjob1, cronjob2) {
+    if(sort.metric === "cronjob_name") {
+      // Convert the strings to numbers if possible
+      const name1 = cronjob1.cronjob_name;
+      const name2 = cronjob2.cronjob_name;
+      const numA = parseInt(name1.match(/\d+/), 10);
+      const numB = parseInt(name2.match(/\d+/), 10);
+
+      if (!isNaN(numA) && !isNaN(numB)) {
+        return sort.invert * (numA - numB);
+      } 
+      // If one or both strings don't contain numbers, compare them as strings
+      return sort.invert * (name1.localeCompare(name2)); 
+    }
+    return sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric]);
+  }
+
+  const createIntervalDisplay = () => {
+    const times = ["12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
+    const intervalDisplay = [];
+    let count = 0, intervalIndex = hours.startIndex;
+    while(count < hours.jobs.length) {
+      if(intervalIndex === hours.jobs.length) intervalIndex = 0;
+      intervalDisplay.push(<div style={{color: theme.textPrimary}} className='home-schedule-interval-display'>{times[intervalIndex]}</div>);
+      intervalIndex++;
+      count++;
+    }
+    return intervalDisplay;
+  }
+
+  const renderHover = (name: string, time: number, x: number, y: number): void => {
+    if(!name) setHover({active:false});
+    else setHover({name, time, x: x + 52, y: y + 96, active: true});
+  }
+
+  const renderIntervals = (): React.ReactElement[] => {
+    const intervals = [];
+    let count = 0, intervalIndex = hours.startIndex;
+    while(count < hours.jobs.length) {
+      if(intervalIndex === hours.jobs.length) intervalIndex = 0;
+      const today: Date = new Date(dayStart.getTime());
+      today.setHours(intervalIndex * 2);
+      intervals.push(<ScheduleInterval startTime={today.getTime()} renderHover={renderHover} jobs={hours.jobs[intervalIndex]} boxNumber={count}/>);
+      intervalIndex++;
+      count++;
+    }
+    // console.log('intervals: ', intervals);
+    return intervals;
+  }
   useEffect(() => {
     const fetchCronJobs = async () => {
       try {
@@ -59,7 +108,6 @@ export const Home = () => {
             mockJob.kube_cronjob_next_schedule_time += Math.random() * 100000;
             result.push(mockJob);
           }
-
         }
         // generateMockJobs(50);
         setCronJobs(result);
@@ -67,26 +115,6 @@ export const Home = () => {
     }
     fetchCronJobs();
   },[]);
-
-// Custom comparison function that takes into account numbers
-function sortingFunction(cronjob1, cronjob2) {
-  sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric])
-
-  if(sort.metric === "cronjob_name") {
-    // Convert the strings to numbers if possible
-    const name1 = cronjob1.cronjob_name;
-    const name2 = cronjob2.cronjob_name;
-    const numA = parseInt(name1.match(/\d+/), 10);
-    const numB = parseInt(name2.match(/\d+/), 10);
-    if (!isNaN(numA) && !isNaN(numB)) {
-      return sort.invert * (numA - numB);
-    } 
-    // If one or both strings don't contain numbers, compare them as strings
-    return sort.invert * (name1.localeCompare(name2)); 
-  }
-
-  return sort.invert * (cronjob1[sort.metric] - cronjob2[sort.metric]);
-}
 
   useEffect(() => {
     const binUpcomingJobs = (): void => {
@@ -136,38 +164,6 @@ function sortingFunction(cronjob1, cronjob2) {
     binUpcomingJobs();
   }, [cronjobs, hoveredCronjob]);
 
-  const createIntervalDisplay = () => {
-    const times = ["12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
-    const intervalDisplay = [];
-    let count = 0, intervalIndex = hours.startIndex;
-    while(count < hours.jobs.length) {
-      if(intervalIndex === hours.jobs.length) intervalIndex = 0;
-      intervalDisplay.push(<div style={{color: theme.textPrimary}} className='home-schedule-interval-display'>{times[intervalIndex]}</div>);
-      intervalIndex++;
-      count++;
-    }
-    return intervalDisplay;
-  }
-
-  const renderHover = (name: string, time: number, x: number, y: number): void => {
-    if(!name) setHover({active:false});
-    else setHover({name, time, x: x + 52, y: y + 96, active: true});
-  }
-
-  const renderIntervals = (): React.ReactElement[] => {
-    const intervals = [];
-    let count = 0, intervalIndex = hours.startIndex;
-    while(count < hours.jobs.length) {
-      if(intervalIndex === hours.jobs.length) intervalIndex = 0;
-      const today: Date = new Date(dayStart.getTime());
-      today.setHours(intervalIndex * 2);
-      intervals.push(<ScheduleInterval startTime={today.getTime()} renderHover={renderHover} jobs={hours.jobs[intervalIndex]} boxNumber={count}/>);
-      intervalIndex++;
-      count++;
-    }
-    // console.log('intervals: ', intervals);
-    return intervals;
-  }
   return (
     <div className='home-container'>
       <div className="home-title">

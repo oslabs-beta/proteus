@@ -1,26 +1,17 @@
-import React, { useRef, useState, useEffect } from 'react';
-import '../Styles/archive.css';
+import React, { useRef } from 'react';
+import '../../Styles/archive.css';
 
-
-// const Commands = () => {
-//   return (
-//     <div>
-//     </div>
-//   )
-// }
-
-
-export const JobForm = (props) => {
+export const JobForm = (props: object) => {
   const { addCommand, deleteCommand, commandList, restartPolicy, setRestartPolicy } = props;
-  const commandRef = useRef();
-  const apiVersionRef = useRef();
-  const jobNameRef = useRef();
-  const imageNameRef = useRef();
-  const imageURLRef = useRef();
-  const backoffLimitRef = useRef();
+  const commandRef = useRef(null);
+  const apiVersionRef = useRef(null);
+  const jobNameRef = useRef(null);
+  const imageNameRef = useRef(null);
+  const imageURLRef = useRef(null);
+  const backoffLimitRef = useRef(null);
 
   // handles form submission
-  const handleSubmit = async (e, kind: string) => {
+  const handleSubmit = async (e: Event, kind: string) => {
     e.preventDefault();
     const form = `
       apiVersion: ${apiVersionRef.current.value}
@@ -42,8 +33,6 @@ export const JobForm = (props) => {
     
   };
   
-  console.log('updated commandlist is ', commandList);
-
   // generates array of input commands and adds as a button
   const commandArray = [];
   for (let i = 0; i < commandList.length; i++) {
@@ -65,13 +54,11 @@ export const JobForm = (props) => {
           <label>
             <strong>CONTAINERS</strong>
             <div>
-              {/* Might make this a component so we can add to array of containers */}
               <label style={{fontSize: '1.2rem'}}>Image Name:&nbsp;&nbsp;&nbsp;&nbsp;</label>
               <input ref={imageNameRef} placeholder="image name" type="text"></input><br></br>
               <label style={{fontSize: '1.2rem'}}>URL:&nbsp;&nbsp;&nbsp;&nbsp;</label>
               <input ref={imageURLRef} placeholder="ex. docker/whalesay" type="text"></input><br></br>
               <div>
-                {/* Might make this a component so we can add to the array of commands */}
                 <label style={{fontSize: '1.2rem'}}>Commands:&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <input ref={commandRef} placeholder="command" id="command_item" name="command_item" type="text"></input>
                 {commandArray}

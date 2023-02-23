@@ -1,16 +1,14 @@
-import React, { useState, useRef, useContext } from 'react';
-import '../Styles/home.css';
-import { ThemeContext } from '../ThemeContext';
-import { ArchivedJobMetrics } from '../types';
+import React, { useRef, useContext } from 'react';
+import '../../Styles/home.css';
+import { ThemeContext } from '../../ThemeContext';
+import { ArchivedJobMetrics } from '../../types';
 
   export const ArchiveJob = (props: ArchivedJobMetrics): React.ReactElement<ArchivedJobMetrics> => {
     const theme = useContext(ThemeContext);
     const { metrics, renderHover } = props;
     const {
-      kube_name, kube_job_complete, kube_job_created,
-      kube_job_namespace, kube_job_runtime, kube_job_status_completion_time,
-      kube_job_status_failed, kube_job_status_succeeded, kube_job_status_start_time,
-      node, instance, cronjob_name
+      kube_name, kube_job_namespace, kube_job_runtime, kube_job_status_completion_time,
+      kube_job_status_succeeded, kube_job_status_start_time, node, instance, cronjob_name
     } = metrics;
 
     const handleHover = (status: string): void => {

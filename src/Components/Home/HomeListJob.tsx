@@ -1,9 +1,9 @@
-import React, {useContext, useRef} from 'react';
-import { ThemeContext } from '../ThemeContext';
+import {useContext, useRef} from 'react';
+import { ThemeContext } from '../../ThemeContext';
 
 
 export const HomeListJob = ({time, name, isHovered, createdDate, interval, node, isActive, isSuspended, nextScheduledDate, setHoveredCronjob}) => {
-  const ref = useRef();
+  const ref = useRef(null);
   const theme = useContext(ThemeContext);
 
   const handleHover = (status: string): void => {
@@ -16,17 +16,9 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
       ref.current.style.filter = "brightness(100%)";
     }
   }
-  const getLocalTime = (date: Date): string => {
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? "pm" : "am";
-    const formattedHours = (hours % 12) || 12;
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${formattedHours}:${formattedMinutes} ${ampm}`;
-  }
 
   const formatTime = (minutes: number): string => {
-    let result: string = ``;
+    let result = ``;
     const hours = Math.floor(minutes / 60);
     minutes %= 60;
     if(minutes === 0) return `${hours} hours`;
@@ -44,7 +36,6 @@ export const HomeListJob = ({time, name, isHovered, createdDate, interval, node,
       <div>{formatTime(interval)}</div>
       <div>{createdDate.toLocaleString()}</div>
       <div>{node}</div>
-      {/* <div>{getLocalTime(time)}</div> */}
     </div>
   )
 }

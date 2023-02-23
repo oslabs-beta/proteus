@@ -1,6 +1,5 @@
 import { createContext } from "react";
 
-// add new nav bar with light/dark toggle
 export const themes = {
   light: {
     bgPrimary: "rgb(250, 250, 250)",
