@@ -8,9 +8,21 @@
   
   .archive-title {
     display: flex;
-    gap: 1rem;
-    font-size: 1.5rem;
-    color: #DE5D82;
+    margin-left: 5px;
+    gap: 2rem;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    /* align-self: flex-start; */
+    align-items: center;
+    justify-content: space-between;
+    color: var(--bg-dark-secondary);
+    width: 100%;
+  }
+
+  .archive-title-item {
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
   }
   .data-types {
     display: flex;
@@ -22,20 +34,34 @@
   .archive-job-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     margin-top: 1rem;
+    padding: 1rem;
+    height: 80vh;
+    border-radius: 5px;
+    overflow: scroll;
   }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+.archive-job-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.archive-job-list {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
   
   .archive-job-basic {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 50px;
-    border: 1px none black;
     /* background-color: lightyellow; */
-    box-shadow: 1px 1px 4px #bebebe,
-  -1px -1px 4px lightgray;
-    border-radius: 15px;
+    box-shadow: 1px 1px 2px #bebebe,
+  -1px -1px 2px lightgray;
+    border-radius: 5px;
     display: flex;
     padding-left: .5rem;
   }
@@ -48,8 +74,9 @@
   .archive-job-hover-container {
     /* height: 100px;
     width: 200px; */
-    background-color: mediumseagreen;
-    border: 1px solid black;
+    /* color: white; */
+    /* text-shadow: 1px 1px 1px black; */
+    /* border: 1px solid white; */
     border-radius: 15px;
     position: absolute;
     /* top: -120%; */

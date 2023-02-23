@@ -34,6 +34,10 @@ const CronjobSchema = new Schema({
     type: Date,
     required: true
   },
+  kube_cronjob_next_scheduled_time: {
+    type: Date,
+    required: true
+  },
   cronjob_node: {
     type: String,
     required: true
