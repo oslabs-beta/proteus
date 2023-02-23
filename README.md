@@ -15,7 +15,7 @@
   <!-- short description -->
   ### This Kubernetes Cluster Job and Cronjob visualizer and archiver delivers intuitive visualization of scheduled jobs, key metrics for all Jobs and Cronjobs deployed within your cluster, and the ability to seamlessly deploy new Jobs and Cronjobs via the application itself.
 
-  [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](LINK TO MEDIUM ARTICLE)
+  [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@matt.henely8/proteus-8f3262cbedb9)
   [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/proteus-app/)
 </div>
 
@@ -35,7 +35,12 @@ If you're interested in more detailed information on Proteus' features and funct
 
 1. Download our desktop application from GitHub or clone the repo, install dependencies, and npm start. 
 
-2. Add your database URI to the index.ts page within the invocation of mongoose.connect
+<br>
+<img src="./Assets/env-file.png" alt="ENV File"/>
+
+<br>
+
+2. Create a .env file within your root directory and change the string 'YOUR DB_FILE HERE' to whatever your DB URI is. 
 
 3. Utilizing the provided yaml file template, replace "Your DB URI" on line 13 with your DB URI and replace "Your service IP" on line 15 with the service IP for the Prometheus Server pod within your cluster. Save this yaml file and record the file path as it will be necessary for the next step. 
 
