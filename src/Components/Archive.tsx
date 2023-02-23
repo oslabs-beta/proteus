@@ -43,7 +43,6 @@ export const Archive = () => {
   const onFilterChange = (input: string): void => {
     setFilter(input);
   }
-console.log('TEST')
   for (let i = 0; i < history.length; i++) {
     console.log(history[i]);
     if (filter === 'All') {

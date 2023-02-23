@@ -4,7 +4,6 @@ img {
 }
 
 .home-container {
-  /* background-color: black; */
   width: 100%;
   height: 100%;
   display: flex;
@@ -19,11 +18,7 @@ img {
   margin-left: 5px;
   gap: 1rem;
   font-size: 1.5rem;
-  align-self: flex-start;
-  /* text-shadow: -1px 0px 0px #DE5D82,
-  1px 0px 0px #DE5D82,
-  0px -1px 0px #DE5D82,
-  0px 1px 0px #DE5D82; */
+  align-self: flex-start; 
   color: #DE5D82;
 }
 
@@ -35,10 +30,10 @@ img {
 }
 
 .home-schedule {
-  height: 300px;
-  /* border: 1px solid rgba(112, 128, 144, 0.196);
-  border-radius: 10px; */
-  border: 1px none #172c66;
+  height: 350px;
+  border: 1px solid rgba(112, 128, 144, 0.996);
+  border-radius: 10px;
+  /* border: 1px none #172c66; */
   border-radius: 20px;
   /* box-shadow: 1px 2px 5px lightslategray; */
   box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),
@@ -64,15 +59,15 @@ img {
   justify-content: center;
   /* border: 0.5px solid black; */
   /* border-left: 1px dotted rgb(169, 169, 169); */
-  border-left: 1px dotted darkgray;
+  border-left: 1px solid rgba(169, 169, 169, 0.367);
   display: flex;
   flex-direction: column;
   gap: 5px;
   position: relative;
-  background-image: linear-gradient(rgb(137, 137, 137) 33%, rgba(255,255,255,0) 0%);
+  /* background-image: linear-gradient(rgb(137, 137, 137) 33%, rgba(255,255,255,0) 0%);
   background-position: right;
   background-size: 2px 10px;
-  background-repeat: repeat-y;
+  background-repeat: repeat-y; */
 }
 
 .home-schedule-interval:nth-of-type(1) {
@@ -101,13 +96,12 @@ img {
 .home-schedule-job {
   background-color: lightgray;
   /* border: 1px solid #80808070;; */
-  border: 1px none #172c66;;
+  border: 1px solid rgba(0, 0, 0, 0.282);
   border-radius: 5px;
   height: 30px;
-  width: 60%;
+  width: 30%;
   position: relative;
-  /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.573); */
-  box-shadow: 2px 2px 3px lightslategray;
+  box-shadow: 2px 2px 3px rgba(119, 136, 153, 0.767);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,6 +111,14 @@ img {
 .home-schedule-job:hover {
   filter: brightness(1.2);
   cursor: pointer;
+}
+
+.current-time {
+  position: absolute;
+  border-right: 1px solid rgba(0, 0, 0, 0.242);
+  height: 100%;
+  /* width: 30%; */
+  background-color: rgba(125, 125, 125, 0.316);
 }
 
 .home-schedule-job-hover-container {
@@ -138,47 +140,85 @@ img {
 .home-job-list {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   gap: 10px;
-  /* border: 1px solid black; */
-  border: none;
-  padding-block: .5rem;
-  margin-top: 2rem;
+  /* padding-block: .5rem; */
+  margin-top: 1rem;
   width: 100%;
+  max-height: 38vh;
 }
 
 .home-job-list-grid {
   display: grid;
   grid-template-columns: .5fr .7fr .5fr .7fr 1fr;
   align-items: center;
-  overflow: hidden;
-  /* background-color: red; */
   padding-inline: 1rem;
+}
+
+.home-job-list-inner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid rgba(169, 169, 169, 0.967);
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  padding: 0.5rem;
+  max-height: 36vh;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.home-job-list-inner-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.home-job-list-inner-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 
 .home-job-list-grid-header {
   position: relative;
   left: 8px;
-  color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0); 
+  /* height: 50px; */
+  font-size: 1rem;
 }
 
+.grid-header-item {
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  width: 100px;
+}
+
+.grid-header-item:hover {
+  cursor: pointer;
+}
 
 .home-job {
   height: 50px;
   border: 1px none #172c66;
   box-shadow: 1px 1px 4px #bebebe,
   -1px -1px 4px lightgray;
-  /* background: linear-gradient(145deg, lightyellow, lightyellow ); */
-  /* background-color: lightyellow; */
   border-radius: 5px;
-  /* display: flex; */
-  /* align-items: center; */
-  /* padding-left: .5rem; */
   gap: 10px;
   transition: .1s;
-  /* background: linear-gradient(145deg, lightyellow, lightyellow ); */
-  /* background-color: lightyellow; */
-  /* border-radius: 15px; */
   padding-left: .5rem;
+}
+
+.home-job:hover {
+  cursor: pointer;
+}
+
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-bottom: 5px solid black;
 }
