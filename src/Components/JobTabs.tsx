@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { JobForm } from './JobForm';
 import { CronJobForm } from './CronJobForm';
+import { ThemeContext } from '../ThemeContext';
 
 export const JobTabs = () => {
   const [ activeTab, setActiveTab ] = useState('tab1');
   const [ commandList, setCommandList ] = useState([]);
-  const [ restartPolicy, setRestartPolicy ] = useState('')
+  const [ restartPolicy, setRestartPolicy ] = useState('');
+  const theme = useContext(ThemeContext);
+
 
   const addCommand = (input): any => {
     console.log('input is ', input);
@@ -38,8 +41,8 @@ export const JobTabs = () => {
     <div className="job-tab">
       {/* TAB NAVIGATION */}
       <ul className="nav-job-tabs">
-        <li className={activeTab === 'tab1' ? "active" : ""} onClick={handleTab1}>JOB</li>
-        <li className={activeTab === 'tab2' ? "active" : ""} onClick={handleTab2}>CRONJOB</li>
+        <li className={activeTab === 'tab1' ? "active" : ""} style={{color: activeTab === 'tab1' ? theme.textPrimary : theme.textSecondary}} onClick={handleTab1}>JOB</li>
+        <li className={activeTab === 'tab2' ? "active" : ""} style={{color: activeTab === 'tab2' ? theme.textSecondary : theme.textPrimary}} onClick={handleTab2}>CRONJOB</li>
       </ul>
       <div className="outlet">
         {activeTab === 'tab1' ? <JobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/> : <CronJobForm addCommand={addCommand} deleteCommand={deleteCommand} commandList={commandList} restartPolicy={restartPolicy} setRestartPolicy={setRestartPolicy}/>}

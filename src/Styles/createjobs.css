@@ -21,6 +21,7 @@
   width: 80%;
   height: 70%;
   min-height: 400px;
+  max-width: 750px;
   background: #93cee7;
   margin: 3.5rem auto 1.5rem;
   padding: 2rem 1rem;
@@ -87,6 +88,38 @@ ul.nav-job-tabs li.active {
 .job-form h1, .cronjob-form h1 {
   font-size: 2rem;
   text-align: center;
+}
+
+
+#job_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 1.5rem;
+  margin-left: 5rem;
+  margin-top: 4rem;
+}
+
+.cronjob_form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cronjob_form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.1rem;
+    /* margin-left: 4rem; */
+  /* margin-top: 1rem; */
+}
+
+.jobSubmitButton {
+  width: 120px;
+  height: 40px;
+  margin-top: 1rem;
+  margin-left: 12rem;
 }
 /* 
 form fieldset {

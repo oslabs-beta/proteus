@@ -26,8 +26,11 @@ export const Archive = () => {
   },[]);
 
   const renderHover = (name, runtime, node, instance, cronjob_name, x, y): void => {
+    let xNudge;
+    if(x <= window.innerWidth / 2) xNudge = 100;
+    else xNudge = -400;
     if(!name) setHover({...hover, active:false});
-    else setHover({name, runtime, node, instance, cronjob_name, x: x+250, y: y-70, active: true});
+    else setHover({name, runtime, node, instance, cronjob_name, x: x+xNudge, y: y, active: true});
   }
 
   const onFilterChange = (input: string): void => {
@@ -53,7 +56,7 @@ export const Archive = () => {
     return (
       <div className='archive-container'>
         <div className="archive-title">
-          <div style={{backgroundColor: theme.textPrimary}} className='archive-title-item' style={{backgroundColor: theme.textPrimary}}><b style={{color: theme.textSecondary}}>cluster:</b> <b style={{color: theme.logo}}>eks-cluster-01</b></div>
+          <div style={{backgroundColor: theme.textPrimary}} className='archive-title-item'><b style={{color: theme.textSecondary}}>cluster:</b> <b style={{color: theme.logo}}>eks-cluster-01</b></div>
         </div>
         <div className='archive-data'>
           <div className='dropdown-list'>

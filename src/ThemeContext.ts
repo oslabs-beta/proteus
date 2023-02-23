@@ -14,7 +14,8 @@ export const themes = {
     calendarBorder: "rgb(100, 100, 100)",
     sidebar: "pink",
     logo: "#df7fb9",
-    borderPrimary: "rgb(120, 120, 120)"
+    borderPrimary: "rgb(100, 100, 100)",
+    borderSecondary: "#e22f94"
   },
   dark: {
     bgPrimary: "#223855",
@@ -28,7 +29,8 @@ export const themes = {
     calendarBorder: "#a9a9a95e",
     sidebar: "#df7fb9",
     logo: "#df7fb9",
-    borderPrimary: "#a9a9a9"
+    borderPrimary: "#a9a9a9",
+    borderSecondary: "#eaa6cd"
   },
 };
 

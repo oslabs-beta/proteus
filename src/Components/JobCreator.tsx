@@ -7,7 +7,7 @@ export const JobCreator = () => {
 
   return (
     <div className="job_creator">
-      <h1>CREATE & UPDATE JOBS HERE</h1>
+      <h1>CREATE JOBS HERE</h1>
       <JobTabs />
     </div>
 

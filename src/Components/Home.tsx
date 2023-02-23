@@ -61,8 +61,7 @@ export const Home = () => {
           }
 
         }
-        generateMockJobs(50);
-        console.log('fetch: ', result);
+        // generateMockJobs(50);
         setCronJobs(result);
       } catch (e) { console.log(e)}
     }
@@ -177,8 +176,7 @@ function sortingFunction(cronjob1, cronjob2) {
           <div style={{backgroundColor: theme.textPrimary}} className='home-title-item'><b style={{color: theme.textSecondary}}>namespace:</b> <b style={{color: theme.logo}}>default</b></div>
         </div>
         <div>
-          <h1 style={{textShadow: `0 0 0.2em ${theme.logo}, 0 0 0.2em ${theme.logo},
-    0 0 0.2em ${theme.logo}`}} className="proteus-title">PROTEUS</h1>
+          <h1 style={{textShadow: `0 0 0.2em ${theme.logo}, 0 0 0.2em ${theme.logo},0 0 0.2em ${theme.logo}`, color: theme.textPrimary}} className="proteus-title">PROTEUS</h1>
         </div>
       </div>
       <div className="home-schedule-container">

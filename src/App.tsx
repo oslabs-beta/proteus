@@ -6,7 +6,6 @@ import { Home } from './Components/Home';
 import { Archive } from './Components/Archive';
 import { NoPage } from './Components/NoPage';
 import { JobCreator } from './Components/JobCreator';
-import { Sidebar } from './Components/Sidebar';
 import { Nav } from './Components/Nav';
 
 const App = () => {
