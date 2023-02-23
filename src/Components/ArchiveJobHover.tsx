@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScheduleJobHoverProps } from '../types';
+import { ArchiveJobHoverProps} from '../types';
 
-export const ArchiveJobHover = ({name, runtime, node, instance, cronjob_name, x, y}: any) => {
+export const ArchiveJobHover = ({name, runtime, node, instance, cronjob_name, x, y}: ArchiveJobHoverProps) => {
 const run_time = runtime !== 'NaN' ? runtime/1000 : 'Did not complete'
   return (
     <div style={{left: x, top: y}} className='archive-job-hover-container'>
