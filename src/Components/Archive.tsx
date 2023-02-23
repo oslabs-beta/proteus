@@ -3,29 +3,38 @@ import '../Styles/archive.css';
 import { ArchiveJob } from './ArchiveJob';
 import { ArchiveJobHover } from './ArchiveJobHover';
 import { Dropdown } from './Dropdown';
+import { ArchivedJobMetrics } from '../types';
 import { ThemeContext } from '../ThemeContext';
 
 export const Archive = () => {
-  const [history, setHistory] = useState([]);
-  const [hover, setHover] = useState({});
+  const  [history, setHistory ] = useState([]);
+  const [hasRendered, setHasRendered ] = useState(0)
+  const [ hover, setHover ] = useState({});
   const archiveArray: React.ReactElement[] = [];
   const [filter, setFilter] = useState('All');
   const theme = useContext(ThemeContext);
 
   useEffect(() => {
-    const fetchAllJobs = async () => {
+
+    const fetchAllJobs = async (): Promise<void> => {
       try {
-        const jobArray = await window.electronAPI.fetchAllJobs();
+        const jobArray: ArchivedJobMetrics[] = await window.electronAPI.fetchAllJobs();
+        // sort array here
+        jobArray.sort((a: ArchivedJobMetrics, b: ArchivedJobMetrics): [] => {
+          return b.kube_job_status_start_time - a.kube_job_status_start_time
+        })
+     
         setHistory(jobArray);
       } 
       catch (e) { 
         console.log(e)
       }
     }
+
     fetchAllJobs();
   },[]);
 
-  const renderHover = (name, runtime, node, instance, cronjob_name, x, y): void => {
+  const renderHover = (name: string, runtime: string | number, node: string, instance: string, cronjob_name: string, x: number, y: number): void => {
     let xNudge;
     if(x <= window.innerWidth / 2) xNudge = 100;
     else xNudge = -400;
@@ -36,7 +45,6 @@ export const Archive = () => {
   const onFilterChange = (input: string): void => {
     setFilter(input);
   }
-  
   for (let i = 0; i < history.length; i++) {
     if (filter === 'All') {
         archiveArray.push(

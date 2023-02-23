@@ -5,5 +5,6 @@ import { contextBridge, ipcRenderer } from 'electron';
 contextBridge.exposeInMainWorld('electronAPI', {
   fetchCronJobs: () => ipcRenderer.invoke('fetchCronJobs'),
   submitJob: (text: string) => ipcRenderer.invoke('submitJob', text),
+  fetchAllJobs: () => ipcRenderer.invoke('fetchAllJobs'),
   fetchAllJobs: () => ipcRenderer.invoke('fetchAllJobs')
 })

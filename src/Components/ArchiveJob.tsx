@@ -1,8 +1,9 @@
 import React, { useState, useRef, useContext } from 'react';
 import '../Styles/home.css';
 import { ThemeContext } from '../ThemeContext';
+import { ArchivedJobMetrics } from '../types';
 
-  export const ArchiveJob = (props) => {
+  export const ArchiveJob = (props: ArchivedJobMetrics): React.ReactElement<ArchivedJobMetrics> => {
     const theme = useContext(ThemeContext);
     const { metrics, renderHover } = props;
     const {

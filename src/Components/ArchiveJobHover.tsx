@@ -1,8 +1,8 @@
 import {useContext} from 'react';
-import { ScheduleJobHoverProps } from '../types';
+import { ArchiveJobHoverProps} from '../types';
 import { ThemeContext } from '../ThemeContext';
 
-export const ArchiveJobHover = ({name, runtime, node, instance, cronjob_name, x, y}: any) => {
+export const ArchiveJobHover = ({name, runtime, node, instance, cronjob_name, x, y}: ArchiveJobHoverProps) => {
   const theme = useContext(ThemeContext);
   const run_time = runtime !== 'NaN' ? runtime/1000 : 'Did not complete'
   return (
