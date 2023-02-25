@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  li {
+    @apply p-4
+  }
+
+  button {
+    @apply text-green border bg-indigo-600 border-indigo-100
+    hover:bg-transparent hover:text-indigo-600 rounded-md
+  }
+  
+}
+
+#contact-btn {
+  background-image: linear-gradient(90deg,#4799e6 0,#e969cb 51%, #4799e6);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background-color 5s ease-in-out;
+  background-size: 200% auto;
+  color: #fff;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 7px;
+  letter-spacing: 1.5px;
+  font-weight: 300;
+}
+
+#contact-btn:hover {
+  background-image: linear-gradient(120deg, #e969cb 0, #4799e6 51%, #e969cb);
+  transition: background-color 5s ease-in-out;
+}
+
+#proteus-button {
+  position: relative;
+  background: #fff;
+  color: rgb(0, 0, 0, 0.6);
+  margin-top: 4rem;
+  width: 200px;
+  height: 60px;
+  border: 2px;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: #e969cb;
+  font-size: 18px;
+  font-family: Raleway,sans-serif;
+  transition: background-color .5s ease-in-out;
+  overflow: hidden;
+}
+
+#proteus-button:hover {
+  background-image: linear-gradient(120deg, #e969cb 0, #4799e6 45%, #e969cb);
+  transition: background-color .5s ease-in-out;
+  color: white;
+}
+
+#team-circle {
+    border: solid 3px white inset;
+}
+
+#gs_docs {
+  text-decoration: underline;
+}
+
+#gs_docs:hover {
+  color: rgb(238, 106, 220)
+}
