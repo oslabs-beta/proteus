@@ -109,7 +109,7 @@ export const Home = () => {
             result.push(mockJob);
           }
         }
-        generateMockJobs(50);
+        // generateMockJobs(50);
         setCronJobs(result);
       } catch (e) { console.log(e)}
     }
