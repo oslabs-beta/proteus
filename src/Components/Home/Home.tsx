@@ -2,17 +2,18 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../../ThemeContext';
 import '../../Styles/home.css';
 import { ScheduleInterval } from './ScheduleInterval';
-import { JobMetrics } from '../../types';
+import { JobMetrics, ScheduleJobObject, HoursObject, ScheduleCronJob, HomeHoverState } from '../../types';
 import { HomeListJob } from './HomeListJob';
 import { ScheduleJobHover } from './ScheduleJobHover';
+import { GridHeader } from './GridHeader';
 
 export const Home = () => {
   const theme = useContext(ThemeContext);
   const [hours, setHours] = useState({ startIndex: 0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]});
   const [cronjobs, setCronJobs] = useState([]);
-  const [hover, setHover] = useState({});
+  const [hover, setHover] = useState<HomeHoverState>({});
   const [hoveredCronjob, setHoveredCronjob] = useState();
-  const [sort, setSort] = useState({metric: "kube_cronjob_next_schedule_time", invert: -1, isMetric: 1, isName: 0});
+  const [sort, setSort] = useState({metric: "kube_cronjob_next_schedule_time", invert: 1, isMetric: 1, isName: 0});
   const [dayStart, setDayStart] = useState(findStartOfDay(Date.now()));
 
   function handleSort(metric: string): void {
@@ -43,7 +44,7 @@ export const Home = () => {
   }
 
   // Custom comparison function that takes into account numbers
-  function sortingFunction(cronjob1, cronjob2) {
+  function sortingFunction(cronjob1: ScheduleCronJob, cronjob2: ScheduleCronJob) {
     if(sort.metric === "cronjob_name") {
       // Convert the strings to numbers if possible
       const name1 = cronjob1.cronjob_name;
@@ -89,7 +90,6 @@ export const Home = () => {
       intervalIndex++;
       count++;
     }
-    // console.log('intervals: ', intervals);
     return intervals;
   }
   useEffect(() => {
@@ -109,21 +109,23 @@ export const Home = () => {
             result.push(mockJob);
           }
         }
-        // generateMockJobs(50);
+        generateMockJobs(50);
         setCronJobs(result);
       } catch (e) { console.log(e)}
     }
     fetchCronJobs();
   },[]);
 
+  console.log(cronjobs);
+
   useEffect(() => {
     const binUpcomingJobs = (): void => {
-      const newHours: object = {jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]};
+      const newHours: HoursObject = {startIndex:0, jobs: [[],[],[],[],[],[],[],[],[],[],[],[]]};
       const today = new Date();
 
       newHours.startIndex = Math.floor(today.getHours()/2);
       const colors = {"lightblue": false,"lightgreen": false,"lightcoral": false,"lightseagreen": false,"lightSalmon": false, "lemonChiffon": false, "paleturquoise": false,"lightpink": false, "lightgoldenrodyellow": false, "lightskyblue": false, "lightsteelblue": false, "mediumaquamarine": false, "mediumorchid": false, "mediumpurple": false, "olivedrab": false, "palevioletred": false, "peachpuff": false};
-      cronjobs.forEach((cronjob: object): void => {
+      cronjobs.forEach((cronjob: ScheduleCronJob): void => {
         const nextScheduledTime = cronjob.kube_cronjob_next_schedule_time * 1000;        
         if(nextScheduledTime >= dayStart.getTime()) {
           const getTimeBin = (date: Date): number => {
@@ -143,7 +145,7 @@ export const Home = () => {
               }
             }
           }
-          const scheduledJob = {
+          const scheduledJob: ScheduleJobObject = {
             name: cronjob.cronjob_name,
             time: new Date(nextScheduledTime),
             color: assignColor()
@@ -183,35 +185,9 @@ export const Home = () => {
         <div className='home-schedule-interval-display-container'>{createIntervalDisplay()}</div>
       </div>
       <div className="home-job-list">
-        <div style={{color: theme.textPrimary}} className="home-job-list-grid home-job-list-grid-header">
-          <div className='grid-header-item' onClick={() => handleSort('cronjob_name')}>
-            <div>Name</div>
-            {sort.metric === "cronjob_name" && sort.invert === 1 && <div style={{borderTop: `5px solid ${theme.textPrimary}`}}className="arrow-down"></div>}
-            {sort.metric === "cronjob_name" && sort.invert === -1 && <div style={{borderBottom: `5px solid ${theme.textPrimary}`}} className="arrow-up"></div>}
-          </div>
-          <div className='grid-header-item' onClick={() => handleSort('kube_cronjob_next_schedule_time')}>
-            <div>Next</div>
-            {sort.metric === "kube_cronjob_next_schedule_time" && sort.invert === 1 && <div style={{borderTop: `5px solid ${theme.textPrimary}`}}className="arrow-down"></div>}
-            {sort.metric === "kube_cronjob_next_schedule_time" && sort.invert === -1 && <div style={{borderBottom: `5px solid ${theme.textPrimary}`}} className="arrow-up"></div>}
-          </div>
-          <div className='grid-header-item' onClick={() => handleSort('cronjob_interval')}>
-            <div>Interval</div>
-            {sort.metric === "cronjob_interval" && sort.invert === 1 && <div style={{borderTop: `5px solid ${theme.textPrimary}`}}className="arrow-down"></div>}
-            {sort.metric === "cronjob_interval" && sort.invert === -1 && <div style={{borderBottom: `5px solid ${theme.textPrimary}`}} className="arrow-up"></div>}
-          </div>
-          <div className='grid-header-item' onClick={() => handleSort('kube_cronjob_created')}>
-            <div>Created</div>
-            {sort.metric === "kube_cronjob_created" && sort.invert === 1 && <div style={{borderTop: `5px solid ${theme.textPrimary}`}}className="arrow-down"></div>}
-            {sort.metric === "kube_cronjob_created" && sort.invert === -1 && <div style={{borderBottom: `5px solid ${theme.textPrimary}`}} className="arrow-up"></div>}
-          </div>
-          <div className='grid-header-item' onClick={() => handleSort('cronjob_node')}>
-            <div>Node</div>
-            {sort.metric === "cronjob_node" && sort.invert === 1 && <div style={{borderTop: `5px solid ${theme.textPrimary}`}}className="arrow-down"></div>}
-            {sort.metric === "cronjob_node" && sort.invert === -1 && <div style={{borderBottom: `5px solid ${theme.textPrimary}`}} className="arrow-up"></div>}
-          </div>
-        </div>
+        <GridHeader metric={sort.metric} invert={sort.invert} handleSort={handleSort}/>
         <div style={{backgroundColor: theme.bgSecondary, border: `2px solid ${theme.borderPrimary}`}} className="home-job-list-inner-container">
-          {cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === false).sort((cronjob1, cronjob2) => sortingFunction(cronjob1, cronjob2)).concat(...cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === true)).map((cronjob: object): React.ReactElement => {
+          {cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === false).sort((cronjob1, cronjob2) => sortingFunction(cronjob1, cronjob2)).concat(...cronjobs.filter(cronjob => cronjob.kube_cronjob_spec_suspend === true)).map((cronjob: ScheduleCronJob): React.ReactElement => {
             return <HomeListJob name={cronjob.cronjob_name} nextScheduledDate={new Date(cronjob.kube_cronjob_next_schedule_time * 1000)} setHoveredCronjob={setHoveredCronjob} isHovered={hover.name === cronjob.cronjob_name} createdDate={new Date(cronjob.kube_cronjob_created * 1000)} interval={cronjob.cronjob_interval} node={cronjob.cronjob_node} isActive={cronjob.kube_cronjob_status_active} isSuspended={cronjob.kube_cronjob_spec_suspend}/>;
           })}
         </div>

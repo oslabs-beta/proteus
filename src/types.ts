@@ -13,12 +13,61 @@ export type ScheduleJobProps = {
   renderHover(): React.ReactElement
 }
 
+export type ScheduleJobObject = {
+  name: string,
+  time: Date,
+  color: string,
+  hovered?: boolean,
+  shifted?: boolean,
+  opacity?: number
+}
+
+export type HomeHoverState = {
+  name?: string,
+  time?: Date, 
+  x?: number,
+  y?: number,
+  active?: boolean
+}
+
 export type ScheduleJobHoverProps = {
   name: string,
   time: Date, 
   x: number,
   y: number
 }
+
+export type HoursObject = {
+  startIndex: number,
+  jobs: [ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[],ScheduleJobObject[]]
+}
+
+export type ScheduleCronJob = {
+  cronjob_interval: string,
+  cronjob_name: string,
+  cronjob_node: string,
+  kube_cronjob_created: number,
+  kube_cronjob_next_schedule_time: number,
+  kube_cronjob_spec_failed_job_history_limit: string,
+  kube_cronjob_spec_successfyl_job_history_limit: string,
+  kube_cronjob_spec_suspend: boolean,
+  kube_cronjob_status_active: boolean,
+  kube_cronjob_status_last_schedule_time: Date,
+  kube_cronjob_status_last_successful_time: Date
+}
+
+export type HomeListJobProps = {
+  name: string, 
+  isHovered: boolean, 
+  createdDate: Date, 
+  interval: string, 
+  node: string, 
+  isActive: boolean, 
+  isSuspended: boolean, 
+  nextScheduledDate: Date, 
+  setHoveredCronjob: React.Dispatch<React.SetStateAction<string>>
+}
+
 
 export type JobMetrics = {
   kube_job_annotations?: string,
@@ -42,7 +91,7 @@ export type PastJobMetrics = {
   kube_job_name?: string, 
   kube_job_runtime?: string, 
   kube_job_status?: string, 
-  kube_job_details?: any
+  kube_job_details?: string
 }
 
 export type ArchivedJobMetrics = {
